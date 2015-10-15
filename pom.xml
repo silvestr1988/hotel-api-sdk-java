@@ -126,7 +126,7 @@
   </build>
   <properties>
     <java-version>1.8</java-version>
-    <license.organizationName>HOTELBEDS, S.L.U.</license.organizationName>
+    <license.organizationName>HOTELBEDS TECHNOLOGY, S.L.U.</license.organizationName>
     <license.inceptionYear>2015</license.inceptionYear>
   </properties>
 </project>
