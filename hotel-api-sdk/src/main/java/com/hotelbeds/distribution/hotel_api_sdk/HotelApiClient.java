@@ -122,7 +122,7 @@ public class HotelApiClient {
     }
 
     public HotelApiClient(String apiKey, String sharedSecret) {
-        this(HotelApiVersion.V0_2, HotelApiService.LIVE, apiKey, sharedSecret);
+        this(HotelApiVersion.V0_2, HotelApiService.TEST, apiKey, sharedSecret);
     }
 
     public HotelApiClient(HotelApiService service, String apiKey, String sharedSecret) {
