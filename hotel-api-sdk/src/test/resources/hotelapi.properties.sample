@@ -1,0 +1,3 @@
+hotelapi.apikey=**YOUR*API*KEY*HERE**
+hotelapi.sharedsecret=**YOUR*SHARED*SECRET*HERE**
+hotelapi.service=TEST
