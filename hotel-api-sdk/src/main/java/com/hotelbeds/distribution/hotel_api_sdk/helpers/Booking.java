@@ -110,6 +110,7 @@ public class Booking {
                 pax.setAge(detail.getAge());
                 pax.setName(detail.getName());
                 pax.setSurname(detail.getSurname());
+				pax.setRoomId(detail.getRoomId());
                 bookingRoom.getPaxes().add(pax);
             }
             bookingRQ.getRooms().add(bookingRoom);

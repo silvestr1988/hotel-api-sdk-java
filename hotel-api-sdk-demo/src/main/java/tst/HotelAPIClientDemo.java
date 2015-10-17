@@ -178,7 +178,7 @@ public class HotelAPIClientDemo {
                 if (random.nextInt(2) == 0) {
                     confirmRoom.adultOf(adultAge);
                 } else {
-                    confirmRoom.detailed(GuestType.ADULT, adultAge, "Perico-" + count, "Palotes");
+                    confirmRoom.detailed(GuestType.ADULT, adultAge, "Perico-" + count, "Palotes", 1);
                 }
             }
             if (numChildren > 0) {

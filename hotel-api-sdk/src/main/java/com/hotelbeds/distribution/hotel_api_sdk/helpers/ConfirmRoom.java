@@ -47,13 +47,13 @@ public class ConfirmRoom {
     }
 
     public static class ConfirmRoomBuilder {
-        public ConfirmRoomBuilder detailed(GuestType type, int age, String name, String surname) {
-            detail(new RoomDetail(type, age, name, surname));
+        public ConfirmRoomBuilder detailed(GuestType type, int age, String name, String surname, int roomId) {
+            detail(new RoomDetail(type, age, name, surname, roomId));
             return this;
         }
 
         public ConfirmRoomBuilder adultOf(int age) {
-            detail(new RoomDetail(GuestType.ADULT, age, null, null));
+            detail(new RoomDetail(GuestType.ADULT, age, null, null, 1));
             return this;
         }
 

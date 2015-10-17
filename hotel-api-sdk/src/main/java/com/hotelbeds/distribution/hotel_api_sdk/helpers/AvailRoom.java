@@ -50,12 +50,12 @@ public class AvailRoom {
 
     public static class AvailRoomBuilder {
         public AvailRoomBuilder detailed(GuestType type, int age, String name, String surname) {
-            detail(new RoomDetail(type, age, name, surname));
+			detail(new RoomDetail(type, age, name, surname, 1));
             return this;
         }
 
         public AvailRoomBuilder adultOf(int age) {
-            detail(new RoomDetail(GuestType.ADULT, age, null, null));
+			detail(new RoomDetail(GuestType.ADULT, age, null, null, 1));
             return this;
         }
 

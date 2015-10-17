@@ -39,12 +39,13 @@ public class RoomDetail {
     private final int age;
     private final String name;
     private final String surname;
+	private final int roomId;
 
     public RoomDetail(int age) {
         type = GuestType.CHILD;
         name = null;
         surname = null;
+		roomId = 1;
         this.age = age;
     }
-
 }
