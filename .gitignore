@@ -1,7 +1,9 @@
 hotel-api-model/target/
 hotel-api-sdk/target/
 hotel-api-sdk-demo/target/
-**/.settings/
+**/.settings/**
 **/.project
 **/.classpath
 **/hotelapi.properties
+/.settings/**
+/.project
