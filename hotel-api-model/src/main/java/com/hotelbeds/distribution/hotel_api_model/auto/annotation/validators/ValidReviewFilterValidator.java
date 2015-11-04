@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -35,12 +35,13 @@ import javax.validation.ConstraintValidatorContext;
 
 import com.hotelbeds.distribution.hotel_api_model.auto.model.ReviewFilter;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ValidReviewFilterValidator implements ConstraintValidator<ValidReviewFilter, List<ReviewFilter>> {
-
-
     @Override
     public void initialize(ValidReviewFilter constraintAnnotation) {
-        // TODO Auto-generated method stub
+        // empty method
     }
 
     @Override
@@ -53,21 +54,26 @@ public class ValidReviewFilterValidator implements ConstraintValidator<ValidRevi
                     context.buildConstraintViolationWithTemplate(
                         "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.ReviewFilter.rates.null.message}").addConstraintViolation();
                     result = false;
+                    log.info("MaxRate and MinRate can not be null at same time, maxRate: " + review.getMaxRate() + " , minRate: "
+                        + review.getMinRate());
                 } else if (result && review.getMaxRate() != null && review.getMinRate() != null
                     && (review.getMaxRate().compareTo(review.getMinRate()) < 0)) {
                     context.buildConstraintViolationWithTemplate(
                         "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.ReviewFilter.rates.value.message}").addConstraintViolation();
                     result = false;
+                    log.info("Wrong Rates value. MaxRate should be bigger or equals than MinRate, maxRate: " + review.getMaxRate() + " , minRate: "
+                        + review.getMinRate());
                 }
                 if (review.getMinReviewCount() != null && review.getMinReviewCount() == 0) {
                     context.buildConstraintViolationWithTemplate(
                         "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.ReviewFilter.reviewCounts.zero.message}")
                         .addConstraintViolation();
                     result = false;
+                    log.info("Wrong ReviewCounts value. MaxReviewCount and MinReviewCount can not have value 0 or empty, maxRate: "
+                        + review.getMaxRate() + " , minRate: " + review.getMinRate());
                 }
             }
         }
         return result;
     }
-
 }

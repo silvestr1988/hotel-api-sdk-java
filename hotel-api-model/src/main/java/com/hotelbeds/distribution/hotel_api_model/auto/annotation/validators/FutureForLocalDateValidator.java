@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -28,29 +28,34 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
  */
 
 
-
 import java.time.LocalDate;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 
-public class FutureForLocalDateValidator implements ConstraintValidator<FutureForLocalDate, LocalDate> {
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+public class FutureForLocalDateValidator implements ConstraintValidator<FutureForLocalDate, LocalDate> {
     @Override
     public void initialize(FutureForLocalDate constraintAnnotation) {
-        //
+        // empty method
     }
 
     @Override
     public boolean isValid(LocalDate date, ConstraintValidatorContext context) {
+        boolean result = true;
         if (date == null) {
-            return true;
+            result = true;
+        } else if (date.isEqual(LocalDate.now())) {
+            result = true;
+        } else {
+            result = date.isAfter(LocalDate.now());
         }
-        if (date.isEqual(LocalDate.now())) {
-            return true;
+        if (!result) {
+            log.info("Date is not valid, it is not in the future, date: " + date);
         }
-        return date.isAfter(LocalDate.now());
+        return result;
     }
-
 }

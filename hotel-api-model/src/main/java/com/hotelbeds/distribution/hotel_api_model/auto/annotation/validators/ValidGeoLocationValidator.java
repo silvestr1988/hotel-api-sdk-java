@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -33,23 +33,28 @@ import javax.validation.ConstraintValidatorContext;
 
 import com.hotelbeds.distribution.hotel_api_model.auto.model.GeoLocation;
 
-public class ValidGeoLocationValidator implements ConstraintValidator<ValidGeoLocation, GeoLocation> {
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+public class ValidGeoLocationValidator implements ConstraintValidator<ValidGeoLocation, GeoLocation> {
     @Override
     public void initialize(ValidGeoLocation constraintAnnotation) {
-        // TODO Auto-generated method stub
+        // empty method
     }
 
     @Override
     public boolean isValid(GeoLocation geoLocation, ConstraintValidatorContext context) {
+        boolean result = false;
         if (geoLocation.getRadius() != null && geoLocation.getUnit() != null && geoLocation.getSecondaryLongitude() == null
             && geoLocation.getSecondaryLatitude() == null) {
-            return true;
+            result = true;
         } else if (geoLocation.getSecondaryLongitude() != null && geoLocation.getSecondaryLatitude() != null && geoLocation.getRadius() == null
             && geoLocation.getUnit() == null) {
-            return true;
+            result = true;
         }
-        return false;
+        if (!result) {
+            log.info("Some required value in geolocation are empty, geolocation: " + geoLocation.toString());
+        }
+        return result;
     }
-
 }

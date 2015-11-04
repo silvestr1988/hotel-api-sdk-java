@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -34,29 +34,32 @@ import javax.validation.ConstraintValidatorContext;
 import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Filter;
 
-public class ValidLimitFilterValidator implements ConstraintValidator<ValidLimitFilter, Filter> {
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+public class ValidLimitFilterValidator implements ConstraintValidator<ValidLimitFilter, Filter> {
     @Override
     public void initialize(final ValidLimitFilter constraintAnnotation) {
-        // TODO Auto-generated method stub
+        // empty method
     }
 
     @Override
-    public boolean isValid(final Filter limit, final ConstraintValidatorContext context) {
-        if (limit != null) {
-            if (limit.getMinRate() != null && limit.getMaxRate() != null && limit.getMinRate().compareTo(limit.getMaxRate()) > 0) {
+    public boolean isValid(final Filter filter, final ConstraintValidatorContext context) {
+        boolean result = true;
+        if (filter != null) {
+            if (filter.getMinRate() != null && filter.getMaxRate() != null && filter.getMinRate().compareTo(filter.getMaxRate()) > 0) {
                 context.buildConstraintViolationWithTemplate(SimpleTypes.WRONG_LIMITS_PRICE_RANGE_MESSAGE).addConstraintViolation();
-                return false;
-
-            }
-            if (limit.getMinCategory() != null && limit.getMaxCategory() != null) {
-                if (limit.getMinCategory() > limit.getMaxCategory()) {
+                result = false;
+                log.info(SimpleTypes.WRONG_LIMITS_PRICE_RANGE_MESSAGE + " , filter: " + filter.toString());
+            } else if (filter.getMinCategory() != null && filter.getMaxCategory() != null) {
+                if (filter.getMinCategory() > filter.getMaxCategory()) {
                     context.disableDefaultConstraintViolation();
                     context.buildConstraintViolationWithTemplate(SimpleTypes.WRONG_LIMITS_CATEGORY_RANGE_MESSAGE).addConstraintViolation();
-                    return false;
+                    result = false;
+                    log.info(SimpleTypes.WRONG_LIMITS_CATEGORY_RANGE_MESSAGE + " , filter: " + filter.toString());
                 }
             }
         }
-        return true;
+        return result;
     }
 }
