@@ -10,12 +10,12 @@ package tst;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -175,11 +175,7 @@ public class HotelAPIClientDemo {
             ConfirmRoomBuilder confirmRoom = ConfirmRoom.builder();
             for (int count = 0; count < numAdults; count++) {
                 int adultAge = 20 + random.nextInt(20);
-                if (random.nextInt(2) == 0) {
-                    confirmRoom.adultOf(adultAge);
-                } else {
-                    confirmRoom.detailed(GuestType.ADULT, adultAge, "Perico-" + count, "Palotes", 1);
-                }
+                confirmRoom.detailed(GuestType.ADULT, adultAge, "Perico-" + count, "Palotes", 1);
             }
             if (numChildren > 0) {
                 availRoom.children(numChildren);
@@ -194,13 +190,20 @@ public class HotelAPIClientDemo {
                     if (firstHotel.isPresent()) {
                         Hotel theHotel = firstHotel.get();
                         String rateKey = theHotel.getRooms().stream().findAny().get().getRates().stream().findAny().get().getRateKey();
+                        // Wait a bit so the availability is stored in the system (it's stored asynchronously)
+                        try {
+                            log.info("Waiting to try a check rate");
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            log.error("Error waiting. Wot? ", e);
+                        }
                         log.info("Checking reservation with rate {}", rateKey);
                         // @formatter:off
-                    CheckRateRS bookingRS =
-                        apiClient.check(BookingCheck.builder()
-                            .addRoom(rateKey, confirmRoom)
-                            .build());
-                    // @formatter:on
+                        CheckRateRS bookingRS =
+                            apiClient.check(BookingCheck.builder()
+                                .addRoom(rateKey, confirmRoom)
+                                .build());
+                        // @formatter:on
                         if (bookingRS != null) {
                             log.debug("CheckRateRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS, true));
                         }
