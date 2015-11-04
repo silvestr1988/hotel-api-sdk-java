@@ -31,7 +31,6 @@ package com.hotelbeds.distribution.hotel_api_model.auto.util;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

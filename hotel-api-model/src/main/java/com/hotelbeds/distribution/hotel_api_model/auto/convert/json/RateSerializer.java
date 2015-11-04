@@ -31,7 +31,6 @@ package com.hotelbeds.distribution.hotel_api_model.auto.convert.json;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;

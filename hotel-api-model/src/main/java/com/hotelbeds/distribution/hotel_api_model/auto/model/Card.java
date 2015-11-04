@@ -30,9 +30,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.model;
 
 import javax.validation.constraints.Size;
 
-import lombok.ToString;
-import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @ToString
 @NoArgsConstructor

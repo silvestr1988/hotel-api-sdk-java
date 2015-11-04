@@ -28,9 +28,11 @@ package com.hotelbeds.distribution.hotel_api_model.auto.messages;
  */
 
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators.ValidLimitFilter;
 import com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators.ValidOccupancies;
 import com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators.ValidReviewFilter;
@@ -47,14 +49,14 @@ import com.hotelbeds.distribution.hotel_api_model.auto.model.ReviewFilter;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Rooms;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Source;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Stay;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
-import lombok.ToString;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @ToString

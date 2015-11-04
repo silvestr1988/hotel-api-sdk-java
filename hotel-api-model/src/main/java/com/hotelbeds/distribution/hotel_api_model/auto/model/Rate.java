@@ -28,24 +28,21 @@ package com.hotelbeds.distribution.hotel_api_model.auto.model;
  */
 
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.PaymentType;
+import com.hotelbeds.distribution.hotel_api_model.auto.convert.json.RateSerializer;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.PaymentType;
-import com.hotelbeds.distribution.hotel_api_model.auto.convert.json.RateSerializer;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.CancellationPolicy;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Offer;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Promotion;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.ShiftRate;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Taxes;
-import java.math.BigDecimal;
-import java.util.List;
-import javax.validation.Valid;
-
-import lombok.ToString;
-import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @ToString

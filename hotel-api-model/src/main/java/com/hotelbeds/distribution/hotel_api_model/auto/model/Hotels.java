@@ -28,18 +28,18 @@ package com.hotelbeds.distribution.hotel_api_model.auto.model;
  */
 
 
+import java.time.LocalDate;
+import java.util.List;
+
+import com.hotelbeds.distribution.hotel_api_model.auto.convert.json.DateSerializer;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.hotelbeds.distribution.hotel_api_model.auto.convert.json.DateSerializer;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Hotel;
-import java.time.LocalDate;
-import java.util.List;
-
-import lombok.ToString;
-import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
