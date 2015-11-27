@@ -28,21 +28,18 @@ package com.hotelbeds.distribution.hotel_api_model.auto.model;
  */
 
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.validation.Valid;
-
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.RateType;
-import com.hotelbeds.distribution.hotel_api_model.auto.convert.json.RateSerializer;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.RateType;
+import com.hotelbeds.distribution.hotel_api_model.auto.convert.json.RateSerializer;
+import java.math.BigDecimal;
+import javax.validation.Valid;
+
 import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
@@ -69,7 +66,6 @@ public class BasicRate {
 	private BigDecimal amount;
 	private String hotelCurrency;
 	private Boolean hotelMandatory;
-	private List<DailyRate> dailyRates;
 	private Integer allotment;
 	@JsonSerialize(using = RateSerializer.class)
 	private BigDecimal commission;

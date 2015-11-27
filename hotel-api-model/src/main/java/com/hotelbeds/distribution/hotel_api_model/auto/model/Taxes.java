@@ -28,11 +28,12 @@ package com.hotelbeds.distribution.hotel_api_model.auto.model;
  */
 
 
+import com.hotelbeds.distribution.hotel_api_model.auto.model.Tax;
 import java.util.List;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
 @ToString
 @NoArgsConstructor

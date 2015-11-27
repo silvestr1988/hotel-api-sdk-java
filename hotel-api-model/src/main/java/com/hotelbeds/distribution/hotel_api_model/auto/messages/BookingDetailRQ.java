@@ -28,14 +28,14 @@ package com.hotelbeds.distribution.hotel_api_model.auto.messages;
  */
 
 
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.validation.constraints.NotNull;
+
+import lombok.ToString;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @ToString

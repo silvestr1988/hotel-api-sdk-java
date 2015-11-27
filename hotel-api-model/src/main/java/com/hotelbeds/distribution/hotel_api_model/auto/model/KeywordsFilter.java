@@ -28,17 +28,16 @@ package com.hotelbeds.distribution.hotel_api_model.auto.model;
  */
 
 
-import java.util.List;
-
-import javax.validation.Valid;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.List;
+import javax.validation.Valid;
+
 import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Data;
+import lombok.AllArgsConstructor;
 
 @JsonInclude(Include.NON_NULL)
 @ToString

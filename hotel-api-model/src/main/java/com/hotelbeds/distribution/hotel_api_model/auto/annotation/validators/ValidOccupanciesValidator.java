@@ -75,28 +75,22 @@ public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccup
                         }
                     }
                 }
-                if (result) {
-                    if (occupancy.getChildren() != null
-                        && ((occupancy.getChildren() == 0 && childrenByPax > 0) || (occupancy.getChildren() > 0 && !occupancy.getChildren().equals(
-                            childrenByPax)))) {
-                        context.buildConstraintViolationWithTemplate(
-                            "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Occupancy.children.number.message}")
-                            .addConstraintViolation();
-                        result = false;
-                        log.info("The number of children is wrong, occupancy children: " + occupancy.getChildren() + " , childrenByPax: "
-                            + childrenByPax);
-                        break;
-                    }
+                if (result
+                    && occupancy.getChildren() != null
+                    && ((occupancy.getChildren() == 0 && childrenByPax > 0) || (occupancy.getChildren() > 0 && !occupancy.getChildren().equals(
+                        childrenByPax)))) {
+                    context.buildConstraintViolationWithTemplate(
+                        "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Occupancy.children.number.message}").addConstraintViolation();
+                    result = false;
+                    log.info("The number of children is wrong, occupancy children: " + occupancy.getChildren() + " , childrenByPax: " + childrenByPax);
+                    break;
                 }
-                if (result) {
-                    if (occupancy.getAdults() != null && adultsByPax > occupancy.getAdults()) {
-                        context.buildConstraintViolationWithTemplate(
-                            "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Occupancy.adults.number.message}")
-                            .addConstraintViolation();
-                        result = false;
-                        log.info("The number of adults is wrong, occupancy adults: " + occupancy.getAdults() + " , adultsByPax: " + adultsByPax);
-                        break;
-                    }
+                if (result && occupancy.getAdults() != null && adultsByPax > occupancy.getAdults()) {
+                    context.buildConstraintViolationWithTemplate(
+                        "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Occupancy.adults.number.message}").addConstraintViolation();
+                    result = false;
+                    log.info("The number of adults is wrong, occupancy adults: " + occupancy.getAdults() + " , adultsByPax: " + adultsByPax);
+                    break;
                 }
             }
             if (result && rooms > maxRooms) {

@@ -122,7 +122,8 @@ public final class SimpleTypes {
 
 
     public enum ShowDirectPayment {
-        AT_HOTEL("S", "YES"), //liberate
+        //liberate
+        AT_HOTEL("S", "YES"),
         AT_WEB("N", "NO"),
         BOTH("A", "BOTH");
 
@@ -465,7 +466,8 @@ public final class SimpleTypes {
         public static BookingListFilterType getBookingListFilterType(final String type) {
             if (type != null && type.equalsIgnoreCase(BookingListFilterType.CREATION.name())) {
                 return BookingListFilterType.CREATION;
-            } else { //Por defecto filterType de bookingList vale "E" = "CHECKIN"
+            } else {
+                //Por defecto filterType de bookingList vale "E" = "CHECKIN"
                 return BookingListFilterType.CHECKIN;
             }
         }

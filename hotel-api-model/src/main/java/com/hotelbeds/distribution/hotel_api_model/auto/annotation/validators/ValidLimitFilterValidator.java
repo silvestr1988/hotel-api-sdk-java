@@ -51,13 +51,11 @@ public class ValidLimitFilterValidator implements ConstraintValidator<ValidLimit
                 context.buildConstraintViolationWithTemplate(SimpleTypes.WRONG_LIMITS_PRICE_RANGE_MESSAGE).addConstraintViolation();
                 result = false;
                 log.info(SimpleTypes.WRONG_LIMITS_PRICE_RANGE_MESSAGE + " , filter: " + filter.toString());
-            } else if (filter.getMinCategory() != null && filter.getMaxCategory() != null) {
-                if (filter.getMinCategory() > filter.getMaxCategory()) {
-                    context.disableDefaultConstraintViolation();
-                    context.buildConstraintViolationWithTemplate(SimpleTypes.WRONG_LIMITS_CATEGORY_RANGE_MESSAGE).addConstraintViolation();
-                    result = false;
-                    log.info(SimpleTypes.WRONG_LIMITS_CATEGORY_RANGE_MESSAGE + " , filter: " + filter.toString());
-                }
+            } else if (filter.getMinCategory() != null && filter.getMaxCategory() != null && filter.getMinCategory() > filter.getMaxCategory()) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(SimpleTypes.WRONG_LIMITS_CATEGORY_RANGE_MESSAGE).addConstraintViolation();
+                result = false;
+                log.info(SimpleTypes.WRONG_LIMITS_CATEGORY_RANGE_MESSAGE + " , filter: " + filter.toString());
             }
         }
         return result;

@@ -28,22 +28,20 @@ package com.hotelbeds.distribution.hotel_api_model.auto.messages;
  */
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.hotelbeds.distribution.hotel_api_model.auto.model.BookingRoom;
+import com.hotelbeds.distribution.hotel_api_model.auto.model.Holder;
+import com.hotelbeds.distribution.hotel_api_model.auto.model.PaymentData;
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.hotelbeds.distribution.hotel_api_model.auto.model.BookingRoom;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Holder;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.PaymentData;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import lombok.ToString;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
