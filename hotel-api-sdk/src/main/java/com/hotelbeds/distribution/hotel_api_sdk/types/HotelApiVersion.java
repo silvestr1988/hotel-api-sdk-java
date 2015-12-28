@@ -28,7 +28,6 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
  */
 public enum HotelApiVersion {
 
-    V0_2("0.2"),
     V1("1.0");
 
     private String version;
