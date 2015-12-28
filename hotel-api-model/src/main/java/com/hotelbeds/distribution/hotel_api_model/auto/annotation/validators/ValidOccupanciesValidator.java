@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -37,8 +37,10 @@ import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.Hotelb
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Occupancy;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Pax;
 
-public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccupancies, List<Occupancy>> {
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccupancies, List<Occupancy>> {
     private int maxRooms;
 
     @Override
@@ -49,6 +51,7 @@ public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccup
     @Override
     public boolean isValid(final List<Occupancy> value, final ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
+        boolean result = true;
         if (value != null && !value.isEmpty()) {
             int rooms = 0;
             for (final Occupancy occupancy : value) {
@@ -63,35 +66,41 @@ public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccup
                                 context.buildConstraintViolationWithTemplate(
                                     "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Occupancy.children.ages.message}")
                                     .addConstraintViolation();
-                                return false;
+                                result = false;
+                                log.info("The age of children is mandatory. Pax: " + pax.toString());
+                                break;
                             }
                         } else if (HotelbedsCustomerType.AD.equals(pax.getType())) {
                             adultsByPax++;
                         }
                     }
                 }
-                if (occupancy.getChildren() != null
+                if (result
+                    && occupancy.getChildren() != null
                     && ((occupancy.getChildren() == 0 && childrenByPax > 0) || (occupancy.getChildren() > 0 && !occupancy.getChildren().equals(
                         childrenByPax)))) {
                     context.buildConstraintViolationWithTemplate(
                         "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Occupancy.children.number.message}").addConstraintViolation();
-                    return false;
+                    result = false;
+                    log.info("The number of children is wrong, occupancy children: " + occupancy.getChildren() + " , childrenByPax: " + childrenByPax);
+                    break;
                 }
-                if (occupancy.getAdults() != null && adultsByPax > occupancy.getAdults()) {
+                if (result && occupancy.getAdults() != null && adultsByPax > occupancy.getAdults()) {
                     context.buildConstraintViolationWithTemplate(
                         "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Occupancy.adults.number.message}").addConstraintViolation();
-                    return false;
-
+                    result = false;
+                    log.info("The number of adults is wrong, occupancy adults: " + occupancy.getAdults() + " , adultsByPax: " + adultsByPax);
+                    break;
                 }
-
             }
-
-            if (rooms > maxRooms) { // [API-1329]
+            if (result && rooms > maxRooms) {
+                // [API-1329]
                 context.buildConstraintViolationWithTemplate(
                     "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Occupancy.rooms.number.message}").addConstraintViolation();
-                return false;
+                log.info("The number of rooms must be less than or equal to " + maxRooms + " , rooms: " + rooms);
+                result = false;
             }
         }
-        return true;
+        return result;
     }
 }

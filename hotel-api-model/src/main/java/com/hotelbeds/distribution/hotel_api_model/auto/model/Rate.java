@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.model;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.PaymentType;
 import com.hotelbeds.distribution.hotel_api_model.auto.convert.json.RateSerializer;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.CancellationPolicy;
+import com.hotelbeds.distribution.hotel_api_model.auto.model.DailyRate;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Offer;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Promotion;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.ShiftRate;
@@ -54,7 +55,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=false)
 public class Rate extends BasicRate {
 
-	private String rateName;
 	private String rateCommentsId;
 	private String rateComments;
 	private PaymentType paymentType;
@@ -74,6 +74,7 @@ public class Rate extends BasicRate {
 	private List<ShiftRate> shiftRates;
 	@JsonSerialize(using = RateSerializer.class)
 	private BigDecimal rateup;
+	private List<DailyRate> dailyRates;
 
 
 }

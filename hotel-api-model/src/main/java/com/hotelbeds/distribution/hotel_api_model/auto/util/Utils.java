@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.util;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -32,8 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Utils {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class Utils {
     public static List<String> splitToList(Iterable<String> split) {
         List<String> parts = new ArrayList<String>();
         for (String string : split) {

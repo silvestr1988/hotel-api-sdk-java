@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.model;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -34,9 +34,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.RateType;
 import com.hotelbeds.distribution.hotel_api_model.auto.convert.json.RateSerializer;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.DailyRate;
 import java.math.BigDecimal;
-import java.util.List;
 import javax.validation.Valid;
 
 import lombok.ToString;
@@ -68,7 +66,6 @@ public class BasicRate {
 	private BigDecimal amount;
 	private String hotelCurrency;
 	private Boolean hotelMandatory;
-	private List<DailyRate> dailyRates;
 	private Integer allotment;
 	@JsonSerialize(using = RateSerializer.class)
 	private BigDecimal commission;

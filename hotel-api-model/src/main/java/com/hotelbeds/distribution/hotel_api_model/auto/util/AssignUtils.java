@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.util;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -50,7 +50,6 @@ import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.SiNo;
 import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.YesNo;
 
 public final class AssignUtils {
-
     public static final String DEFAULT_DATE_FORMAT = "yyyyMMdd";
     public static final DateTimeFormatter DEFAULT_DATE_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
     public static final String DEFAULT_TIME_FORMAT = "HHmm";
@@ -59,10 +58,9 @@ public final class AssignUtils {
     public static final DateTimeFormatter DEFAULT_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
     public static final DateTimeFormatter REST_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final int HOUR_SECONDS = 3600;
-    private static final int PRICE_NUMBER_OF_DECIMALS = 3;
+    private static final int PRICE_NUMBER_OF_DECIMALS = 2;
     private static final int PERCENTAGE_NUMBER_OF_DECIMALS = 2;
     public static final String COMMA_SEPARATOR = ",";
-
 
     private AssignUtils() {
     }
@@ -75,11 +73,9 @@ public final class AssignUtils {
         return date != null ? Timestamp.valueOf(date.atStartOfDay()) : null;
     }
 
-
     public static Timestamp getTimestamp(final ZonedDateTime date) {
         return date != null ? Timestamp.from(date.toInstant()) : null;
     }
-
 
     public static LocalDate getLocalDate(final Date date) {
         return date != null ? date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
@@ -104,7 +100,7 @@ public final class AssignUtils {
     }
 
     public static LocalDateTime getLocalDateTime(final Timestamp timestamp) {
-        // TODO Auto-generated method stub
+        // empty method
         return timestamp != null ? timestamp.toLocalDateTime() : null;
     }
 
@@ -167,7 +163,6 @@ public final class AssignUtils {
         if (hourDifference != null) {
             auxValue = hourDifference.intValue();
         }
-
         return ZoneOffset.ofHours(auxValue);
     }
 
@@ -233,10 +228,8 @@ public final class AssignUtils {
 
     public static Boolean safeBoolean(final String stringSY) {
         Boolean result = Boolean.FALSE;
-        if (StringUtils.isNotEmpty(stringSY)) {
-            if (SiNo.S.name().equals(stringSY) || YesNo.Y.name().equals(stringSY)) {
-                result = Boolean.TRUE;
-            }
+        if (StringUtils.isNotEmpty(stringSY) && (SiNo.S.name().equals(stringSY) || YesNo.Y.name().equals(stringSY))) {
+            result = Boolean.TRUE;
         }
         return result;
     }

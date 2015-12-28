@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -36,8 +36,10 @@ import javax.validation.ConstraintValidatorContext;
 
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Stay;
 
-public class ValidStayValidator implements ConstraintValidator<ValidStay, Stay> {
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+public class ValidStayValidator implements ConstraintValidator<ValidStay, Stay> {
     private long maxDaysRange;
 
     @Override
@@ -48,28 +50,30 @@ public class ValidStayValidator implements ConstraintValidator<ValidStay, Stay> 
     @Override
     public boolean isValid(final Stay stay, final ConstraintValidatorContext context) {
         boolean result = true;
-        context.disableDefaultConstraintViolation();
-        if (stay.getCheckIn().isEqual(stay.getCheckOut())) {
-            context.buildConstraintViolationWithTemplate("{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Stay.dates.before.message}")
-                .addConstraintViolation();
-            result = false;
-        } else if (stay.getCheckIn().isAfter(stay.getCheckOut())) {
-            context.buildConstraintViolationWithTemplate("{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Stay.dates.before.message}")
-                .addConstraintViolation();
-            result = false;
-        } else if (!isValidDateRange(stay.getCheckIn(), stay.getCheckOut())) {
-            context.buildConstraintViolationWithTemplate("{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Stay.dates.range.message}")
-                .addConstraintViolation();
-            result = false;
+        if (stay != null) {
+            context.disableDefaultConstraintViolation();
+            if (stay.getCheckIn().isEqual(stay.getCheckOut()) || stay.getCheckIn().isAfter(stay.getCheckOut())) {
+                context.buildConstraintViolationWithTemplate(
+                    "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Stay.dates.before.message}").addConstraintViolation();
+                result = false;
+                log.info("CheckIn must be prior to checkOut date, checkin: " + stay.getCheckIn() + " , checkout: " + stay.getCheckOut());
+            } else if (!isValidDateRange(stay.getCheckIn(), stay.getCheckOut())) {
+                context.buildConstraintViolationWithTemplate(
+                    "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Stay.dates.range.message}").addConstraintViolation();
+                result = false;
+                log.info("The number of nights must be less than or equal to " + maxDaysRange + ", checkin: " + stay.getCheckIn() + " , checkout: "
+                    + stay.getCheckOut());
+            }
         }
         return result;
     }
 
     private boolean isValidDateRange(LocalDate checkIn, LocalDate checkOut) {
         final long days = ChronoUnit.DAYS.between(checkIn, checkOut);
+        boolean result = true;
         if (Long.valueOf(days).compareTo(maxDaysRange) > 0) {
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
 }

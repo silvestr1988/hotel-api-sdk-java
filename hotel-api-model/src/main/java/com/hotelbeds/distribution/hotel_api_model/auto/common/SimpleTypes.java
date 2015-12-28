@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.common;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -122,7 +122,8 @@ public final class SimpleTypes {
 
 
     public enum ShowDirectPayment {
-        AT_HOTEL("S", "YES"), //liberate
+        //liberate
+        AT_HOTEL("S", "YES"),
         AT_WEB("N", "NO"),
         BOTH("A", "BOTH");
 
@@ -465,7 +466,8 @@ public final class SimpleTypes {
         public static BookingListFilterType getBookingListFilterType(final String type) {
             if (type != null && type.equalsIgnoreCase(BookingListFilterType.CREATION.name())) {
                 return BookingListFilterType.CREATION;
-            } else { //Por defecto filterType de bookingList vale "E" = "CHECKIN"
+            } else {
+                //Por defecto filterType de bookingList vale "E" = "CHECKIN"
                 return BookingListFilterType.CHECKIN;
             }
         }

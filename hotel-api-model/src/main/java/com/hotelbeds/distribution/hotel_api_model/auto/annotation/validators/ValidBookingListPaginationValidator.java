@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -33,8 +33,10 @@ import javax.validation.ConstraintValidatorContext;
 
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingListRQ;
 
-public class ValidBookingListPaginationValidator implements ConstraintValidator<ValidBookingListPagination, Object> {
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+public class ValidBookingListPaginationValidator implements ConstraintValidator<ValidBookingListPagination, Object> {
     private long maxBookingsRange;
 
     @Override
@@ -54,30 +56,37 @@ public class ValidBookingListPaginationValidator implements ConstraintValidator<
             to = ((BookingListRQ) value).getTo();
         }
         context.disableDefaultConstraintViolation();
-        if (from <= 0) {
+        boolean result = true;
+        if (from != null && from <= 0) {
             context.buildConstraintViolationWithTemplate(
                 "{com.hotelbeds.distribution.hotel_api_webapp.webapp.internal.messages.BookingListRQ.pagination.minimun.message}")
                 .addConstraintViolation();
-            return false;
-        } else if (from.compareTo(to) > 0) {
+            log.info("The minimun value for the parameter From is 1, from: " + from);
+            result = false;
+        } else if (from != null && to != null && from.compareTo(to) > 0) {
             context.buildConstraintViolationWithTemplate(
                 "{com.hotelbeds.distribution.hotel_api_webapp.webapp.internal.messages.BookingListRQ.pagination.before.message}")
                 .addConstraintViolation();
-            return false;
-        } else if (!isValidBookingsRange(from, to)) {
+            log.info("The parameter To must be greater than From, from: " + from + " , to: " + to);
+            result = false;
+        } else if (from != null && to != null && !isValidBookingsRange(from, to)) {
             context.buildConstraintViolationWithTemplate(
                 "{com.hotelbeds.distribution.hotel_api_webapp.webapp.internal.messages.BookingListRQ.pagination.range.message}")
                 .addConstraintViolation();
-            return false;
+            log.info("The number of bookings between To and From parameters must be less than or equal to " + maxBookingsRange + ", from: " + from
+                + " , to: " + to);
+            result = false;
         }
-        return true;
+        return result;
     }
 
     private boolean isValidBookingsRange(Integer from, Integer to) {
-        final long bookings = to - from + 1; //from and to are inclusive
+        // from and to are inclusive
+        final long bookings = to - from + 1;
+        boolean result = true;
         if (bookings > maxBookingsRange) {
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
 }

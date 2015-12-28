@@ -7,9 +7,9 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
 
 /*
  * #%L
- * hotel-api-model
+ * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -36,8 +36,10 @@ import javax.validation.ConstraintValidatorContext;
 
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingListRQ;
 
-public class ValidBookingListDatesValidator implements ConstraintValidator<ValidBookingListDates, Object> {
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+public class ValidBookingListDatesValidator implements ConstraintValidator<ValidBookingListDates, Object> {
     private long maxDaysRange;
 
     @Override
@@ -50,31 +52,37 @@ public class ValidBookingListDatesValidator implements ConstraintValidator<Valid
         if (!(value instanceof BookingListRQ)) {
             throw new IllegalArgumentException("Expected a parameter of type XMLBookingListRQ or JSONBookingListRQ");
         }
-        LocalDate start = null;
-        LocalDate end = null;
+        boolean result = true;
         if (value instanceof BookingListRQ) {
-            start = ((BookingListRQ) value).getStart();
-            end = ((BookingListRQ) value).getEnd();
+            LocalDate start = ((BookingListRQ) value).getStart();
+            LocalDate end = ((BookingListRQ) value).getEnd();
+            context.disableDefaultConstraintViolation();
+            if (start.isAfter(end)) {
+                context.buildConstraintViolationWithTemplate(
+                    "{com.hotelbeds.distribution.hotel_api_webapp.webapp.internal.messages.BookingListRQ.dates.before.message}")
+                    .addConstraintViolation();
+                result = false;
+                log.info("Start date must be prior to End date, start: " + start.toString() + " , end: " + end.toString());
+            } else if (!isValidDateRange(start, end)) {
+                context.buildConstraintViolationWithTemplate(
+                    "{com.hotelbeds.distribution.hotel_api_webapp.webapp.internal.messages.BookingListRQ.dates.range.message}")
+                    .addConstraintViolation();
+                result = false;
+                log.info("Days between Start and End parameters must be less than or equal to " + maxDaysRange + ", start: " + start.toString()
+                    + " , end: " + end.toString());
+            }
+        } else {
+            result = false;
         }
-
-        context.disableDefaultConstraintViolation();
-        if (start.isAfter(end)) {
-            context.buildConstraintViolationWithTemplate(
-                "{com.hotelbeds.distribution.hotel_api_webapp.webapp.internal.messages.BookingListRQ.dates.before.message}").addConstraintViolation();
-            return false;
-        } else if (!isValidDateRange(start, end)) {
-            context.buildConstraintViolationWithTemplate(
-                "{com.hotelbeds.distribution.hotel_api_webapp.webapp.internal.messages.BookingListRQ.dates.range.message}").addConstraintViolation();
-            return false;
-        }
-        return true;
+        return result;
     }
 
     private boolean isValidDateRange(LocalDate checkIn, LocalDate checkOut) {
+        boolean result = true;
         final long days = ChronoUnit.DAYS.between(checkIn, checkOut);
         if (Long.valueOf(days).compareTo(maxDaysRange) > 0) {
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
 }
