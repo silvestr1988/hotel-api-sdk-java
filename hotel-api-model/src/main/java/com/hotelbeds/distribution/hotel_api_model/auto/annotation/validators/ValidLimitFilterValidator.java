@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -31,8 +31,8 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Filter;
+import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes;
 
 import lombok.extern.slf4j.Slf4j;
 

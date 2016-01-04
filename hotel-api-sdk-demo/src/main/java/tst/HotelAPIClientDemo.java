@@ -60,7 +60,7 @@ public class HotelAPIClientDemo {
         apiClient.init();
         boolean doCheckStatus = false;
         boolean doAvailability = true;
-        boolean isRandom = false;
+        boolean isRandom = true;
         boolean doCheckRate = doAvailability && false;
         boolean doConfirmation = doAvailability && false;
         boolean doBookingList = false;

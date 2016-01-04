@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.messages;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Hotels;
 import com.hotelbeds.distribution.hotel_api_model.auto.model.Source;
-import java.util.List;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
@@ -44,9 +43,8 @@ import lombok.EqualsAndHashCode;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class AvailabilityRS extends AbstractGenericResponse {
+public class AvailabilityRS extends GenericResponse {
 
-	private List<String> providerDetails;
 	private Hotels hotels;
 	private Source source;
 

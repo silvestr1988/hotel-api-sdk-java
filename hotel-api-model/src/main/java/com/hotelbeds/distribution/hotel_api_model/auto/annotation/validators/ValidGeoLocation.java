@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -44,7 +44,7 @@ import javax.validation.Constraint;
 @Documented
 public @interface ValidGeoLocation {
 
-    String message() default "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.GeoLocation.message}";
+    String message() default "{com.hotelbeds.distribution.hotelapi.api.model.GeoLocation.message}";
 
     Class<?>[] groups() default {};
 

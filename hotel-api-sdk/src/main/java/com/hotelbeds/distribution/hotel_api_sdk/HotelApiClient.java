@@ -50,7 +50,6 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.AbstractGenericRequest;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.AbstractGenericResponse;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.AvailabilityRQ;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.AvailabilityRS;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingCancellationRS;
@@ -60,6 +59,7 @@ import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingRQ;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingRS;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.CheckRateRQ;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.CheckRateRS;
+import com.hotelbeds.distribution.hotel_api_model.auto.messages.GenericResponse;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.HotelbedsError;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.StatusRS;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
@@ -122,11 +122,11 @@ public class HotelApiClient {
     }
 
     public HotelApiClient(String apiKey, String sharedSecret) {
-        this(HotelApiVersion.V1, HotelApiService.TEST, apiKey, sharedSecret);
+        this(HotelApiVersion.DEFAULT, HotelApiService.TEST, apiKey, sharedSecret);
     }
 
     public HotelApiClient(HotelApiService service, String apiKey, String sharedSecret) {
-        this(HotelApiVersion.V1, service, apiKey, sharedSecret);
+        this(HotelApiVersion.DEFAULT, service, apiKey, sharedSecret);
     }
 
     public HotelApiClient(HotelApiVersion version, HotelApiService service, String apiKey, String sharedSecret) {
@@ -345,22 +345,22 @@ public class HotelApiClient {
         return responseEntity.getBody();
     }
 
-    private <T extends AbstractGenericResponse> ResponseEntity<T> callRemoteAPI(HotelApiPaths path) throws HotelSDKException {
+    private <T extends GenericResponse> ResponseEntity<T> callRemoteAPI(HotelApiPaths path) throws HotelSDKException {
         return callRemoteAPI(null, null, path);
     }
 
-    private <T extends AbstractGenericResponse> ResponseEntity<T> callRemoteAPI(final Map<String, String> params, HotelApiPaths path)
+    private <T extends GenericResponse> ResponseEntity<T> callRemoteAPI(final Map<String, String> params, HotelApiPaths path)
         throws HotelSDKException {
         return callRemoteAPI(null, params, path);
     }
 
-    private <T extends AbstractGenericResponse> ResponseEntity<T> callRemoteAPI(final AbstractGenericRequest request, HotelApiPaths path)
+    private <T extends GenericResponse> ResponseEntity<T> callRemoteAPI(final AbstractGenericRequest request, HotelApiPaths path)
         throws HotelSDKException {
         return callRemoteAPI(request, null, path);
     }
 
-    private <T extends AbstractGenericResponse> ResponseEntity<T> callRemoteAPI(final AbstractGenericRequest request,
-        final Map<String, String> params, HotelApiPaths path) throws HotelSDKException {
+    private <T extends GenericResponse> ResponseEntity<T> callRemoteAPI(final AbstractGenericRequest request, final Map<String, String> params,
+        HotelApiPaths path) throws HotelSDKException {
         if (isInitialised()) {
             final HttpMethod httpMethod = path.getHttpMethod();
             final String url = path.getUrl(basePath, version, params);
@@ -390,8 +390,8 @@ public class HotelApiClient {
                 throw new HotelSDKException(new HotelbedsError(e.getClass().getName(), e.getMessage()), e);
             }
         } else {
-            throw new HotelSDKException(new HotelbedsError("HotelAPIClient not initialised",
-                "You have to call init() first, to be able to use this object."));
+            throw new HotelSDKException(
+                new HotelbedsError("HotelAPIClient not initialised", "You have to call init() first, to be able to use this object."));
         }
     }
 

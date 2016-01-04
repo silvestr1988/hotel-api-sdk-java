@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -66,7 +66,8 @@ public class ValidAvailabilityValidator implements ConstraintValidator<ValidAvai
         if (found == 0 || found > 1) {
             context
                 .buildConstraintViolationWithTemplate(
-                    "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.AvailabilityFilter.validOnlyUniqueFilterDestinationOrGeolocationOrHotels.message}")
+                    "{com.hotelbeds.distribution.hotelapi.api.model.AvailabilityFilter."
+                        + "validOnlyUniqueFilterDestinationOrGeolocationOrHotels.message}")
                 .addConstraintViolation();
             result = false;
             log.info("The request must have unique filter. Options: Destination, Geolocation, Hotels, destination: +"

@@ -40,4 +40,5 @@ public enum HotelApiVersion {
         return version;
     }
 
+    public static HotelApiVersion DEFAULT = V1;
 }

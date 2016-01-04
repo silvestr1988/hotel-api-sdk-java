@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -50,16 +50,16 @@ public class ValidStayValidator implements ConstraintValidator<ValidStay, Stay> 
     @Override
     public boolean isValid(final Stay stay, final ConstraintValidatorContext context) {
         boolean result = true;
-        if (stay != null) {
+        if (stay != null && stay.getCheckIn() != null && stay.getCheckOut() != null) {
             context.disableDefaultConstraintViolation();
             if (stay.getCheckIn().isEqual(stay.getCheckOut()) || stay.getCheckIn().isAfter(stay.getCheckOut())) {
                 context.buildConstraintViolationWithTemplate(
-                    "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Stay.dates.before.message}").addConstraintViolation();
+                    "{com.hotelbeds.distribution.hotelapi.api.model.Stay.dates.before.message}").addConstraintViolation();
                 result = false;
                 log.info("CheckIn must be prior to checkOut date, checkin: " + stay.getCheckIn() + " , checkout: " + stay.getCheckOut());
             } else if (!isValidDateRange(stay.getCheckIn(), stay.getCheckOut())) {
                 context.buildConstraintViolationWithTemplate(
-                    "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.Stay.dates.range.message}").addConstraintViolation();
+                    "{com.hotelbeds.distribution.hotelapi.api.model.Stay.dates.range.message}").addConstraintViolation();
                 result = false;
                 log.info("The number of nights must be less than or equal to " + maxDaysRange + ", checkin: " + stay.getCheckIn() + " , checkout: "
                     + stay.getCheckOut());

@@ -46,7 +46,7 @@ public class HotelApiClientTest {
 
     @Mocked
     @Injectable
-    HotelApiVersion version = HotelApiVersion.V0_2;
+    HotelApiVersion version = HotelApiVersion.DEFAULT;
 
     @Injectable
     RequestType requestType = RequestType.JSON;

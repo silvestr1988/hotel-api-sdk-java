@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.util;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -28,15 +28,30 @@ package com.hotelbeds.distribution.hotel_api_model.auto.util;
  */
 
 
+import java.util.Collection;
 import java.util.StringJoiner;
 
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ObjectJoiner {
+
+    private ObjectJoiner() {
+    }
+
     public static String join(CharSequence separator, Object... arguments) {
+        StringJoiner st = new StringJoiner(separator);
+        if (arguments != null) {
+            for (Object object : arguments) {
+                if (object != null) {
+                    st.add(object.toString());
+                } else {
+                    st.add("");
+                }
+            }
+        }
+        return st.toString();
+    }
+
+    public static String join(CharSequence separator, Collection<? extends Object> arguments) {
         StringJoiner st = new StringJoiner(separator);
         if (arguments != null) {
             for (Object object : arguments) {

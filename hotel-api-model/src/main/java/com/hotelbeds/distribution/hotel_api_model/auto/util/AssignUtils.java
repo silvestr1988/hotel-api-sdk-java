@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.util;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -57,6 +57,9 @@ public final class AssignUtils {
     public static final String DEFAULT_DATE_TIME_FORMAT = DEFAULT_DATE_FORMAT + " " + DEFAULT_TIME_FORMAT;
     public static final DateTimeFormatter DEFAULT_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
     public static final DateTimeFormatter REST_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final String ACE_DATE_FORMAT = "dd/MM/yyyy";
+    public static final String ACE_TIME_FORMAT = "HH:mm";
+    public static final DateTimeFormatter ACE_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern(ACE_DATE_FORMAT + " " + ACE_TIME_FORMAT);
     private static final int HOUR_SECONDS = 3600;
     private static final int PRICE_NUMBER_OF_DECIMALS = 2;
     private static final int PERCENTAGE_NUMBER_OF_DECIMALS = 2;
@@ -106,8 +109,7 @@ public final class AssignUtils {
 
     public static LocalDateTime getLocalDateTime(Date date) {
         Instant instant = Instant.ofEpochMilli(date.getTime());
-        LocalDateTime res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        return res;
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
     public static LocalDate getLocalDate(final String date) {
@@ -118,12 +120,20 @@ public final class AssignUtils {
         return date != null ? LocalDate.parse(date, formatter) : null;
     }
 
+    public static LocalDateTime getLocalDateTime(final String date) {
+        return getLocalDateTime(date, DEFAULT_TIME_FORMATTER);
+    }
+
+    public static LocalDateTime getLocalDateTime(final String date, final DateTimeFormatter formatter) {
+        return date != null ? LocalDateTime.parse(date, formatter) : null;
+    }
+
     public static LocalDateTime getLocalDateTime(final LocalDate date) {
         return getLocalDateTime(getTimestamp(date));
     }
 
     public static BigInteger getHourDifference(final ZoneOffset zoneOffset) {
-        return zoneOffset != null ? BigInteger.valueOf(zoneOffset.get(ChronoField.OFFSET_SECONDS) / HOUR_SECONDS) : null;
+        return zoneOffset != null ? BigInteger.valueOf(Long.valueOf(zoneOffset.get(ChronoField.OFFSET_SECONDS)) / HOUR_SECONDS) : null;
     }
 
     public static LocalTime getTime(final String time, final DateTimeFormatter formatter) {
@@ -276,5 +286,22 @@ public final class AssignUtils {
 
     public static BigDecimal getBigDecimalForPercentageTag(float amount) {
         return getBigDecimalForPercentageTag(new BigDecimal(amount));
+    }
+
+    /**
+     * Truncate a String to the given length with no warnings
+     * or error raised if it is bigger.
+     *
+     * @param value String to be truncated
+     * @param length Maximum length of string
+     * @return Returns value if value is null or value.length() is less or equal to than length, otherwise a String representing
+     *         value truncated to length.
+     */
+    public static String truncate(String value, int length) {
+        String truncatedString = "";
+        if (value != null && value.length() > length) {
+            truncatedString = value.substring(0, length);
+        }
+        return truncatedString;
     }
 }

@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -59,13 +59,13 @@ public class ValidBookingListDatesValidator implements ConstraintValidator<Valid
             context.disableDefaultConstraintViolation();
             if (start.isAfter(end)) {
                 context.buildConstraintViolationWithTemplate(
-                    "{com.hotelbeds.distribution.hotel_api_webapp.webapp.internal.messages.BookingListRQ.dates.before.message}")
+                    "{com.hotelbeds.distribution.hotelapi.engine.messages.BookingListRQ.dates.before.message}")
                     .addConstraintViolation();
                 result = false;
                 log.info("Start date must be prior to End date, start: " + start.toString() + " , end: " + end.toString());
             } else if (!isValidDateRange(start, end)) {
                 context.buildConstraintViolationWithTemplate(
-                    "{com.hotelbeds.distribution.hotel_api_webapp.webapp.internal.messages.BookingListRQ.dates.range.message}")
+                    "{com.hotelbeds.distribution.hotelapi.engine.messages.BookingListRQ.dates.range.message}")
                     .addConstraintViolation();
                 result = false;
                 log.info("Days between Start and End parameters must be less than or equal to " + maxDaysRange + ", start: " + start.toString()

@@ -29,13 +29,13 @@ import java.util.Map;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.springframework.http.HttpMethod;
 
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.AbstractGenericResponse;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.AvailabilityRS;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingCancellationRS;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingDetailRS;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingListRS;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingRS;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.CheckRateRS;
+import com.hotelbeds.distribution.hotel_api_model.auto.messages.GenericResponse;
 import com.hotelbeds.distribution.hotel_api_model.auto.messages.StatusRS;
 
 /**
@@ -52,13 +52,13 @@ public enum HotelApiPaths {
     BOOKING_CONFIRM("${path}/${version}/bookings", HttpMethod.POST, BookingRS.class),
     BOOKING_CANCEL("${path}/${version}/bookings/${bookingId}?cancellationFlag=${flag}", HttpMethod.DELETE, BookingCancellationRS.class),
     CHECK_AVAIL("${path}/${version}/checkrates", HttpMethod.POST, CheckRateRS.class),
-    STATUS("${path}/${version}/status", HttpMethod.GET, StatusRS.class), ;
+    STATUS("${path}/${version}/status", HttpMethod.GET, StatusRS.class),;
 
     private final String urlTemplate;
     private final HttpMethod httpMethod;
-    private final Class<? extends AbstractGenericResponse> responseClass;
+    private final Class<? extends GenericResponse> responseClass;
 
-    HotelApiPaths(final String urlTemplate, final HttpMethod httpMethod, Class<? extends AbstractGenericResponse> responseClass) {
+    HotelApiPaths(final String urlTemplate, final HttpMethod httpMethod, Class<? extends GenericResponse> responseClass) {
         this.urlTemplate = urlTemplate;
         this.httpMethod = httpMethod;
         this.responseClass = responseClass;
@@ -68,7 +68,7 @@ public enum HotelApiPaths {
         return urlTemplate;
     }
 
-    public Class<? extends AbstractGenericResponse> getResponseClass() {
+    public Class<? extends GenericResponse> getResponseClass() {
         return responseClass;
     }
 

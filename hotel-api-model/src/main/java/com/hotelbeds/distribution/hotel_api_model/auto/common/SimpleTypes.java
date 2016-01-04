@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.common;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -29,24 +29,26 @@ package com.hotelbeds.distribution.hotel_api_model.auto.common;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * The Class SimpleTypes.
  *
  * @author Hotelbeds Accommodation and Destination Services
  */
+@Slf4j
 public final class SimpleTypes {
-
     //FIXME Move to ValidationMessages
     public static final String WRONG_LIMITS_PRICE_RANGE_MESSAGE = "maxRate should be higher or equals than minRate";
     public static final String WRONG_LIMITS_CATEGORY_RANGE_MESSAGE = "maxCategory should be higher or equals than minCategory";
     public static final String MIXED_LIBERATE_AGENCY_MESSAGE = "You cannot combine rates with payment type AT_HOTEL and AT_WEB";
-
     public static final String AGES_RATEKEY_SEPARATOR = "~";
     public static final String VALUE_TOKEN = "~";
     public static final int INDEX_0 = 0;
@@ -56,21 +58,16 @@ public final class SimpleTypes {
     public static final String ROOM_SEPARATOR = ".";
     public static final String ROOM_ATLAS_SEPARATOR = "-";
     public static final String OCCUPANCY_SEPARATOR = "~";
-
     public static final String SI_CODE = "s";
-
-    static final String NO = "No";
-    static final String YES = "Yes";
-    static final String ONLY = "Only";
-
+    private static final String NO = "No";
+    private static final String YES = "Yes";
+    private static final String ONLY = "Only";
     private static final int STATUS_CONFIRMED = 0;
     private static final int STATUS_CANCELLED = 100;
     private static final String SI = "Si";
 
-
     private SimpleTypes() {
     }
-
 
     @XmlType(name = "YesNo")
     @XmlEnum
@@ -78,9 +75,7 @@ public final class SimpleTypes {
         Y(SimpleTypes.YES, SiNo.S),
         N(SimpleTypes.NO, SiNo.N),
         O(SimpleTypes.ONLY, SiNo.N);
-
         private String label;
-
         private SiNo internal;
 
         YesNo(final String label, final SiNo internal) {
@@ -99,7 +94,7 @@ public final class SimpleTypes {
         public static YesNo getFromBoolean(final Boolean value) {
             if (value == null) {
                 return null;
-            } else if (value == Boolean.TRUE) {
+            } else if (Boolean.TRUE.equals(value)) {
                 return YesNo.Y;
             } else {
                 return YesNo.N;
@@ -117,18 +112,20 @@ public final class SimpleTypes {
         public static boolean getBoolean(YesNo yesNo) {
             return YesNo.Y.equals(yesNo) ? true : false;
         }
-
     }
-
-
     public enum ShowDirectPayment {
         //liberate
         AT_HOTEL("S", "YES"),
         AT_WEB("N", "NO"),
         BOTH("A", "BOTH");
-
         private String aceLabel;
         private String genericLabel;
+        private static Map<String, ShowDirectPayment> showDirectPaymentByAceValue = new HashMap<>();
+        static {
+            for (ShowDirectPayment showDirectPayment : ShowDirectPayment.values()) {
+                showDirectPaymentByAceValue.put(showDirectPayment.getAceLabel(), showDirectPayment);
+            }
+        }
 
         ShowDirectPayment(final String aceLabel, final String genericLabel) {
             this.aceLabel = aceLabel;
@@ -152,23 +149,11 @@ public final class SimpleTypes {
         public static ShowDirectPayment getDirectPaymentFromAceValue(final String value) {
             return showDirectPaymentByAceValue.get(value);
         }
-
-        private static Map<String, ShowDirectPayment> showDirectPaymentByAceValue = new HashMap<>();
-
-        static {
-            for (ShowDirectPayment showDirectPayment : ShowDirectPayment.values()) {
-                showDirectPaymentByAceValue.put(showDirectPayment.getAceLabel(), showDirectPayment);
-            }
-        }
     }
-
-
     public enum SiNo {
         S(SI, YesNo.Y),
         N(NO, YesNo.N);
-
         private String label;
-
         private YesNo internal;
 
         SiNo(final String label, final YesNo internal) {
@@ -204,7 +189,6 @@ public final class SimpleTypes {
             }
         }
     }
-
     public enum BookingStatus {
         /**
          * The purchase has been confirmed.
@@ -215,20 +199,14 @@ public final class SimpleTypes {
          */
         ,
         CANCELLED(STATUS_CANCELLED);
-
         private static Map<Integer, BookingStatus> mapping;
         private int[] shoppingCartStatuses;
-
 
         BookingStatus(final int... shoppingCartStatuses) {
             this.shoppingCartStatuses = shoppingCartStatuses;
         }
 
-
         public static BookingStatus getHotelbedsPurchaseStatus(final Integer shoppingCartStatus) {
-            //            if (!mapping.containsKey(shoppingCartStatus)) {
-            //                return BookingStatus.CONFIRMED;
-            //            }
             return shoppingCartStatus != null ? mapping.get(shoppingCartStatus) : null;
         }
 
@@ -241,8 +219,6 @@ public final class SimpleTypes {
             }
         }
     }
-
-
     public enum HotelbedsCustomerType {
         /**
          * Used for adult.
@@ -253,7 +229,6 @@ public final class SimpleTypes {
          */
         ,
         CH("1", 8, "C", "N", "NI", "CH");
-
         private final String paxType;
         private final int defaultAge;
         private final String paxId;
@@ -296,13 +271,21 @@ public final class SimpleTypes {
         }
 
         public static HotelbedsCustomerType getCustomerType(final String customerType) {
-            if (customerType != null
-                && (customerType.equals(HotelbedsCustomerType.AD.getPaxId()) || customerType.equals(HotelbedsCustomerType.AD.getAtlasCode())
-                    || customerType.equals(HotelbedsCustomerType.AD.getPaxCode()) || customerType.equals(HotelbedsCustomerType.AD.getPaxType()))) {
+            if (customerType != null && isCustomerTypeAdult(customerType)) {
                 return HotelbedsCustomerType.AD;
             } else {
                 return HotelbedsCustomerType.CH;
             }
+        }
+
+        private static boolean isCustomerTypeAdult(String customerType) {
+            HashSet<String> adultCustomerValues = new HashSet<>();
+            adultCustomerValues.add(HotelbedsCustomerType.AD.getPaxId());
+            adultCustomerValues.add(HotelbedsCustomerType.AD.getAtlasCode());
+            adultCustomerValues.add(HotelbedsCustomerType.AD.getPaxCode());
+            adultCustomerValues.add(HotelbedsCustomerType.AD.getPaxType());
+
+            return adultCustomerValues.contains(customerType);
         }
 
         public static HotelbedsCustomerType getCustomerTypeFromPaxId(final String paxId) {
@@ -313,23 +296,19 @@ public final class SimpleTypes {
             }
         }
     }
-
     public enum HotelbedsTicketClass {
         T,
         E
     }
-
     public enum RateType {
         BOOKABLE,
         RECHECK
     }
-
     public enum CommissionType {
         LIBERATE_RATE("L"),
         NET_RATE("N"),
         COMISSIONABLE_RATE("O"),
         COMISSIONABLE_DISCOUNT_RATE("V");
-
         private final String type;
 
         private CommissionType(String type) {
@@ -354,11 +333,9 @@ public final class SimpleTypes {
             return result;
         }
     }
-
     public enum PaymentType {
         AT_HOTEL("P", "H"),
         AT_WEB("C", "W");
-
         private final String abbreviated;
         private final String rateKeyValue;
 
@@ -375,6 +352,16 @@ public final class SimpleTypes {
             return rateKeyValue;
         }
 
+        public static PaymentType getPaymentType(final boolean directPayment) {
+            PaymentType result;
+            if (directPayment) {
+                result = PaymentType.AT_HOTEL;
+            } else {
+                result = PaymentType.AT_WEB;
+            }
+            return result;
+        }
+
         public static PaymentType getPaymentType(final String paymentType) {
             if (paymentType != null
                 && (paymentType.equals(PaymentType.AT_HOTEL.abbreviated) || paymentType.equals(PaymentType.AT_HOTEL.name()) || paymentType
@@ -385,11 +372,9 @@ public final class SimpleTypes {
             }
         }
     }
-
     public enum SupplementType {
         SUPPLEMENT("S"),
         DISCOUNT("D");
-
         private final String abbreviated;
 
         private SupplementType(String abbreviated) {
@@ -412,21 +397,17 @@ public final class SimpleTypes {
             return result;
         }
     }
-
     public enum TypeRequestAvail {
         TYPE_REQUEST_VALUATION_AVAIL,
         TYPE_REQUEST_AVAIL
     }
-
     public enum ProviderAvail {
         ACE,
         CARONTE
     }
-
     public enum CancellationFlags {
         CANCELLATION("C"),
         SIMULATION("S");
-
         private String flag;
 
         CancellationFlags(final String flag) {
@@ -444,15 +425,12 @@ public final class SimpleTypes {
                 return CancellationFlags.CANCELLATION;
             }
         }
-
     }
-
     public enum BookingListFilterType {
         //E: busca por fechas de Entrada (Checking)
         CHECKIN("E"),
         //C: Busca por fechas de creación
         CREATION("C");
-
         private String type;
 
         BookingListFilterType(final String type) {
@@ -471,9 +449,7 @@ public final class SimpleTypes {
                 return BookingListFilterType.CHECKIN;
             }
         }
-
     }
-
     public enum Accommodation {
         HOTEL("HOTEL"),
         APARTMENT("APART"),
@@ -485,8 +461,13 @@ public final class SimpleTypes {
         PENDING("PENDING"),
         RESORT("RESORT"),
         HOMES("HOMES");
-
         private String type;
+        private static Map<String, Accommodation> accommodationsByType = new HashMap<>();
+        static {
+            for (Accommodation accommodation : Accommodation.values()) {
+                accommodationsByType.put(accommodation.getType(), accommodation);
+            }
+        }
 
         Accommodation(final String type) {
             this.type = type;
@@ -503,38 +484,25 @@ public final class SimpleTypes {
             }
             return result;
         }
-
-        private static Map<String, Accommodation> accommodationsByType = new HashMap<>();
-
-        static {
-            for (Accommodation accommodation : Accommodation.values()) {
-                accommodationsByType.put(accommodation.getType(), accommodation);
-            }
-        }
     }
-
     public enum HotelCodeType {
         HOTELBEDS,
         GIATA;
     }
-
     public enum ChannelType {
         B2B,
         B2C,
         META,
         NEWSLETTER;
     }
-
     public enum DeviceType {
         MOBILE,
         WEB,
         TABLET;
     }
-
     public enum ReviewsType {
         TRIPADVISOR("TRIPADVISOR"),
         HOTELBEDS("HOTELBEDS");
-
         private String requestType;
 
         ReviewsType(final String type) {
@@ -554,13 +522,10 @@ public final class SimpleTypes {
             }
             return result;
         }
-
     }
-
     public enum AvailabilitySorter {
         RATE("P"),
         PRIORITY("");
-
         private String cachedValue;
 
         AvailabilitySorter(String cachedValue) {
@@ -570,13 +535,10 @@ public final class SimpleTypes {
         public String getCachedValue() {
             return cachedValue;
         }
-
     }
-
     public enum TaxType {
         TAX("T"),
         FEE("F");
-
         private String internalCode;
 
         TaxType(String internalCode) {
@@ -588,15 +550,17 @@ public final class SimpleTypes {
         }
 
         public static TaxType getTaxType(String internalCode) {
+            TaxType result = null;
             if (TAX.getInternalCode().equals(internalCode)) {
-                return TAX;
+                result = TAX;
             } else if (FEE.getInternalCode().equals(internalCode)) {
-                return FEE;
+                result = FEE;
+            } else {
+                log.debug("TaxType not found with this internalCode: " + internalCode);
             }
-            return null;
+            return result;
         }
     }
-
     public enum HotelPackage {
         YES,
         NO,

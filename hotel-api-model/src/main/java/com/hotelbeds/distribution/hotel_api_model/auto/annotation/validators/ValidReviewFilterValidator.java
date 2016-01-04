@@ -9,7 +9,7 @@ package com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators;
  * #%L
  * Hotel API SDK Model
  * %%
- * Copyright (C) 2015 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -54,21 +54,21 @@ public class ValidReviewFilterValidator implements ConstraintValidator<ValidRevi
             for (ReviewFilter review : value) {
                 if (review.getMaxRate() == null && review.getMinRate() == null) {
                     context.buildConstraintViolationWithTemplate(
-                        "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.ReviewFilter.rates.null.message}").addConstraintViolation();
+                        "{com.hotelbeds.distribution.hotelapi.api.model.ReviewFilter.rates.null.message}").addConstraintViolation();
                     result = false;
                     log.info("MaxRate and MinRate can not be null at same time, maxRate: " + review.getMaxRate() + MIN_RATE
                         + review.getMinRate());
                 } else if (result && review.getMaxRate() != null && review.getMinRate() != null
                     && (review.getMaxRate().compareTo(review.getMinRate()) < 0)) {
                     context.buildConstraintViolationWithTemplate(
-                        "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.ReviewFilter.rates.value.message}").addConstraintViolation();
+                        "{com.hotelbeds.distribution.hotelapi.api.model.ReviewFilter.rates.value.message}").addConstraintViolation();
                     result = false;
                     log.info("Wrong Rates value. MaxRate should be bigger or equals than MinRate, maxRate: " + review.getMaxRate() + MIN_RATE
                         + review.getMinRate());
                 }
                 if (review.getMinReviewCount() != null && review.getMinReviewCount() == 0) {
                     context.buildConstraintViolationWithTemplate(
-                        "{com.hotelbeds.distribution.hotel_api_webapp.webapp.api.model.ReviewFilter.reviewCounts.zero.message}")
+                        "{com.hotelbeds.distribution.hotelapi.api.model.ReviewFilter.reviewCounts.zero.message}")
                         .addConstraintViolation();
                     result = false;
                     log.info("Wrong ReviewCounts value. MaxReviewCount and MinReviewCount can not have value 0 or empty, maxRate: "
