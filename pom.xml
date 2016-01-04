@@ -21,7 +21,7 @@
   </issueManagement>
   <scm>
     <url>https://github.com/hotelbeds-sdk/hotel-api-sdk-java</url>
-    <connection>scm:git:git@github.com:hotelbeds-sdk/hotel-api-sdk-java.git</connection>
+    <connection>scm:git:git://@github.com/hotelbeds-sdk/hotel-api-sdk-java.git</connection>
     <developerConnection>scm:git:git@github.com:hotelbeds-sdk/hotel-api-sdk-java.git</developerConnection>
     <tag>hotel-api-sdk-java-0.3</tag>
   </scm>
