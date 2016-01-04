@@ -398,6 +398,7 @@ public class HotelApiClient {
     private MultiValueMap<String, String> getHeaders(HttpMethod httpMethod) {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add(API_KEY_HEADER_NAME, apiKey);
+		headers.add("User-Agent", "hotel-api-sdk-java, " + getClass().getPackage().getImplementationVersion());
         // Hash the Api Key + Shared Secret + Current timestamp in seconds
         String signature = org.apache.commons.codec.digest.DigestUtils.sha256Hex(apiKey + sharedSecret + System.currentTimeMillis() / 1000);
         headers.add(SIGNATURE_HEADER_NAME, signature);
