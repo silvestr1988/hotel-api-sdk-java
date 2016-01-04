@@ -7,3 +7,4 @@ hotel-api-sdk-demo/target/
 **/hotelapi.properties
 /.settings/**
 /.project
+release.properties
