@@ -38,6 +38,11 @@
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+	<repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Staging Repo</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
   <build>
     <pluginManagement>
@@ -79,6 +84,10 @@
           <version>2.5.2</version>
           <configuration>
             <mavenExecutorId>forked-path</mavenExecutorId>
+			<autoVersionSubmodules>true</autoVersionSubmodules>
+			<useReleaseProfile>false</useReleaseProfile>
+			<releaseProfiles>release</releaseProfiles>
+			<goals>deploy</goals>
           </configuration>
         </plugin>
         <plugin>
