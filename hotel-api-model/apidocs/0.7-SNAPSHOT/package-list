@@ -1,0 +1,7 @@
+com.hotelbeds.distribution.hotel_api_model.auto.annotation.validators
+com.hotelbeds.distribution.hotel_api_model.auto.common
+com.hotelbeds.distribution.hotel_api_model.auto.convert.json
+com.hotelbeds.distribution.hotel_api_model.auto.messages
+com.hotelbeds.distribution.hotel_api_model.auto.model
+com.hotelbeds.distribution.hotel_api_model.auto.util
+com.hotelbeds.distribution.hotel_api_model.util
