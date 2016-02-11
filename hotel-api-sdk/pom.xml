@@ -111,7 +111,7 @@
           <header>${project.name}, ${project.version}</header>
           <footer>${project.name}, ${project.version}</footer>
           <doctitle>${project.name}, ${project.version}</doctitle>
-          <reportOutputDirectory>../../hotel-api-sdk-java-pages/${project.artifactId}/${project.version}</reportOutputDirectory>
+          <reportOutputDirectory>../${apidocs.project.location}/${project.artifactId}/${project.version}</reportOutputDirectory>
           <links>
               <link>http://hotelbeds-sdk.github.io/hotel-api-sdk-java/${project.artifactId}/${project.version}/apidocs/</link>
           </links>
