@@ -23,7 +23,7 @@
     <url>https://github.com/hotelbeds-sdk/hotel-api-sdk-java</url>
     <connection>scm:git:https://github.com/hotelbeds-sdk/hotel-api-sdk-java.git</connection>
     <developerConnection>scm:git:https://github.com/hotelbeds-sdk/hotel-api-sdk-java.git</developerConnection>
-    <tag>hotel-api-sdk-java-0.3</tag>
+    <tag>hotel-api-sdk-java-${project.version}</tag>
   </scm>
   <organization>
     <name>HOTELBEDS, S.L.U.</name>
