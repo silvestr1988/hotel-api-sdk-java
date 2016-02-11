@@ -1,4 +1,4 @@
-package tst;
+package com.hotelbeds.demo;
 
 /*
  * #%L
