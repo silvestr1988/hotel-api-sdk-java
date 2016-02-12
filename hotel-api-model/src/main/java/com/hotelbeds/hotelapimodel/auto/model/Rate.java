@@ -52,29 +52,29 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Rate extends BasicRate {
 
-	private String rateCommentsId;
-	private String rateComments;
-	private PaymentType paymentType;
-	private Boolean packaging;
-	private String boardCode;
-	private String boardName;
-	private List<CancellationPolicy> cancellationPolicies;
-	private Taxes taxes;
-	private RateBreakDown rateBreakDown;
-	private Integer rooms;
-	private Integer adults;
-	private Integer children;
-	private String childrenAges;
-	private List<Promotion> promotions;
-	private List<Offer> offers;
-	@Valid
-	private List<ShiftRate> shiftRates;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal rateup;
-	private List<DailyRate> dailyRates;
+    private String rateCommentsId;
+    private String rateComments;
+    private PaymentType paymentType;
+    private Boolean packaging;
+    private String boardCode;
+    private String boardName;
+    private List<CancellationPolicy> cancellationPolicies;
+    private Taxes taxes;
+    private RateBreakDown rateBreakDown;
+    private Integer rooms;
+    private Integer adults;
+    private Integer children;
+    private String childrenAges;
+    private List<Promotion> promotions;
+    private List<Offer> offers;
+    @Valid
+    private List<ShiftRate> shiftRates;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal rateup;
+    private List<DailyRate> dailyRates;
 
 
 }

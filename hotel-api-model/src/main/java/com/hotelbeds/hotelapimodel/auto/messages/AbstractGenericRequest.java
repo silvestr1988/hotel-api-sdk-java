@@ -42,9 +42,9 @@ import lombok.Data;
 @Data
 public abstract class AbstractGenericRequest {
 
-	@JsonProperty("echo")
-	private String echoToken;
-	private String language;
+    @JsonProperty("echo")
+    private String echoToken;
+    private String language;
 
 
 }

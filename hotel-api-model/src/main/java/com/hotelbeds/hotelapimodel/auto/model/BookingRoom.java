@@ -46,11 +46,11 @@ import lombok.Data;
 @Data
 public class BookingRoom {
 
-	@NotNull
-	@JsonProperty
-	private String rateKey;
-	@Valid
-	private List<Pax> paxes;
+    @NotNull
+    @JsonProperty
+    private String rateKey;
+    @Valid
+    private List<Pax> paxes;
 
 
 }

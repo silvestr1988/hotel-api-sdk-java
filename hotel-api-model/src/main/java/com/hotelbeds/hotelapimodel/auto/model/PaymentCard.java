@@ -43,11 +43,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PaymentCard {
 
-	private String cardType;
-	private String cardNumber;
-	private String cardHolderName;
-	private String expiryDate;
-	private String cardCVC;
+    private String cardType;
+    private String cardNumber;
+    private String cardHolderName;
+    private String expiryDate;
+    private String cardCVC;
 
 
 }

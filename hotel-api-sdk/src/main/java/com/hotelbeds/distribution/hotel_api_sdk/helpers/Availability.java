@@ -86,9 +86,9 @@ public class Availability {
     @Data
     public static class Circle implements DelimitedShape {
         @NotNull
-        private final String longitude;
-        @NotNull
         private final String latitude;
+        @NotNull
+        private final String longitude;
         @Min(value = 0)
         private final long radiusInKilometers;
     }
@@ -227,12 +227,12 @@ public class Availability {
         //
         if (withinThis != null) {
             GeoLocation geolocation = new GeoLocation();
-            geolocation.setUnit(UnitMeasure.km);
             if (withinThis instanceof Circle) {
                 Circle circle = (Circle) withinThis;
                 geolocation.setLatitude(new BigDecimal(circle.getLatitude()));
                 geolocation.setLongitude(new BigDecimal(circle.getLongitude()));
                 geolocation.setRadius(new BigDecimal(circle.getRadiusInKilometers()));
+                geolocation.setUnit(UnitMeasure.km);
             } else if (withinThis instanceof Square) {
                 Square square = (Square) withinThis;
                 geolocation.setLatitude(new BigDecimal(square.getNorthEastLatitude()));

@@ -24,7 +24,7 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
 
 
 /**
- * Copyright (c) Hotelbeds Technology S.L.U.  All rights reserved.
+ * Copyright (c) Hotelbeds Technology S.L.U. All rights reserved.
  */
 public enum FilterType {
     //E: Search for checkin date

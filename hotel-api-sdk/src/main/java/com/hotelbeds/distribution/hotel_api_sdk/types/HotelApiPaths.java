@@ -52,7 +52,7 @@ public enum HotelApiPaths {
     BOOKING_CONFIRM("${path}/${version}/bookings", HttpMethod.POST, BookingRS.class),
     BOOKING_CANCEL("${path}/${version}/bookings/${bookingId}?cancellationFlag=${flag}", HttpMethod.DELETE, BookingCancellationRS.class),
     CHECK_AVAIL("${path}/${version}/checkrates", HttpMethod.POST, CheckRateRS.class),
-    STATUS("${path}/${version}/status", HttpMethod.GET, StatusRS.class),;
+    STATUS("${path}/${version}/status", HttpMethod.GET, StatusRS.class), ;
 
     private final String urlTemplate;
     private final HttpMethod httpMethod;

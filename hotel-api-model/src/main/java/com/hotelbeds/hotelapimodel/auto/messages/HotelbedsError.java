@@ -43,8 +43,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class HotelbedsError {
 
-	private String code;
-	private String message;
+    private String code;
+    private String message;
 
 
 }

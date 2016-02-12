@@ -46,13 +46,13 @@ import lombok.Data;
 @Data
 public class Room {
 
-	private ShoppingCartStatus status;
-	private String code;
-	private String name;
-	private List<Pax> paxes;
-	@Valid
-	private List<Rate> rates;
-	private String filterDebug;
+    private ShoppingCartStatus status;
+    private String code;
+    private String name;
+    private List<Pax> paxes;
+    @Valid
+    private List<Rate> rates;
+    private String filterDebug;
 
 
 }

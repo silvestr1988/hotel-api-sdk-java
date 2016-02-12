@@ -45,14 +45,14 @@ import lombok.Data;
 @Data
 public class DailyRate {
 
-	@JsonProperty
-	private Integer offset;
-	@JsonProperty
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal dailyNet;
-	@JsonProperty
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal dailySellingRate;
+    @JsonProperty
+    private Integer offset;
+    @JsonProperty
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal dailyNet;
+    @JsonProperty
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal dailySellingRate;
 
 
 }

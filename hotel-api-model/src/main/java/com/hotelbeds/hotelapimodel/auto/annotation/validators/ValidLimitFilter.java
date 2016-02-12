@@ -45,8 +45,8 @@ public @interface ValidLimitFilter {
 
     String message() default "";
 
-    Class<?>[]groups() default {};
+    Class<?>[] groups() default {};
 
-    Class<?>[]payload() default {};
+    Class<?>[] payload() default {};
 
 }

@@ -62,6 +62,7 @@ public class RequestingAvailability {
         // .- one main filtering option
         AvailabilityBuilder availabilityBuilder = Availability.builder().language(ENGLISH).checkIn(checkIn).checkOut(checkOut).addRoom(availRoom);
         // Then add one of the main filtering options (uncomment just one and comment the rest)
+
         // You can filter by destination
         availabilityBuilder.destination(LONDON);
         // xor you can filter by hotel codes
@@ -84,14 +85,17 @@ public class RequestingAvailability {
                 if (availabilityRS.getHotels().getTotal() > 0) {
                     for (Hotel hotel : availabilityRS.getHotels().getHotels()) {
                         log.info("-----------------------------------------");
-                        log.info("Hotel ({}-{}) - {} ({}; from {}{})", new Object[] {
-                            hotel.getDestinationCode(), hotel.getCode(), hotel.getName(), hotel.getCategoryName(), hotel.getMinRate(),
-                            hotel.getCurrency()});
+                        log.info(
+                            "Hotel ({}-{}) - {} ({}; from {}{})",
+                            new Object[] {
+                                hotel.getDestinationCode(), hotel.getCode(), hotel.getName(), hotel.getCategoryName(), hotel.getMinRate(),
+                                hotel.getCurrency()});
                         for (Room room : hotel.getRooms()) {
                             for (Rate rate : room.getRates()) {
-                                log.info("{} - {} {}{}", new Object[] {
-                                    room.getName(), rate.getBoardName(), rate.getSellingRate() != null ? rate.getSellingRate() : rate.getNet(),
-                                    hotel.getCurrency()});
+                                log.info("{} - {} {}{}",
+                                    new Object[] {
+                                        room.getName(), rate.getBoardName(), rate.getSellingRate() != null ? rate.getSellingRate() : rate.getNet(),
+                                        hotel.getCurrency()});
                             }
                         }
                     }

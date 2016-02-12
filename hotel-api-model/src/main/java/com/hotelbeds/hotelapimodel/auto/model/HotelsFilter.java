@@ -47,11 +47,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class HotelsFilter {
 
-	@JsonProperty("hotel")
-	@Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}") 
-	private List<Integer> hotels;
-	private Boolean included;
-	private HotelCodeType type;
+    @JsonProperty("hotel")
+    @Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}")
+    private List<Integer> hotels;
+    private Boolean included;
+    private HotelCodeType type;
 
 
 }

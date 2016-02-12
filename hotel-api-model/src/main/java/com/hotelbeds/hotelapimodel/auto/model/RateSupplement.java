@@ -47,18 +47,18 @@ import lombok.Data;
 @Data
 public class RateSupplement {
 
-	private String code;
-	private String name;
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	private LocalDate from;
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	private LocalDate to;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal amount;
-	private Integer nights;
-	private Integer paxNumber;
+    private String code;
+    private String name;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    private LocalDate from;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    private LocalDate to;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal amount;
+    private Integer nights;
+    private Integer paxNumber;
 
 
 }

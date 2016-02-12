@@ -46,14 +46,14 @@ import lombok.Data;
 @Data
 public class Source {
 
-	@NotNull
-	@Valid
-	private ChannelType channel;
-	@NotNull
-	@Valid
-	private DeviceType device;
-	@Size(min = 0, max = 200, message = "{javax.validation.constraints.Size.message}") 
-	private String deviceInfo;
+    @NotNull
+    @Valid
+    private ChannelType channel;
+    @NotNull
+    @Valid
+    private DeviceType device;
+    @Size(min = 0, max = 200, message = "{javax.validation.constraints.Size.message}")
+    private String deviceInfo;
 
 
 }

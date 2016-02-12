@@ -47,32 +47,32 @@ import lombok.Data;
 @Data
 public class BasicRate {
 
-	@JsonProperty
-	private String rateKey;
-	private String rateClass;
-	@Valid
-	private RateType rateType;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal net;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal discount;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal discountPCT;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal sellingRate;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal hotelSellingRate;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal amount;
-	private String hotelCurrency;
-	private Boolean hotelMandatory;
-	private Integer allotment;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal commission;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal commissionVAT;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal commissionPCT;
+    @JsonProperty
+    private String rateKey;
+    private String rateClass;
+    @Valid
+    private RateType rateType;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal net;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal discount;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal discountPCT;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal sellingRate;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal hotelSellingRate;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal amount;
+    private String hotelCurrency;
+    private Boolean hotelMandatory;
+    private Integer allotment;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal commission;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal commissionVAT;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal commissionPCT;
 
 
 }

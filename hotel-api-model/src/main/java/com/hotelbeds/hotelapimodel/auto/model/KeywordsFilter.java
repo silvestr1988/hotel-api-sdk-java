@@ -46,10 +46,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class KeywordsFilter {
 
-	@JsonProperty("keyword")
-	@Valid
-	private List<Integer> keywords;
-	private Boolean allIncluded;
+    @JsonProperty("keyword")
+    @Valid
+    private List<Integer> keywords;
+    private Boolean allIncluded;
 
 
 }

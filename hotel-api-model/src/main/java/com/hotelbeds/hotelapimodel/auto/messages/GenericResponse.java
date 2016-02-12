@@ -44,11 +44,11 @@ import lombok.Data;
 @Data
 public class GenericResponse {
 
-	private String echoToken;
-	@NotNull
-	private AuditData auditData;
-	private HotelbedsError error;
-	private String lsection;
+    private String echoToken;
+    @NotNull
+    private AuditData auditData;
+    private HotelbedsError error;
+    private String lsection;
 
 
 }

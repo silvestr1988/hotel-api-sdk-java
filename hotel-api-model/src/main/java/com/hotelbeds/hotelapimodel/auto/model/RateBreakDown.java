@@ -44,8 +44,8 @@ import lombok.Data;
 @Data
 public class RateBreakDown {
 
-	private List<RateDiscount> rateDiscounts;
-	private List<RateSupplement> rateSupplements;
+    private List<RateDiscount> rateDiscounts;
+    private List<RateSupplement> rateSupplements;
 
 
 }

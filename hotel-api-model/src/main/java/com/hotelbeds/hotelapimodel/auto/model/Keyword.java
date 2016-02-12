@@ -42,9 +42,9 @@ import lombok.Data;
 @Data
 public class Keyword {
 
-	@NotNull
-	private Integer code;
-	private Integer rating;
+    @NotNull
+    private Integer code;
+    private Integer rating;
 
 
 }

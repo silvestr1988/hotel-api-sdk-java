@@ -41,9 +41,9 @@ import lombok.Data;
 @Data
 public class Promotion {
 
-	private String code;
-	private String name;
-	private String remark;
+    private String code;
+    private String name;
+    private String remark;
 
 
 }

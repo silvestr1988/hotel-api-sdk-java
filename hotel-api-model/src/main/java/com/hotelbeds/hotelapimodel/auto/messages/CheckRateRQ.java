@@ -45,14 +45,14 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class CheckRateRQ extends AbstractGenericRequest {
 
-	private Boolean upselling;
-	@NotNull
-	@Size(min = 1, max = 2147483647, message = "{javax.validation.constraints.Size.message}") 
-	@Valid
-	private List<BookingRoom> rooms;
+    private Boolean upselling;
+    @NotNull
+    @Size(min = 1, max = 2147483647, message = "{javax.validation.constraints.Size.message}")
+    @Valid
+    private List<BookingRoom> rooms;
 
 
 }

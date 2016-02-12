@@ -42,10 +42,10 @@ import lombok.Data;
 @Data
 public class ModificationPolicies {
 
-	@NotNull
-	private Boolean cancellation;
-	@NotNull
-	private Boolean modification;
+    @NotNull
+    private Boolean cancellation;
+    @NotNull
+    private Boolean modification;
 
 
 }

@@ -41,10 +41,10 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class BookingListRS extends GenericResponse {
 
-	private Bookings bookings;
+    private Bookings bookings;
 
 
 }

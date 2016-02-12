@@ -42,9 +42,9 @@ import lombok.Data;
 @Data
 public class Destination {
 
-	@NotNull
-	private String code;
-	private Integer zone;
+    @NotNull
+    private String code;
+    private Integer zone;
 
 
 }

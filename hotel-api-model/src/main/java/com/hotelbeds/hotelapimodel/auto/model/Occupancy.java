@@ -46,17 +46,17 @@ import lombok.Data;
 @Data
 public class Occupancy {
 
-	@NotNull
-	@Min(value = 1)
-	private Integer rooms;
-	@NotNull
-	@Min(value = 1)
-	private Integer adults;
-	@NotNull
-	@Min(value = 0)
-	private Integer children;
-	@Valid
-	private List<Pax> paxes;
+    @NotNull
+    @Min(value = 1)
+    private Integer rooms;
+    @NotNull
+    @Min(value = 1)
+    private Integer adults;
+    @NotNull
+    @Min(value = 0)
+    private Integer children;
+    @Valid
+    private List<Pax> paxes;
 
 
 }

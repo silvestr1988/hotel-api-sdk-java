@@ -44,15 +44,15 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class ShiftRate extends BasicRate {
 
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	private LocalDate checkIn;
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	private LocalDate checkOut;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    private LocalDate checkIn;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    private LocalDate checkOut;
 
 
 }

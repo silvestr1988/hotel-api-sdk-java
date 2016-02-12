@@ -42,9 +42,9 @@ import lombok.Data;
 @Data
 public class Review {
 
-	private BigDecimal rate;
-	private Integer reviewCount;
-	private String type;
+    private BigDecimal rate;
+    private Integer reviewCount;
+    private String type;
 
 
 }

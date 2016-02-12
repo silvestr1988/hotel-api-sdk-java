@@ -35,7 +35,6 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -207,7 +206,8 @@ public final class SimpleTypes {
         /**
          * Used for children.
          */
-        ,CH("1", 8, "C", "N", "NI", "CH");
+        ,
+        CH("1", 8, "C", "N", "NI", "CH");
         private final String paxType;
         private final int defaultAge;
         private final String paxId;
@@ -342,8 +342,9 @@ public final class SimpleTypes {
         }
 
         public static PaymentType getPaymentType(final String paymentType) {
-            if (paymentType != null && (paymentType.equals(PaymentType.AT_HOTEL.abbreviated) || paymentType.equals(PaymentType.AT_HOTEL.name())
-                || paymentType.equals(PaymentType.AT_HOTEL.rateKeyValue))) {
+            if (paymentType != null
+                && (paymentType.equals(PaymentType.AT_HOTEL.abbreviated) || paymentType.equals(PaymentType.AT_HOTEL.name()) || paymentType
+                    .equals(PaymentType.AT_HOTEL.rateKeyValue))) {
                 return PaymentType.AT_HOTEL;
             } else {
                 return PaymentType.AT_WEB;

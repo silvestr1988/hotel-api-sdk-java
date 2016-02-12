@@ -46,14 +46,14 @@ import lombok.Data;
 @Data
 public class GeoLocation {
 
-	@NotNull
-	private BigDecimal longitude;
-	@NotNull
-	private BigDecimal latitude;
-	private BigDecimal radius;
-	private UnitMeasure unit;
-	private BigDecimal secondaryLatitude;
-	private BigDecimal secondaryLongitude;
+    @NotNull
+    private BigDecimal longitude;
+    @NotNull
+    private BigDecimal latitude;
+    private BigDecimal radius;
+    private UnitMeasure unit;
+    private BigDecimal secondaryLatitude;
+    private BigDecimal secondaryLongitude;
 
 
 }

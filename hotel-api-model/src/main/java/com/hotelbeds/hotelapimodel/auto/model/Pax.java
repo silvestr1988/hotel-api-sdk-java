@@ -44,14 +44,14 @@ import lombok.Data;
 @Data
 public class Pax {
 
-	@Min(value = 1)
-	private Integer roomId;
-	@NotNull
-	private HotelbedsCustomerType type;
-	@Min(value = 0)
-	private Integer age;
-	private String name;
-	private String surname;
+    @Min(value = 1)
+    private Integer roomId;
+    @NotNull
+    private HotelbedsCustomerType type;
+    @Min(value = 0)
+    private Integer age;
+    private String name;
+    private String surname;
 
 
 }

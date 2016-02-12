@@ -47,15 +47,15 @@ import lombok.Data;
 @Data
 public class Hotels {
 
-	private List<Hotel> hotels;
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	private LocalDate checkIn;
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	private LocalDate checkOut;
-	@JsonProperty
-	private Integer total;
+    private List<Hotel> hotels;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    private LocalDate checkIn;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    private LocalDate checkOut;
+    @JsonProperty
+    private Integer total;
 
 
 }

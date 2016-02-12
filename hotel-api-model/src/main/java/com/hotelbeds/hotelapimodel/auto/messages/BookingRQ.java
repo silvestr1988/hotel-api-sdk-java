@@ -47,22 +47,22 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class BookingRQ extends AbstractGenericRequest {
 
-	@NotNull
-	@Valid
-	private Holder holder;
-	@NotNull
-	@Size(min = 1, max = 2147483647, message = "{javax.validation.constraints.Size.message}") 
-	@Valid
-	private List<BookingRoom> rooms;
-	private PaymentData paymentData;
-	@NotNull
-	@Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}") 
-	private String clientReference;
-	@Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}") 
-	private String remark;
+    @NotNull
+    @Valid
+    private Holder holder;
+    @NotNull
+    @Size(min = 1, max = 2147483647, message = "{javax.validation.constraints.Size.message}")
+    @Valid
+    private List<BookingRoom> rooms;
+    private PaymentData paymentData;
+    @NotNull
+    @Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}")
+    private String clientReference;
+    @Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}")
+    private String remark;
 
 
 }

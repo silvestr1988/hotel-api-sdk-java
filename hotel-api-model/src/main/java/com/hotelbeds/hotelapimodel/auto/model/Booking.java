@@ -51,26 +51,26 @@ import lombok.Data;
 @Data
 public class Booking {
 
-	private String reference;
-	private String cancellationReference;
-	private String clientReference;
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	private LocalDate creationDate;
-	private ShoppingCartStatus status;
-	private ModificationPolicies modificationPolicies;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal agCommision;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal commisionVAT;
-	private String creationUser;
-	private Holder holder;
-	private Hotel hotel;
-	private String remark;
-	private BigDecimal totalSellingRate;
-	private BigDecimal totalNet;
-	private BigDecimal pendingAmount;
-	private String currency;
+    private String reference;
+    private String cancellationReference;
+    private String clientReference;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    private LocalDate creationDate;
+    private ShoppingCartStatus status;
+    private ModificationPolicies modificationPolicies;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal agCommision;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal commisionVAT;
+    private String creationUser;
+    private Holder holder;
+    private Hotel hotel;
+    private String remark;
+    private BigDecimal totalSellingRate;
+    private BigDecimal totalNet;
+    private BigDecimal pendingAmount;
+    private String currency;
 
 
 }

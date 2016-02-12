@@ -41,9 +41,9 @@ import lombok.Data;
 @Data
 public class Segment {
 
-	private String code;
-	private int numberOfHotels;
-	private String name;
+    private String code;
+    private int numberOfHotels;
+    private String name;
 
 
 }

@@ -50,18 +50,18 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Stay {
 
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	@NotNull
-	@FutureForLocalDate
-	private LocalDate checkIn;
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	@NotNull
-	private LocalDate checkOut;
-	@Min(value = 1)
-	private Integer shiftDays;
-	private Boolean allowOnlyShift;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @NotNull
+    @FutureForLocalDate
+    private LocalDate checkIn;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @NotNull
+    private LocalDate checkOut;
+    @Min(value = 1)
+    private Integer shiftDays;
+    private Boolean allowOnlyShift;
 
 
 }

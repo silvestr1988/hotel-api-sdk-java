@@ -42,9 +42,9 @@ import lombok.Data;
 @Data
 public class CreditCard {
 
-	private String code;
-	private String name;
-	private PaymentType paymentType;
+    private String code;
+    private String name;
+    private PaymentType paymentType;
 
 
 }

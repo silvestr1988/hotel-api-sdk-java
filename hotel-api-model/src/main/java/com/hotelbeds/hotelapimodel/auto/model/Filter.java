@@ -50,27 +50,27 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Filter {
 
-	@Min(value = 1)
-	private Integer maxHotels;
-	@Min(value = 1)
-	private Integer maxRooms;
-	@Min(value = 0)
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal minRate;
-	@Min(value = 0)
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal maxRate;
-	@Min(value = 1)
-	private Integer maxRatesPerRoom;
-	private Boolean packaging;
-	@Valid
-	private ShowDirectPayment paymentType;
-	@Valid
-	private HotelPackage hotelPackage;
-	@Min(value = 1)
-	private Integer minCategory;
-	@Min(value = 1)
-	private Integer maxCategory;
+    @Min(value = 1)
+    private Integer maxHotels;
+    @Min(value = 1)
+    private Integer maxRooms;
+    @Min(value = 0)
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal minRate;
+    @Min(value = 0)
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal maxRate;
+    @Min(value = 1)
+    private Integer maxRatesPerRoom;
+    private Boolean packaging;
+    @Valid
+    private ShowDirectPayment paymentType;
+    @Valid
+    private HotelPackage hotelPackage;
+    @Min(value = 1)
+    private Integer minCategory;
+    @Min(value = 1)
+    private Integer maxCategory;
 
 
 }

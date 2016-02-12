@@ -43,10 +43,10 @@ import lombok.Data;
 @Data
 public class Rooms {
 
-	@NotNull
-	private List<String> room;
-	@NotNull
-	private Boolean included;
+    @NotNull
+    private List<String> room;
+    @NotNull
+    private Boolean included;
 
 
 }

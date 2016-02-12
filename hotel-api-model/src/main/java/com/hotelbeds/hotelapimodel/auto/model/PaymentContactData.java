@@ -43,8 +43,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PaymentContactData {
 
-	private String email;
-	private String phoneNumber;
+    private String email;
+    private String phoneNumber;
 
 
 }

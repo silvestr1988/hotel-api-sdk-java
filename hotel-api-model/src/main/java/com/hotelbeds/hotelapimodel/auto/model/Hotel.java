@@ -55,42 +55,42 @@ import lombok.Data;
 @Data
 public class Hotel {
 
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	private LocalDate checkIn;
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	private LocalDate checkOut;
-	private Integer code;
-	private String name;
-	private String categoryCode;
-	private String categoryName;
-	private String destinationCode;
-	private String destinationName;
-	private Short zoneCode;
-	private String zoneName;
-	private String latitude;
-	private String longitude;
-	private String giata;
-	private List<Keyword> keywords;
-	private List<Review> reviews;
-	private List<Room> rooms;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal minRate;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal maxRate;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal totalSellingRate;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal totalNet;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal pendingAmount;
-	private String currency;
-	private List<CreditCard> creditCards;
-	private Supplier supplier;
-	private String clientComments;
-	private BigDecimal cancellationAmount;
-	private Upselling upselling;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    private LocalDate checkIn;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    private LocalDate checkOut;
+    private Integer code;
+    private String name;
+    private String categoryCode;
+    private String categoryName;
+    private String destinationCode;
+    private String destinationName;
+    private Short zoneCode;
+    private String zoneName;
+    private String latitude;
+    private String longitude;
+    private String giata;
+    private List<Keyword> keywords;
+    private List<Review> reviews;
+    private List<Room> rooms;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal minRate;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal maxRate;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal totalSellingRate;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal totalNet;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal pendingAmount;
+    private String currency;
+    private List<CreditCard> creditCards;
+    private Supplier supplier;
+    private String clientComments;
+    private BigDecimal cancellationAmount;
+    private Upselling upselling;
 
 
 }

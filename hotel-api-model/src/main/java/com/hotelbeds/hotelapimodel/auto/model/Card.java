@@ -40,11 +40,11 @@ import lombok.Data;
 @Data
 public class Card {
 
-	@NotNull
-	@Size(min = 1, max = 10, message = "{javax.validation.constraints.Size.message}") 
-	private String type;
-	@Size(min = 0, max = 25, message = "{javax.validation.constraints.Size.message}") 
-	private String content;
+    @NotNull
+    @Size(min = 1, max = 10, message = "{javax.validation.constraints.Size.message}")
+    private String type;
+    @Size(min = 0, max = 25, message = "{javax.validation.constraints.Size.message}")
+    private String content;
 
 
 }

@@ -44,10 +44,10 @@ import lombok.Data;
 @Data
 public class Offer {
 
-	private String code;
-	private String name;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal amount;
+    private String code;
+    private String name;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal amount;
 
 
 }

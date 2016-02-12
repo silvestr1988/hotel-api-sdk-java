@@ -44,10 +44,10 @@ import lombok.Data;
 @Data
 public class Bookings {
 
-	private List<Booking> bookings;
-	private Integer from;
-	private Integer to;
-	private BigDecimal total;
+    private List<Booking> bookings;
+    private Integer from;
+    private Integer to;
+    private BigDecimal total;
 
 
 }

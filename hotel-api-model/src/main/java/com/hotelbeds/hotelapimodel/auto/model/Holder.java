@@ -43,12 +43,12 @@ import lombok.Data;
 @Data
 public class Holder {
 
-	@Size(min = 1, max = 50, message = "{javax.validation.constraints.Size.message}") 
-	@NotNull
-	private String name;
-	@Size(min = 1, max = 50, message = "{javax.validation.constraints.Size.message}") 
-	@NotNull
-	private String surname;
+    @Size(min = 1, max = 50, message = "{javax.validation.constraints.Size.message}")
+    @NotNull
+    private String name;
+    @Size(min = 1, max = 50, message = "{javax.validation.constraints.Size.message}")
+    @NotNull
+    private String surname;
 
 
 }

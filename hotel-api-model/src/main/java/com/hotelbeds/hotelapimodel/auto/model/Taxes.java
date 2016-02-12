@@ -40,8 +40,8 @@ import lombok.Data;
 @Data
 public class Taxes {
 
-	private List<Tax> taxes;
-	private Boolean allIncluded;
+    private List<Tax> taxes;
+    private Boolean allIncluded;
 
 
 }

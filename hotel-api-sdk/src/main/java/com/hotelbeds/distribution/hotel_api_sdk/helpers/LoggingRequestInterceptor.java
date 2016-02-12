@@ -199,8 +199,8 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
 
     }
 
-    private void doLogging(final String message, final String body, final boolean isJson)
-        throws JsonParseException, JsonMappingException, IOException, UnsupportedEncodingException {
+    private void doLogging(final String message, final String body, final boolean isJson) throws JsonParseException, JsonMappingException,
+        IOException, UnsupportedEncodingException {
         if (log.isDebugEnabled()) {
             if (isJson) {
                 log.debug(message + writeJSON(body, beautify));

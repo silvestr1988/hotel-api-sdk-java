@@ -43,8 +43,8 @@ import lombok.Data;
 @Data
 public class PaymentData {
 
-	private PaymentCard paymentCard;
-	private PaymentContactData contactData;
+    private PaymentCard paymentCard;
+    private PaymentContactData contactData;
 
 
 }

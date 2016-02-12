@@ -393,8 +393,8 @@ public class HotelApiClient {
                 throw new HotelSDKException(new HotelbedsError(e.getClass().getName(), e.getMessage()), e);
             }
         } else {
-            throw new HotelSDKException(
-                new HotelbedsError("HotelAPIClient not initialised", "You have to call init() first, to be able to use this object."));
+            throw new HotelSDKException(new HotelbedsError("HotelAPIClient not initialised",
+                "You have to call init() first, to be able to use this object."));
         }
     }
 

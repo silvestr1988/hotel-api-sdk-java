@@ -48,23 +48,23 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class BookingChangeRQ extends AbstractGenericRequest {
 
-	@NotNull
-	private String bookingId;
-	@Valid
-	@NotNull
-	private ChangeMode mode;
-	private String boardCode;
-	@Valid
-	@ValidStay(maxDaysRange = 30)
-	private Stay stay;
-	@Valid
-	private List<Pax> paxes;
-	@Valid
-	@Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}") 
-	private String clientReference;
+    @NotNull
+    private String bookingId;
+    @Valid
+    @NotNull
+    private ChangeMode mode;
+    private String boardCode;
+    @Valid
+    @ValidStay(maxDaysRange = 30)
+    private Stay stay;
+    @Valid
+    private List<Pax> paxes;
+    @Valid
+    @Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}")
+    private String clientReference;
 
 
 }

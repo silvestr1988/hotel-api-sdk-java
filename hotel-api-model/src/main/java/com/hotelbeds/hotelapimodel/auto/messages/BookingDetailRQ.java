@@ -41,11 +41,11 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class BookingDetailRQ extends AbstractGenericRequest {
 
-	@NotNull
-	private String bookingId;
+    @NotNull
+    private String bookingId;
 
 
 }

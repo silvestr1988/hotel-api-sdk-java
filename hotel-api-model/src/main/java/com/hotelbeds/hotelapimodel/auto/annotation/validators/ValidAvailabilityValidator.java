@@ -64,11 +64,8 @@ public class ValidAvailabilityValidator implements ConstraintValidator<ValidAvai
             found = found + 1;
         }
         if (found == 0 || found > 1) {
-            context
-                .buildConstraintViolationWithTemplate(
-                    "{com.hotelbeds.AvailabilityFilter."
-                        + "validOnlyUniqueFilterDestinationOrGeolocationOrHotels.message}")
-                .addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(
+                "{com.hotelbeds.AvailabilityFilter." + "validOnlyUniqueFilterDestinationOrGeolocationOrHotels.message}").addConstraintViolation();
             result = false;
             log.info("The request must have unique filter. Options: Destination, Geolocation, Hotels, destination: +"
                 + availabilityRQ.getDestination() + " , geolocation: " + availabilityRQ.getGeolocation() + " , hotelsFilter: "

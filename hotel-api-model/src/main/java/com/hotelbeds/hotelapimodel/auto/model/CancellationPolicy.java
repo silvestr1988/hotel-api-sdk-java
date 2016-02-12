@@ -44,12 +44,12 @@ import lombok.Data;
 @Data
 public class CancellationPolicy {
 
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal amount;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal hotelAmount;
-	private String hotelCurrency;
-	private String from;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal amount;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal hotelAmount;
+    private String hotelCurrency;
+    private String from;
 
 
 }

@@ -42,13 +42,13 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class BookingCancellationRQ extends AbstractGenericRequest {
 
-	@NotNull
-	private String bookingId;
-	@NotNull
-	private CancellationFlags cancellationFlag;
+    @NotNull
+    private String bookingId;
+    @NotNull
+    private CancellationFlags cancellationFlag;
 
 
 }

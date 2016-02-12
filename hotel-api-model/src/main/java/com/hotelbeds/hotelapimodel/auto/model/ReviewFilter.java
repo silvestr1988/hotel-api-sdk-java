@@ -46,15 +46,15 @@ import lombok.Data;
 @Data
 public class ReviewFilter {
 
-	@NotNull
-	private ReviewsType type;
-	@Min(value = 0)
-	@Digits(fraction = 1, integer = 1)
-	private BigDecimal minRate;
-	@Min(value = 0)
-	@Digits(fraction = 1, integer = 1)
-	private BigDecimal maxRate;
-	private Integer minReviewCount;
+    @NotNull
+    private ReviewsType type;
+    @Min(value = 0)
+    @Digits(fraction = 1, integer = 1)
+    private BigDecimal minRate;
+    @Min(value = 0)
+    @Digits(fraction = 1, integer = 1)
+    private BigDecimal maxRate;
+    private Integer minReviewCount;
 
 
 }

@@ -45,16 +45,16 @@ import lombok.Data;
 @Data
 public class Tax {
 
-	private Boolean included;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal percent;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal amount;
-	private String currency;
-	private TaxType type;
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal clientAmount;
-	private String clientCurrency;
+    private Boolean included;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal percent;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal amount;
+    private String currency;
+    private TaxType type;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal clientAmount;
+    private String clientCurrency;
 
 
 }

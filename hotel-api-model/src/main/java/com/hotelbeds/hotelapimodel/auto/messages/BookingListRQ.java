@@ -46,25 +46,25 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class BookingListRQ extends AbstractGenericRequest {
 
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	@NotNull
-	private LocalDate start;
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	@NotNull
-	private LocalDate end;
-	@NotNull
-	private Integer from;
-	@NotNull
-	private Integer to;
-	@NotNull
-	private Boolean includeCancelled;
-	@NotNull
-	private BookingListFilterType filterType;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @NotNull
+    private LocalDate start;
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @NotNull
+    private LocalDate end;
+    @NotNull
+    private Integer from;
+    @NotNull
+    private Integer to;
+    @NotNull
+    private Boolean includeCancelled;
+    @NotNull
+    private BookingListFilterType filterType;
 
 
 }

@@ -42,10 +42,10 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class SearchHotelSegmentsRS extends GenericResponse {
 
-	private List<Segment> segments;
+    private List<Segment> segments;
 
 
 }
