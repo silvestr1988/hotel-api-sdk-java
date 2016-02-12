@@ -29,14 +29,14 @@ import java.util.Map;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.springframework.http.HttpMethod;
 
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.AvailabilityRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingCancellationRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingDetailRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingListRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.CheckRateRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.GenericResponse;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.StatusRS;
+import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingListRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingRS;
+import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
+import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
+import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
 
 /**
  * Copyright (c) Hotelbeds Technology S.L.U. All rights reserved.
@@ -45,7 +45,7 @@ public enum HotelApiPaths {
 
     AVAILABILITY("${path}/${version}/hotels", HttpMethod.POST, AvailabilityRS.class),
     BOOKING_LIST(
-        "${path}/${version}/bookings?from=${from}&to=${to}&includeCancelled=${includeCancelled}&filterType=${filterType}",
+        "${path}/${version}/bookings?start=${start}&end=${end}&from=${from}&to=${to}&includeCancelled=${includeCancelled}&filterType=${filterType}",
         HttpMethod.GET,
         BookingListRS.class),
     BOOKING_DETAIL("${path}/${version}/bookings/${bookingId}", HttpMethod.GET, BookingDetailRS.class),

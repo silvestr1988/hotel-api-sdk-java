@@ -49,19 +49,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.AbstractGenericRequest;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.AvailabilityRQ;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.AvailabilityRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingCancellationRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingDetailRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingListRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingRQ;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.CheckRateRQ;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.CheckRateRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.GenericResponse;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.HotelbedsError;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.StatusRS;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
@@ -73,6 +60,19 @@ import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiPaths;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiService;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiVersion;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelSDKException;
+import com.hotelbeds.hotelapimodel.auto.messages.AbstractGenericRequest;
+import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRQ;
+import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingListRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingRQ;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingRS;
+import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ;
+import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
+import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
+import com.hotelbeds.hotelapimodel.auto.messages.HotelbedsError;
+import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -202,7 +202,7 @@ public class HotelApiClient {
         String result = providedDefault;
         String fromProperties = getValueFromProperties("Shared Secret", SHAREDSECRET_PROPERTY_NAME);
         if (fromProperties != null) {
-            result = fromProperties;
+            result = fromProperties.trim();
         }
         return result;
     }
@@ -212,7 +212,7 @@ public class HotelApiClient {
         String fromProperties = getValueFromProperties("HotelAPI version", VERSION_PROPERTY_NAME);
         if (fromProperties != null) {
             try {
-                result = HotelApiVersion.valueOf(fromProperties);
+                result = HotelApiVersion.valueOf(fromProperties.trim());
             } catch (Exception e) {
                 log.error("Incorrect value provided for HotelAPI version: {}, it has to be one of {}. Using {}", new Object[] {
                     fromProperties, HotelApiVersion.values(), providedDefault});
@@ -227,7 +227,7 @@ public class HotelApiClient {
         String fromProperties = getValueFromProperties("HotelAPI service", SERVICE_PROPERTY_NAME);
         if (fromProperties != null) {
             try {
-                result = HotelApiService.valueOf(fromProperties);
+                result = HotelApiService.valueOf(fromProperties.trim());
             } catch (Exception e) {
                 log.error("Incorrect value provided for HotelAPI service: {}, it has to be one of {}. Using {}", new Object[] {
                     fromProperties, HotelApiService.values(), providedDefault});
@@ -247,12 +247,13 @@ public class HotelApiClient {
                 log.debug("No {} loaded from properties, value not specified.", name);
             }
         } else {
+            apiKey = apiKey.trim();
             log.debug("{} loaded from system properties. {}", name, apiKey);
         }
         return apiKey;
     }
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public AvailabilityRS availability(Availability availability) throws HotelSDKException {
         AvailabilityRQ availabilityRQ = availability.toAvailabilityRQ();
@@ -260,7 +261,7 @@ public class HotelApiClient {
         return availabilityRS;
     }
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public AvailabilityRS doAvailability(final AvailabilityRQ request) throws HotelSDKException {
         final ResponseEntity<AvailabilityRS> responseEntity = callRemoteAPI(request, HotelApiPaths.AVAILABILITY);
@@ -268,20 +269,22 @@ public class HotelApiClient {
         return response;
     }
 
-
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
-    public BookingListRS list(LocalDate from, LocalDate to, boolean includeCancelled, FilterType filterType) throws HotelSDKException {
+    public BookingListRS list(LocalDate start, LocalDate end, int from, int to, boolean includeCancelled, FilterType filterType)
+        throws HotelSDKException {
         final Map<String, String> params = new HashMap<>();
-        params.put("from", from.toString());
-        params.put("to", to.toString());
+        params.put("start", start.toString());
+        params.put("end", end.toString());
+        params.put("from", Integer.toString(from));
+        params.put("to", Integer.toString(to));
         params.put("includeCancelled", Boolean.toString(includeCancelled));
         params.put("filterType", filterType.name());
         final ResponseEntity<BookingListRS> responseEntity = callRemoteAPI(params, HotelApiPaths.BOOKING_LIST);
         return responseEntity.getBody();
     }
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingDetailRS detail(String bookingId) throws HotelSDKException {
         final Map<String, String> params = new HashMap<>();
@@ -290,7 +293,7 @@ public class HotelApiClient {
         return responseEntity.getBody();
     }
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingRS confirm(Booking booking) throws HotelSDKException {
         BookingRQ bookingRQ = booking.toBookingRQ();
@@ -299,7 +302,7 @@ public class HotelApiClient {
     }
 
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingRS doBookingConfirm(BookingRQ request) throws HotelSDKException {
         final ResponseEntity<BookingRS> responseEntity = callRemoteAPI(request, HotelApiPaths.BOOKING_CONFIRM);
@@ -311,7 +314,7 @@ public class HotelApiClient {
         return cancel(bookingId, false);
     }
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingCancellationRS cancel(String bookingId, boolean isSimulation) throws HotelSDKException {
         final Map<String, String> params = new HashMap<>();
@@ -321,7 +324,7 @@ public class HotelApiClient {
         return responseEntity.getBody();
     }
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public CheckRateRS check(BookingCheck bookingCheck) throws HotelSDKException {
         CheckRateRQ bookingCheckRQ = bookingCheck.toCheckRateRQ();
@@ -330,7 +333,7 @@ public class HotelApiClient {
     }
 
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public CheckRateRS doCheckRate(CheckRateRQ request) throws HotelSDKException {
         final ResponseEntity<CheckRateRS> responseEntity = callRemoteAPI(request, HotelApiPaths.CHECK_AVAIL);
@@ -338,7 +341,7 @@ public class HotelApiClient {
         return response;
     }
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if availability failed
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public StatusRS status() throws HotelSDKException {
         final ResponseEntity<StatusRS> responseEntity = callRemoteAPI(HotelApiPaths.STATUS);
@@ -398,7 +401,7 @@ public class HotelApiClient {
     private MultiValueMap<String, String> getHeaders(HttpMethod httpMethod) {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add(API_KEY_HEADER_NAME, apiKey);
-		headers.add("User-Agent", "hotel-api-sdk-java, " + getClass().getPackage().getImplementationVersion());
+        headers.add("User-Agent", "hotel-api-sdk-java, " + getClass().getPackage().getImplementationVersion());
         // Hash the Api Key + Shared Secret + Current timestamp in seconds
         String signature = org.apache.commons.codec.digest.DigestUtils.sha256Hex(apiKey + sharedSecret + System.currentTimeMillis() / 1000);
         headers.add(SIGNATURE_HEADER_NAME, signature);

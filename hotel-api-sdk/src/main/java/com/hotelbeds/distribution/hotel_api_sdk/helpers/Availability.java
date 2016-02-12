@@ -37,26 +37,26 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.Accommodation;
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.HotelCodeType;
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.HotelbedsCustomerType;
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.ReviewsType;
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.ShowDirectPayment;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.AvailabilityRQ;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Boards;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Destination;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Filter;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.GeoLocation;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.HotelsFilter;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.KeywordsFilter;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Occupancy;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Pax;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.ReviewFilter;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Rooms;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Stay;
-import com.hotelbeds.distribution.hotel_api_model.util.UnitMeasure;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom.AvailRoomBuilder;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.Accommodation;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.HotelCodeType;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.HotelbedsCustomerType;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.ReviewsType;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.ShowDirectPayment;
+import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRQ;
+import com.hotelbeds.hotelapimodel.auto.model.Boards;
+import com.hotelbeds.hotelapimodel.auto.model.Destination;
+import com.hotelbeds.hotelapimodel.auto.model.Filter;
+import com.hotelbeds.hotelapimodel.auto.model.GeoLocation;
+import com.hotelbeds.hotelapimodel.auto.model.HotelsFilter;
+import com.hotelbeds.hotelapimodel.auto.model.KeywordsFilter;
+import com.hotelbeds.hotelapimodel.auto.model.Occupancy;
+import com.hotelbeds.hotelapimodel.auto.model.Pax;
+import com.hotelbeds.hotelapimodel.auto.model.ReviewFilter;
+import com.hotelbeds.hotelapimodel.auto.model.Rooms;
+import com.hotelbeds.hotelapimodel.auto.model.Stay;
+import com.hotelbeds.hotelapimodel.util.UnitMeasure;
 
 import lombok.Builder;
 import lombok.Data;
@@ -206,7 +206,11 @@ public class Availability {
             Occupancy occupancy = new Occupancy();
             occupancy.setAdults(room.getAdults());
             occupancy.setChildren(room.getChildren() != null ? room.getChildren() : 0);
-            occupancy.setRooms(1);
+            if (room.getCount() != null && room.getCount() > 1) {
+                occupancy.setRooms(room.getCount());
+            } else {
+                occupancy.setRooms(1);
+            }
             if (!CollectionUtils.isEmpty(room.getDetails())) {
                 occupancy.setPaxes(new ArrayList<>());
                 for (RoomDetail detail : room.getDetails()) {

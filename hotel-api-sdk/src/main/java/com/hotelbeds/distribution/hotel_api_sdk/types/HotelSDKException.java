@@ -4,7 +4,7 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
  * #%L
  * hotel-api-sdk
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,7 +23,7 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
  */
 
 
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.HotelbedsError;
+import com.hotelbeds.hotelapimodel.auto.messages.HotelbedsError;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,12 +37,11 @@ public class HotelSDKException extends Exception {
     private final HotelbedsError error;
 
     public HotelSDKException(HotelbedsError error) {
-        super();
-        this.error = error;
+        this(error, null);
     }
 
     public HotelSDKException(HotelbedsError error, Throwable throwable) {
-        super(throwable);
+        super("HotelSDKException (Error " + error.getCode() + " while performing operation", throwable);
         this.error = error;
     }
 

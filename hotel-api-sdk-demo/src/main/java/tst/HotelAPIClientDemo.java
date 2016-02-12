@@ -29,14 +29,6 @@ import java.util.Random;
 
 import org.jooq.lambda.Unchecked;
 
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.AvailabilityRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingCancellationRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingDetailRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingListRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.CheckRateRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.StatusRS;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Hotel;
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom.AvailRoomBuilder;
@@ -49,6 +41,14 @@ import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestIntercepto
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
 import com.hotelbeds.distribution.hotel_api_sdk.types.FilterType;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelSDKException;
+import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingListRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingRS;
+import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
+import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
+import com.hotelbeds.hotelapimodel.auto.model.Hotel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -263,14 +263,14 @@ public class HotelAPIClientDemo {
         if (doBookingList) {
             log.info("Requesting booking list...");
             // @formatter:off
-            BookingListRS bookingListRS = apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), true, FilterType.CREATION);
+            BookingListRS bookingListRS = apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, true, FilterType.CREATION);
             // @formatter:on
             if (bookingListRS != null) {
                 log.info("BookingListRS: {}", LoggingRequestInterceptor.writeJSON(bookingListRS, true));
             }
             if (bookingListRS != null && doBookingDetail) {
                 bookingListRS.getBookings().getBookings().stream().limit(bookingDetails).forEach(Unchecked.consumer(booking -> {
-                    BookingDetailRS bookingDetailRS = apiClient.detail(booking.getClientReference());
+                    BookingDetailRS bookingDetailRS = apiClient.detail(booking.getReference());
                     if (bookingDetailRS != null) {
                         log.info("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS, true));
                     }

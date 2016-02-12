@@ -26,12 +26,12 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.HotelbedsCustomerType;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.CheckRateRQ;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.BookingRoom;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Pax;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.ConfirmRoom.ConfirmRoomBuilder;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.HotelbedsCustomerType;
+import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ;
+import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
+import com.hotelbeds.hotelapimodel.auto.model.Pax;
 
 import lombok.Builder;
 import lombok.Singular;

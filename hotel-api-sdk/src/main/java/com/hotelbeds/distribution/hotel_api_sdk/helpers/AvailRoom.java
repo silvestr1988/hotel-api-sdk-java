@@ -37,6 +37,8 @@ import lombok.Value;
 @ToString
 public class AvailRoom {
 
+    private final Integer count;
+
     private final Integer adults;
 
     private final Integer children;
@@ -50,12 +52,12 @@ public class AvailRoom {
 
     public static class AvailRoomBuilder {
         public AvailRoomBuilder detailed(GuestType type, int age, String name, String surname) {
-			detail(new RoomDetail(type, age, name, surname, 1));
+            detail(new RoomDetail(type, age, name, surname, 1));
             return this;
         }
 
         public AvailRoomBuilder adultOf(int age) {
-			detail(new RoomDetail(GuestType.ADULT, age, null, null, 1));
+            detail(new RoomDetail(GuestType.ADULT, age, null, null, 1));
             return this;
         }
 

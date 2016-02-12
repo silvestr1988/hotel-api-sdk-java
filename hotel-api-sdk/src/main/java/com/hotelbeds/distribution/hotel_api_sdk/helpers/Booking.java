@@ -31,16 +31,16 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.hotelbeds.distribution.hotel_api_model.auto.common.SimpleTypes.HotelbedsCustomerType;
-import com.hotelbeds.distribution.hotel_api_model.auto.messages.BookingRQ;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.BookingRoom;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Holder;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.Pax;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.PaymentCard;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.PaymentContactData;
-import com.hotelbeds.distribution.hotel_api_model.auto.model.PaymentData;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.ConfirmRoom.ConfirmRoomBuilder;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.HotelbedsCustomerType;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingRQ;
+import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
+import com.hotelbeds.hotelapimodel.auto.model.Holder;
+import com.hotelbeds.hotelapimodel.auto.model.Pax;
+import com.hotelbeds.hotelapimodel.auto.model.PaymentCard;
+import com.hotelbeds.hotelapimodel.auto.model.PaymentContactData;
+import com.hotelbeds.hotelapimodel.auto.model.PaymentData;
 
 import lombok.Builder;
 import lombok.Singular;
@@ -110,7 +110,7 @@ public class Booking {
                 pax.setAge(detail.getAge());
                 pax.setName(detail.getName());
                 pax.setSurname(detail.getSurname());
-				pax.setRoomId(detail.getRoomId());
+                pax.setRoomId(detail.getRoomId());
                 bookingRoom.getPaxes().add(pax);
             }
             bookingRQ.getRooms().add(bookingRoom);
