@@ -199,8 +199,8 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
 
     }
 
-    private void doLogging(final String message, final String body, final boolean isJson) throws JsonParseException, JsonMappingException,
-        IOException, UnsupportedEncodingException {
+    private void doLogging(final String message, final String body, final boolean isJson)
+        throws JsonParseException, JsonMappingException, IOException, UnsupportedEncodingException {
         if (log.isDebugEnabled()) {
             if (isJson) {
                 log.debug(message + writeJSON(body, beautify));
@@ -218,6 +218,13 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
      * * * * * * * * * * * * * * * WRITE * * * * * * * * * * * * * * * *
      ***********************************************************************/
 
+    /**
+     * A helper method to print the request sent as the XML message that would be sent to the API
+     * 
+     * @param request
+     * @param pretty
+     * @return
+     */
     public static String writeXML(final Object request, final boolean pretty) {
         String result = null;
         try {
