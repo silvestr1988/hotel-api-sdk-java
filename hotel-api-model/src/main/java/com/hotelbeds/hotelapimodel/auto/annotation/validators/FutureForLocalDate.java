@@ -24,12 +24,12 @@ import javax.validation.Payload;
  * The annotated element must be a date in the future.
  * Now is defined as the current time according to the virtual machine
  * The calendar used if the compared type is of type <code>Calendar</code> is the calendar based on the current timezone and the current locale.
- * <p/>
+ * <p>
  * Supported types are:
  * <ul>
  * <li><code>java.util.LocalDateTime</code></li>
  * </ul>
- * <p/>
+ * <p>
  * <code>null</code> elements are considered valid.
  *
  */

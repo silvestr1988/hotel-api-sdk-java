@@ -23,7 +23,7 @@
     <url>https://github.com/hotelbeds-sdk/hotel-api-sdk-java</url>
     <connection>scm:git:https://github.com/hotelbeds-sdk/hotel-api-sdk-java.git</connection>
     <developerConnection>scm:git:https://github.com/hotelbeds-sdk/hotel-api-sdk-java.git</developerConnection>
-    <tag>hotel-api-sdk-java-0.3</tag>
+    <tag>hotel-api-sdk-java-${project.version}</tag>
   </scm>
   <organization>
     <name>HOTELBEDS, S.L.U.</name>
@@ -138,5 +138,7 @@
     <java-version>1.8</java-version>
     <license.organizationName>HOTELBEDS TECHNOLOGY, S.L.U.</license.organizationName>
     <license.inceptionYear>2015</license.inceptionYear>
+    <!-- Default property where one can find the GitHub pages version of the repository (gh-pages branch) -->
+    <apidocs.project.location>../hotel-api-sdk-java-pages</apidocs.project.location>
   </properties>
 </project>
