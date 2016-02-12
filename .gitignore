@@ -8,3 +8,4 @@ hotel-api-sdk-demo/target/
 /.settings/**
 /.project
 release.properties
+build-tools/target/
