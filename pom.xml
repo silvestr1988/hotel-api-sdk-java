@@ -151,6 +151,7 @@
             <links>
               <link>http://hotelbeds-sdk.github.io/hotel-api-sdk-java/${project.artifactId}/${project.version}/apidocs/</link>
             </links>
+            <sourcepath>target/generated-sources/delombok</sourcepath>
           </configuration>
           <executions>
             <execution>
@@ -172,6 +173,28 @@
               <goals>
                 <goal>sign</goal>
               </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok-maven-plugin</artifactId>
+          <version>1.16.6.1</version>
+          <executions>
+            <execution>
+              <id>delombok</id>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>delombok</goal>
+              </goals>
+              <configuration>
+                <addOutputDirectory>false</addOutputDirectory>
+                <sourceDirectory>src/main/java</sourceDirectory>
+                <formatPreferences>
+                  <javaLangAsFQN>skip</javaLangAsFQN>
+                </formatPreferences>
+                <verbose>true</verbose>
+              </configuration>
             </execution>
           </executions>
         </plugin>
