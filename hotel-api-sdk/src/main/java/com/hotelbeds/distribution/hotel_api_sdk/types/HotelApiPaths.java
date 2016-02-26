@@ -22,12 +22,10 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
  * #L%
  */
 
-
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.text.StrSubstitutor;
-import org.springframework.http.HttpMethod;
 
 import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
@@ -43,24 +41,24 @@ import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
  */
 public enum HotelApiPaths {
 
-    AVAILABILITY("${path}/${version}/hotels", HttpMethod.POST, AvailabilityRS.class),
+    AVAILABILITY("${path}/${version}/hotels", AllowedMethod.POST, AvailabilityRS.class),
     BOOKING_LIST(
         "${path}/${version}/bookings?start=${start}&end=${end}&from=${from}&to=${to}&includeCancelled=${includeCancelled}&filterType=${filterType}",
-        HttpMethod.GET,
+        AllowedMethod.GET,
         BookingListRS.class),
-    BOOKING_DETAIL("${path}/${version}/bookings/${bookingId}", HttpMethod.GET, BookingDetailRS.class),
-    BOOKING_CONFIRM("${path}/${version}/bookings", HttpMethod.POST, BookingRS.class),
-    BOOKING_CANCEL("${path}/${version}/bookings/${bookingId}?cancellationFlag=${flag}", HttpMethod.DELETE, BookingCancellationRS.class),
-    CHECK_AVAIL("${path}/${version}/checkrates", HttpMethod.POST, CheckRateRS.class),
-    STATUS("${path}/${version}/status", HttpMethod.GET, StatusRS.class), ;
+    BOOKING_DETAIL("${path}/${version}/bookings/${bookingId}", AllowedMethod.GET, BookingDetailRS.class),
+    BOOKING_CONFIRM("${path}/${version}/bookings", AllowedMethod.POST, BookingRS.class),
+    BOOKING_CANCEL("${path}/${version}/bookings/${bookingId}?cancellationFlag=${flag}", AllowedMethod.DELETE, BookingCancellationRS.class),
+    CHECK_AVAIL("${path}/${version}/checkrates", AllowedMethod.POST, CheckRateRS.class),
+    STATUS("${path}/${version}/status", AllowedMethod.GET, StatusRS.class), ;
 
     private final String urlTemplate;
-    private final HttpMethod httpMethod;
+    private final AllowedMethod allowedMethod;
     private final Class<? extends GenericResponse> responseClass;
 
-    HotelApiPaths(final String urlTemplate, final HttpMethod httpMethod, Class<? extends GenericResponse> responseClass) {
+    HotelApiPaths(final String urlTemplate, final AllowedMethod allowedMethod, Class<? extends GenericResponse> responseClass) {
         this.urlTemplate = urlTemplate;
-        this.httpMethod = httpMethod;
+        this.allowedMethod = allowedMethod;
         this.responseClass = responseClass;
     }
 
@@ -86,7 +84,7 @@ public enum HotelApiPaths {
         return strSubstitutor.replace(urlTemplate);
     }
 
-    public HttpMethod getHttpMethod() {
-        return httpMethod;
+    public AllowedMethod getAllowedMethod() {
+        return allowedMethod;
     }
 }

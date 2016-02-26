@@ -22,7 +22,6 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +57,6 @@ public class Booking {
     @NotNull
     @Size(min = 1, max = 20)
     private String clientReference;
-
 
     @Size(max = 2000)
     private String remark;
