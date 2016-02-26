@@ -95,7 +95,7 @@ public class HotelAPIClientDemo {
             LocalDate checkOut = LocalDate.now().plusDays(numDaysOffset + numDaysStay);
             log.info("Requesting availability from {} to {} for {} adults and {} children", new Object[] {
                 checkIn, checkOut, numAdults, numChildren});
-      // @formatter:off
+            // @formatter:off
             AvailabilityRS availabilityRS =
                 apiClient.availability(
                     Availability.builder()
@@ -197,7 +197,7 @@ public class HotelAPIClientDemo {
                             log.error("Error waiting. Wot? ", e);
                         }
                         log.info("Checking reservation with rate {}", rateKey);
-            // @formatter:off
+                        // @formatter:off
                         CheckRateRS bookingRS =
                             apiClient.check(BookingCheck.builder()
                                 .addRoom(rateKey, confirmRoom)
@@ -225,7 +225,7 @@ public class HotelAPIClientDemo {
                             log.error("Interrupted while waiting to confirm", e);
                         }
                         log.info("Confirming reservation with rate {}", rateKey);
-            // @formatter:off
+                        // @formatter:off
                         BookingRS bookingRS =
                             apiClient.confirm(Booking.builder().withHolder("Rosetta", "Pruebas").clientReference("SDK Test").remark("***SDK***TESTING")
                                 .addRoom(rateKey, confirmRoom)
@@ -261,7 +261,7 @@ public class HotelAPIClientDemo {
         //
         if (doBookingList) {
             log.info("Requesting booking list...");
-      // @formatter:off
+            // @formatter:off
       BookingListRS bookingListRS = apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, true, FilterType.CREATION);
       // @formatter:on
             if (bookingListRS != null) {

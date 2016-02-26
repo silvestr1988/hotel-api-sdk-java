@@ -25,6 +25,8 @@ package com.hotelbeds.distribution.hotel_api_sdk;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
@@ -58,6 +61,7 @@ import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
 import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
 import com.hotelbeds.hotelapimodel.auto.messages.HotelbedsError;
 import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
+import com.hotelbeds.hotelapimodel.util.Shortcuts;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +71,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
 
 /**
  * Copyright (c) Hotelbeds Technology S.L.U. All rights reserved.
@@ -75,11 +81,15 @@ import okhttp3.ResponseBody;
 @Data
 public class HotelApiClient {
 
+    public static final String APPLICATION_JSON_HEADER = "application/json";
     public static final String APIKEY_PROPERTY_NAME = "hotelapi.apikey";
     public static final String SHAREDSECRET_PROPERTY_NAME = "hotelapi.sharedsecret";
     public static final String VERSION_PROPERTY_NAME = "hotelapi.version";
     public static final String SERVICE_PROPERTY_NAME = "hotelapi.service";
     public static final String HOTELAPI_PROPERTIES_FILE_NAME = "hotelapi.properties";
+    public static final String CONTENT_TYPE_HEADER = "Content-Type";
+    public static final String CONTENT_LENGTH_HEADER = "Content-Length";
+    public static final String CONTENT_ENCODING_HEADER = "Content-Encoding";
     public static final String DEFAULT_LANGUAGE = "ENG";
     private static final int REST_TEMPLATE_READ_TIME_OUT = 5000;
 
@@ -98,6 +108,7 @@ public class HotelApiClient {
     private int readTimeout = REST_TEMPLATE_READ_TIME_OUT;
     private int connectTimeout = REST_TEMPLATE_READ_TIME_OUT;
     private int connectionRequestTimeout = REST_TEMPLATE_READ_TIME_OUT;
+    private ObjectMapper mapper = new ObjectMapper();
 
     public HotelApiClient() {
         this((String) null, null);
@@ -331,29 +342,25 @@ public class HotelApiClient {
         return (StatusRS) callRemoteAPI(HotelApiPaths.STATUS);
     }
 
-    private GenericResponse callRemoteAPI(HotelApiPaths path) throws HotelSDKException {
+    private Object callRemoteAPI(HotelApiPaths path) throws HotelSDKException {
         return callRemoteAPI(null, null, path);
     }
 
-    private GenericResponse callRemoteAPI(final Map<String, String> params, HotelApiPaths path) throws HotelSDKException {
+    private Object callRemoteAPI(final Map<String, String> params, HotelApiPaths path) throws HotelSDKException {
         return callRemoteAPI(null, params, path);
     }
 
-    private GenericResponse callRemoteAPI(final AbstractGenericRequest request, HotelApiPaths path) throws HotelSDKException {
+    private Object callRemoteAPI(final AbstractGenericRequest request, HotelApiPaths path) throws HotelSDKException {
         return callRemoteAPI(request, null, path);
     }
 
-    private GenericResponse callRemoteAPI(final AbstractGenericRequest abstractGenericRequest, final Map<String, String> params, HotelApiPaths path)
+    private Object callRemoteAPI(final AbstractGenericRequest abstractGenericRequest, final Map<String, String> params, HotelApiPaths path)
         throws HotelSDKException {
         if (isInitialised()) {
             final AllowedMethod allowedMethod = path.getAllowedMethod();
             final String url = path.getUrl(basePath, version, params);
             try {
-                // @formatter:off
-        Request.Builder requestBuilder = new Request.Builder()
-            .headers(getHeaders(allowedMethod))
-            .url(url);
-        // @formatter:on
+                Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod)).url(url);
                 switch (allowedMethod) {
                     case DELETE:
                         requestBuilder.delete(transformToRequestBody(abstractGenericRequest));
@@ -367,11 +374,27 @@ public class HotelApiClient {
 
                 Response response = restTemplate.newCall(requestBuilder.build()).execute();
                 try (ResponseBody body = response.body()) {
-                    GenericResponse genericResponse = transformToGenericResponse(body);
-                    if (genericResponse.getError() != null) {
-                        throw new HotelSDKException(genericResponse.getError());
+                    BufferedSource source = body.source();
+                    source.request(Long.MAX_VALUE);
+                    Buffer buffer = source.buffer();
+                    Charset charset = Shortcuts.UTF8;
+                    if (body.contentType() != null) {
+                        try {
+                            charset = body.contentType().charset(Shortcuts.UTF8);
+                        } catch (UnsupportedCharsetException e) {
+                            log.error("Response body could not be decoded {}", e.getMessage());
+                        }
                     }
-                    return genericResponse;
+                    String theContent = buffer.readString(charset);
+                    if (response.headers().get(CONTENT_TYPE_HEADER).toLowerCase().startsWith(HotelApiClient.APPLICATION_JSON_HEADER)) {
+                        GenericResponse genericResponse = transformToGenericResponse(theContent, path.getResponseClass());
+                        if (genericResponse.getError() != null) {
+                            throw new HotelSDKException(genericResponse.getError());
+                        }
+                        return genericResponse;
+                    } else {
+                        return theContent;
+                    }
                 }
             } catch (HotelSDKException e) {
                 throw e;
@@ -390,9 +413,13 @@ public class HotelApiClient {
         }
     }
 
-    private GenericResponse transformToGenericResponse(ResponseBody body) {
-        // TODO Auto-generated method stub
-        return null;
+    private GenericResponse transformToGenericResponse(String content, Class<? extends GenericResponse> responseClass) throws HotelSDKException {
+        try {
+            return mapper.readValue(content, responseClass);
+        } catch (IOException e) {
+            log.error("Error parsing JSON response: ", e);
+            throw new HotelSDKException(new HotelbedsError("Error parsing JSON response", e.getMessage()));
+        }
     }
 
     private RequestBody transformToRequestBody(AbstractGenericRequest request) {
@@ -409,33 +436,15 @@ public class HotelApiClient {
         switch (httpMethod) {
             case GET:
             case DELETE:
-                headersBuilder.add("Accept", "application/json");
+                headersBuilder.add("Accept", APPLICATION_JSON_HEADER);
                 break;
             case POST:
                 // case PUT:
-                headersBuilder.add("Content-Type", "application/json");
+                headersBuilder.add("Content-Type", APPLICATION_JSON_HEADER);
                 break;
             default:
                 break;
         }
         return headersBuilder.build();
     }
-
-    // private RestTemplate getRestTemplate()
-    // {
-    // final LoggingRequestInterceptor loggingRequestInterceptor = new LoggingRequestInterceptor();
-    // final List<ClientHttpRequestInterceptor> arrayClientHttpRequestInterceptor = new ArrayList<ClientHttpRequestInterceptor>();
-    // arrayClientHttpRequestInterceptor.add(loggingRequestInterceptor);
-    // HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-    // factory.setReadTimeout(readTimeout);
-    // factory.setConnectTimeout(connectTimeout);
-    // factory.setConnectionRequestTimeout(connectionRequestTimeout);
-    // final RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(factory));
-    // restTemplate.setInterceptors(arrayClientHttpRequestInterceptor);
-    // restTemplate.setRequestFactory(new InterceptingClientHttpRequestFactory(restTemplate.getRequestFactory(), arrayClientHttpRequestInterceptor));
-    // restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-    // restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-    // restTemplate.setErrorHandler(new RestTemplateSpecificErrorHandler());
-    // return restTemplate;
-    // }
 }

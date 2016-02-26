@@ -32,6 +32,7 @@ import java.util.function.Supplier;
 import org.jooq.lambda.Unchecked;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
 import com.hotelbeds.hotelapimodel.auto.util.ObjectJoiner;
 import com.hotelbeds.hotelapimodel.util.Shortcuts;
 
@@ -58,13 +59,9 @@ import okio.BufferedSource;
  * INFO logs just the most basic information about the request and response. DEBUG adds headers information TRACE shows the request, if present, and
  * response bodies, beautifying them as JSON objects if they match.
  *
- * Inspired by: https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/src/main/java/okhttp3/logging/LoggingRequestInterceptor.java
+ * Inspired by: https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/src/main/java/okhttp3/logging/HttpLoggingInterceptor.java
  */
 public final class LoggingRequestInterceptor implements Interceptor {
-
-    private static final String CONTENT_ENCODING_HEADER = "Content-Encoding";
-    private static final String CONTENT_LENGTH_HEADER = "Content-Length";
-    private static final String CONTENT_TYPE_HEADER = "Content-Type";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -76,9 +73,8 @@ public final class LoggingRequestInterceptor implements Interceptor {
             final boolean hasRequestBody = requestBody != null;
             final Connection connection = chain.connection();
             final Protocol protocol = connection != null ? connection.protocol() : Protocol.HTTP_1_1;
-            final StringBuilder requestInformation = new StringBuilder("REQUEST: ");
-            final MediaType requestBodyContentType = requestBody.contentType();
-            requestInformation.append(ObjectJoiner.join(" ", request.method(), request.url(), protocol));
+            final StringBuilder requestInformation = new StringBuilder("Request: ");
+            requestInformation.append(ObjectJoiner.join(" ", protocol.toString().toUpperCase(), request.method(), request.url()));
             long requestBodySize = -1;
             if (hasRequestBody) {
                 requestBodySize = requestBody.contentLength();
@@ -91,16 +87,17 @@ public final class LoggingRequestInterceptor implements Interceptor {
             if (log.isDebugEnabled()) {
                 // If the request has a body, sometimes these headers are not present, so let's make them explicit
                 if (hasRequestBody) {
-                    if (requestBodyContentType != null) {
-                        logHeader(CONTENT_TYPE_HEADER, requestBodyContentType.toString());
+                    if (requestBody.contentType() != null) {
+                        logHeader(HotelApiClient.CONTENT_TYPE_HEADER, requestBody.contentType().toString());
                     }
                     if (requestBodySize != -1) {
-                        logHeader(CONTENT_LENGTH_HEADER, Long.toString(requestBodySize));
+                        logHeader(HotelApiClient.CONTENT_LENGTH_HEADER, Long.toString(requestBodySize));
                     }
                 }
                 // Log the other headers
                 for (String header : request.headers().names()) {
-                    if (!CONTENT_TYPE_HEADER.equalsIgnoreCase(header) && !CONTENT_LENGTH_HEADER.equalsIgnoreCase(header)) {
+                    if (!HotelApiClient.CONTENT_TYPE_HEADER.equalsIgnoreCase(header)
+                        && !HotelApiClient.CONTENT_LENGTH_HEADER.equalsIgnoreCase(header)) {
                         for (String value : request.headers().values(header)) {
                             logHeader(header, value);
                         }
@@ -112,7 +109,7 @@ public final class LoggingRequestInterceptor implements Interceptor {
                         requestBody.writeTo(buffer);
                         return buffer;
                     });
-                    logBody(requestBufferSupplier, requestBodyContentType, request.headers());
+                    logBody(requestBufferSupplier, requestBody.contentType(), request.headers());
                 }
             }
             final long requestStart = System.nanoTime();
@@ -122,9 +119,11 @@ public final class LoggingRequestInterceptor implements Interceptor {
             final ResponseBody responseBody = response.body();
             final long contentLength = responseBody.contentLength();
 
-            log.info("-----------\nRESPONSE: {}", ObjectJoiner.join(" ", response.code(), response.message()));
-            log.info(" {}: {}", CONTENT_LENGTH_HEADER, contentLength);
-            log.info(" Request took {} ms", totalRequestTime);
+            log.info("Response: {}", ObjectJoiner.join(" ", response.code(), response.message()));
+            if (contentLength >= 0) {
+                log.info("  {}: {}", HotelApiClient.CONTENT_LENGTH_HEADER, contentLength);
+            }
+            log.info("  Request took {} ms", totalRequestTime);
 
             if (log.isDebugEnabled()) {
                 for (String header : response.headers().names()) {
@@ -137,7 +136,7 @@ public final class LoggingRequestInterceptor implements Interceptor {
                     Supplier<Buffer> responseBufferSupplier = Unchecked.supplier(() -> {
                         BufferedSource source = responseBody.source();
                         source.request(Long.MAX_VALUE);
-                        return source.buffer();
+                        return source.buffer().clone();
                     });
                     logBody(responseBufferSupplier, contentType, response.headers());
                 }
@@ -148,7 +147,7 @@ public final class LoggingRequestInterceptor implements Interceptor {
 
     private void logBody(Supplier<Buffer> bufferSupplier, MediaType contentType, Headers headers) {
         if (bodyEncoded(headers)) {
-            log.trace("  BODY: encoded, not shown");
+            log.trace("  Body: encoded, not shown");
         } else {
             Buffer buffer = bufferSupplier.get();
             Charset charset = Shortcuts.UTF8;
@@ -156,20 +155,24 @@ public final class LoggingRequestInterceptor implements Interceptor {
                 try {
                     charset = contentType.charset(Shortcuts.UTF8);
                 } catch (UnsupportedCharsetException e) {
-                    log.error("  BODY: Could not be decoded {}", e.getMessage());
+                    log.error("  Body: Could not be decoded {}", e.getMessage());
                 }
             }
-            log.trace("  BODY:");
-            log.trace("{}", writeJSON(buffer.readString(charset)));
+            String body = buffer.readString(charset);
+            if (headers.get(HotelApiClient.CONTENT_TYPE_HEADER).equalsIgnoreCase(HotelApiClient.APPLICATION_JSON_HEADER)) {
+                log.trace("  Body:{}", writeJSON(body));
+            } else {
+                log.trace("  Body:{}", body);
+            }
         }
     }
 
     private void logHeader(final String headerName, final String headerValue) {
-        log.debug("  HEADER: {}: \"{}\"", headerName, headerValue);
+        log.debug("  Header: {}: \"{}\"", headerName, headerValue);
     }
 
     private boolean bodyEncoded(Headers headers) {
-        String contentEncoding = headers.get(CONTENT_ENCODING_HEADER);
+        String contentEncoding = headers.get(HotelApiClient.CONTENT_ENCODING_HEADER);
         return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
     }
 

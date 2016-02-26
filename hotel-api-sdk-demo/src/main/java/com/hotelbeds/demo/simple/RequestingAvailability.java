@@ -85,14 +85,17 @@ public class RequestingAvailability {
                 if (availabilityRS.getHotels().getTotal() > 0) {
                     for (Hotel hotel : availabilityRS.getHotels().getHotels()) {
                         log.info("-----------------------------------------");
-                        log.info("Hotel ({}-{}) - {} ({}; from {}{})", new Object[] {
-                            hotel.getDestinationCode(), hotel.getCode(), hotel.getName(), hotel.getCategoryName(), hotel.getMinRate(),
-                            hotel.getCurrency()});
+                        log.info(
+                            "Hotel ({}-{}) - {} ({}; from {}{})",
+                            new Object[] {
+                                hotel.getDestinationCode(), hotel.getCode(), hotel.getName(), hotel.getCategoryName(), hotel.getMinRate(),
+                                hotel.getCurrency()});
                         for (Room room : hotel.getRooms()) {
                             for (Rate rate : room.getRates()) {
-                                log.info("{} - {} {}{}", new Object[] {
-                                    room.getName(), rate.getBoardName(), rate.getSellingRate() != null ? rate.getSellingRate() : rate.getNet(),
-                                    hotel.getCurrency()});
+                                log.info("{} - {} {}{}",
+                                    new Object[] {
+                                        room.getName(), rate.getBoardName(), rate.getSellingRate() != null ? rate.getSellingRate() : rate.getNet(),
+                                        hotel.getCurrency()});
                             }
                         }
                     }
