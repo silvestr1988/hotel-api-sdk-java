@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidStay;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.ChangeMode;
+import com.hotelbeds.hotelapimodel.auto.model.Holder;
 import com.hotelbeds.hotelapimodel.auto.model.Pax;
 import com.hotelbeds.hotelapimodel.auto.model.Stay;
 import java.util.List;
@@ -57,6 +58,8 @@ public class BookingChangeRQ extends AbstractGenericRequest {
     @NotNull
     private ChangeMode mode;
     private String boardCode;
+    @Valid
+    private Holder holder;
     @Valid
     @ValidStay(maxDaysRange = 30)
     private Stay stay;
