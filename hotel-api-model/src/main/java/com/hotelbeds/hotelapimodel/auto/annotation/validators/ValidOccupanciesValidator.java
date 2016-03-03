@@ -55,32 +55,34 @@ public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccup
         if (value != null && !value.isEmpty()) {
             int rooms = 0;
             for (final Occupancy occupancy : value) {
-                rooms += occupancy.getRooms();
-                int childrenByPax = 0;
-                int adultsByPax = 0;
-                if (occupancy.getPaxes() != null) {
-                    for (final Pax pax : occupancy.getPaxes()) {
-                        if (HotelbedsCustomerType.CH.equals(pax.getType())) {
-                            childrenByPax++;
-                            if (pax.getAge() == null) {
-                                context.buildConstraintViolationWithTemplate("{com.hotelbeds.Occupancy.children.ages.message}")
-                                    .addConstraintViolation();
-                                result = false;
-                                log.info("The age of children is mandatory. Pax: " + pax.toString());
-                                break;
+                if (occupancy.getRooms() != null) {
+                    rooms += occupancy.getRooms();
+                    int childrenByPax = 0;
+                    int adultsByPax = 0;
+                    if (occupancy.getPaxes() != null) {
+                        for (final Pax pax : occupancy.getPaxes()) {
+                            if (HotelbedsCustomerType.CH.equals(pax.getType())) {
+                                childrenByPax++;
+                                if (pax.getAge() == null) {
+                                    context.buildConstraintViolationWithTemplate("{com.hotelbeds.Occupancy.children.ages.message}")
+                                        .addConstraintViolation();
+                                    result = false;
+                                    log.info("The age of children is mandatory. Pax: " + pax.toString());
+                                    break;
+                                }
+                            } else if (HotelbedsCustomerType.AD.equals(pax.getType())) {
+                                adultsByPax++;
                             }
-                        } else if (HotelbedsCustomerType.AD.equals(pax.getType())) {
-                            adultsByPax++;
                         }
                     }
-                }
-                result &= checkNumberOfChildrenInOccupancy(occupancy, childrenByPax, context);
-                result &= checkNumberOfAdultsInOccupancy(occupancy, adultsByPax, context);
-                if (!result) {
-                    break;
+                    result &= checkNumberOfChildrenInOccupancy(occupancy, childrenByPax, context);
+                    result &= checkNumberOfAdultsInOccupancy(occupancy, adultsByPax, context);
+                    if (!result) {
+                        break;
+                    }
                 }
             }
-            if (result && rooms > maxRooms) {
+            if (result && (rooms > maxRooms)) {
                 // [API-1329]
                 context.buildConstraintViolationWithTemplate("{com.hotelbeds.Occupancy.rooms.number.message}").addConstraintViolation();
                 log.info("The number of rooms must be less than or equal to " + maxRooms + " , rooms: " + rooms);

@@ -52,6 +52,7 @@ import org.springframework.web.client.RestTemplate;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
+import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingList;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RestTemplateSpecificErrorHandler;
 import com.hotelbeds.distribution.hotel_api_sdk.types.CancellationFlags;
@@ -282,6 +283,13 @@ public class HotelApiClient {
         params.put("filterType", filterType.name());
         final ResponseEntity<BookingListRS> responseEntity = callRemoteAPI(params, HotelApiPaths.BOOKING_LIST);
         return responseEntity.getBody();
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingListRS list(BookingList bookingList) throws HotelSDKException {
+        return list(bookingList.getFromDate(), bookingList.getToDate(), bookingList.getFrom(), bookingList.getTo(),
+            !bookingList.isExcludeCancelled(), bookingList.getUsingDate());
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
