@@ -200,15 +200,15 @@ public final class SimpleTypes {
         }
 
         public static SiNo getSafeValue(final String value) {
-            if (SI_CODE.equalsIgnoreCase(value)) {
+            if (SiNo.S.name().equalsIgnoreCase(value)) {
                 return SiNo.S;
             } else {
                 return SiNo.valueOf(value);
             }
         }
 
-        public static boolean getBoolean(SiNo sino) {
-            return SiNo.S.equals(sino) ? true : false;
+        public boolean toBoolean() {
+            return SiNo.S.equals(this) ? true : false;
         }
 
         public static SiNo getFromBoolean(Boolean value) {
