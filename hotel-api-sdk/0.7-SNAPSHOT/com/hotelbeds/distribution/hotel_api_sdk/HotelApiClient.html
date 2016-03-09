@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":10,"i35":10,"i36":10,"i37":10,"i38":10,"i39":10,"i40":10,"i41":10,"i42":10,"i43":10,"i44":10,"i45":10,"i46":10,"i47":10,"i48":10,"i49":10,"i50":10,"i51":10,"i52":10,"i53":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -107,10 +107,15 @@ var activeTableTab = "activeTableTab";
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang">AutoCloseable</a></dd>
+</dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">HotelApiClient</span>
-extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
+extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
+implements <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang">AutoCloseable</a></pre>
 <div class="block">Copyright (c) Hotelbeds Technology S.L.U. All rights reserved.</div>
 </li>
 </ul>
@@ -136,6 +141,22 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#APPLICATION_JSON_HEADER">APPLICATION_JSON_HEADER</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#CONTENT_ENCODING_HEADER">CONTENT_ENCODING_HEADER</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#CONTENT_LENGTH_HEADER">CONTENT_LENGTH_HEADER</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#CONTENT_TYPE_HEADER">CONTENT_TYPE_HEADER</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#DEFAULT_LANGUAGE">DEFAULT_LANGUAGE</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -143,14 +164,18 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#HOTELAPI_PROPERTIES_FILE_NAME">HOTELAPI_PROPERTIES_FILE_NAME</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#SERVICE_PROPERTY_NAME">SERVICE_PROPERTY_NAME</a></span></code>&nbsp;</td>
+<td class="colFirst"><code>static okhttp3.MediaType</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#JSON">JSON</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#SHAREDSECRET_PROPERTY_NAME">SHAREDSECRET_PROPERTY_NAME</a></span></code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#SERVICE_PROPERTY_NAME">SERVICE_PROPERTY_NAME</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#SHAREDSECRET_PROPERTY_NAME">SHAREDSECRET_PROPERTY_NAME</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#VERSION_PROPERTY_NAME">VERSION_PROPERTY_NAME</a></span></code>&nbsp;</td>
 </tr>
@@ -226,82 +251,179 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#check-com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck-">check</a></span>(<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/BookingCheck.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers">BookingCheck</a>&nbsp;bookingCheck)</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#close--">close</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>com.hotelbeds.hotelapimodel.auto.messages.BookingRS</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#confirm-com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking-">confirm</a></span>(<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/Booking.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers">Booking</a>&nbsp;booking)</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#detail-java.lang.String-">detail</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;bookingId)</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#doAvailability-com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRQ-">doAvailability</a></span>(com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRQ&nbsp;request)</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>com.hotelbeds.hotelapimodel.auto.messages.BookingRS</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#doBookingConfirm-com.hotelbeds.hotelapimodel.auto.messages.BookingRQ-">doBookingConfirm</a></span>(com.hotelbeds.hotelapimodel.auto.messages.BookingRQ&nbsp;request)</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#doCheckRate-com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ-">doCheckRate</a></span>(com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ&nbsp;request)</code>&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#equals-java.lang.Object-">equals</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Accommodation&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllAccommodations-java.lang.String-boolean-">getAllAccommodations</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                    boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Board&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllBoards-java.lang.String-boolean-">getAllBoards</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+            boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Category&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllCategories-java.lang.String-boolean-">getAllCategories</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Chain&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllChains-java.lang.String-boolean-">getAllChains</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+            boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i15" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Currency&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllCurrencies-java.lang.String-boolean-">getAllCurrencies</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i16" class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Facility&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllFacilities-java.lang.String-boolean-">getAllFacilities</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i17" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.FacilityGroup&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllFacilityGroups-java.lang.String-boolean-">getAllFacilityGroups</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                    boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i18" class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.FacilityType&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllFacilityTypes-java.lang.String-boolean-">getAllFacilityTypes</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                   boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i19" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.GroupCategory&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllGroupCategories-java.lang.String-boolean-">getAllGroupCategories</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                     boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i20" class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.ImageType&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllImageTypes-java.lang.String-boolean-">getAllImageTypes</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i21" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Issue&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllIssues-java.lang.String-boolean-">getAllIssues</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+            boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i22" class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Language&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllLanguages-java.lang.String-boolean-">getAllLanguages</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+               boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i23" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Promotion&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllPromotions-java.lang.String-boolean-">getAllPromotions</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i24" class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.RateComments&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllRateComments-java.lang.String-boolean-">getAllRateComments</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                  boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i25" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Room&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllRooms-java.lang.String-boolean-">getAllRooms</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+           boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i26" class="altColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Segment&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllSegments-java.lang.String-boolean-">getAllSegments</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+              boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i27" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Terminal&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getAllTerminals-java.lang.String-boolean-">getAllTerminals</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+               boolean&nbsp;useSecondaryLanguage)</code>&nbsp;</td>
+</tr>
+<tr id="i28" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getApiKey--">getApiKey</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
-<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getBasePath--">getBasePath</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i12" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getConnectionRequestTimeout--">getConnectionRequestTimeout</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getConnectTimeout--">getConnectTimeout</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i31" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getExecutorService--">getExecutorService</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i32" class="altColor">
+<td class="colFirst"><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiService.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiService</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getHotelApiService--">getHotelApiService</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i33" class="rowColor">
+<td class="colFirst"><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiVersion.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiVersion</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getHotelApiversion--">getHotelApiversion</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i34" class="altColor">
+<td class="colFirst"><code>com.fasterxml.jackson.databind.ObjectMapper</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getMapper--">getMapper</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i35" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getProperties--">getProperties</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i36" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getReadTimeout--">getReadTimeout</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
-<td class="colFirst"><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiService.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiService</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getService--">getService</a></span>()</code>&nbsp;</td>
+<tr id="i37" class="rowColor">
+<td class="colFirst"><code>okhttp3.OkHttpClient</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getRestTemplate--">getRestTemplate</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i38" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getSharedSecret--">getSharedSecret</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i18" class="altColor">
-<td class="colFirst"><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiVersion.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiVersion</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#getVersion--">getVersion</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i19" class="rowColor">
+<tr id="i39" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#hashCode--">hashCode</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i40" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#init--">init</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i41" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#isInitialised--">isInitialised</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i42" class="altColor">
 <td class="colFirst"><code>com.hotelbeds.hotelapimodel.auto.messages.BookingListRS</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#list-com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingList-">list</a></span>(<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/BookingList.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers">BookingList</a>&nbsp;bookingList)</code>&nbsp;</td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i43" class="rowColor">
 <td class="colFirst"><code>com.hotelbeds.hotelapimodel.auto.messages.BookingListRS</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#list-java.time.LocalDate-java.time.LocalDate-int-int-boolean-com.hotelbeds.distribution.hotel_api_sdk.types.FilterType-">list</a></span>(java.time.LocalDate&nbsp;start,
     java.time.LocalDate&nbsp;end,
@@ -310,35 +432,43 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
     boolean&nbsp;includeCancelled,
     <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/FilterType.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">FilterType</a>&nbsp;filterType)</code>&nbsp;</td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i44" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#setConnectionRequestTimeout-int-">setConnectionRequestTimeout</a></span>(int&nbsp;connectionRequestTimeout)</code>&nbsp;</td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i45" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#setConnectTimeout-int-">setConnectTimeout</a></span>(int&nbsp;connectTimeout)</code>&nbsp;</td>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i46" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#setExecutorService-java.util.concurrent.ExecutorService-">setExecutorService</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;executorService)</code>&nbsp;</td>
+</tr>
+<tr id="i47" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#setInitialised-boolean-">setInitialised</a></span>(boolean&nbsp;initialised)</code>&nbsp;</td>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i48" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#setMapper-com.fasterxml.jackson.databind.ObjectMapper-">setMapper</a></span>(com.fasterxml.jackson.databind.ObjectMapper&nbsp;mapper)</code>&nbsp;</td>
+</tr>
+<tr id="i49" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#setProperties-java.util.Properties-">setProperties</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;properties)</code>&nbsp;</td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i50" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#setReadTimeout-int-">setReadTimeout</a></span>(int&nbsp;readTimeout)</code>&nbsp;</td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i51" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#setRestTemplate-org.springframework.web.client.RestTemplate-">setRestTemplate</a></span>(org.springframework.web.client.RestTemplate&nbsp;restTemplate)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#setRestTemplate-okhttp3.OkHttpClient-">setRestTemplate</a></span>(okhttp3.OkHttpClient&nbsp;restTemplate)</code>&nbsp;</td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i52" class="altColor">
 <td class="colFirst"><code>com.hotelbeds.hotelapimodel.auto.messages.StatusRS</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#status--">status</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i53" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/HotelApiClient.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -364,6 +494,28 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <!--   -->
 </a>
 <h3>Field Detail</h3>
+<a name="JSON">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>JSON</h4>
+<pre>public static final&nbsp;okhttp3.MediaType JSON</pre>
+</li>
+</ul>
+<a name="APPLICATION_JSON_HEADER">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>APPLICATION_JSON_HEADER</h4>
+<pre>public static final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> APPLICATION_JSON_HEADER</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient.APPLICATION_JSON_HEADER">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
 <a name="APIKEY_PROPERTY_NAME">
 <!--   -->
 </a>
@@ -426,6 +578,45 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient.HOTELAPI_PROPERTIES_FILE_NAME">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="CONTENT_TYPE_HEADER">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CONTENT_TYPE_HEADER</h4>
+<pre>public static final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> CONTENT_TYPE_HEADER</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient.CONTENT_TYPE_HEADER">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="CONTENT_LENGTH_HEADER">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CONTENT_LENGTH_HEADER</h4>
+<pre>public static final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> CONTENT_LENGTH_HEADER</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient.CONTENT_LENGTH_HEADER">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="CONTENT_ENCODING_HEADER">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CONTENT_ENCODING_HEADER</h4>
+<pre>public static final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> CONTENT_ENCODING_HEADER</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient.CONTENT_ENCODING_HEADER">Constant Field Values</a></dd>
 </dl>
 </li>
 </ul>
@@ -562,10 +753,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>availability</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS&nbsp;availability(<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/Availability.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers">Availability</a>&nbsp;availability)
-                                                                      throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                                      throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -576,10 +767,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>doAvailability</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS&nbsp;doAvailability(com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRQ&nbsp;request)
-                                                                        throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                                        throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -595,10 +786,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
                                                                     int&nbsp;to,
                                                                     boolean&nbsp;includeCancelled,
                                                                     <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/FilterType.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">FilterType</a>&nbsp;filterType)
-                                                             throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                             throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -609,10 +800,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>list</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.BookingListRS&nbsp;list(<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/BookingList.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers">BookingList</a>&nbsp;bookingList)
-                                                             throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                             throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -623,10 +814,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>detail</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS&nbsp;detail(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;bookingId)
-                                                                 throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                                 throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -637,10 +828,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>confirm</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.BookingRS&nbsp;confirm(<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/Booking.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers">Booking</a>&nbsp;booking)
-                                                            throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                            throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -651,10 +842,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>doBookingConfirm</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.BookingRS&nbsp;doBookingConfirm(com.hotelbeds.hotelapimodel.auto.messages.BookingRQ&nbsp;request)
-                                                                     throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                                     throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -665,10 +856,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>cancel</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS&nbsp;cancel(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;bookingId)
-                                                                       throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                                       throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -680,10 +871,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <h4>cancel</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS&nbsp;cancel(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;bookingId,
                                                                               boolean&nbsp;isSimulation)
-                                                                       throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                                       throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -694,10 +885,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>check</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS&nbsp;check(<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/BookingCheck.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers">BookingCheck</a>&nbsp;bookingCheck)
-                                                            throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                            throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -708,10 +899,10 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>doCheckRate</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS&nbsp;doCheckRate(com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ&nbsp;request)
-                                                                  throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                                  throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -722,10 +913,278 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?
 <li class="blockList">
 <h4>status</h4>
 <pre>public&nbsp;com.hotelbeds.hotelapimodel.auto.messages.StatusRS&nbsp;status()
-                                                          throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></pre>
+                                                          throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelSDKException</a></code></dd>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllBoards-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllBoards</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Board&gt;&nbsp;getAllBoards(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                            boolean&nbsp;useSecondaryLanguage)
+                                                                     throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllChains-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllChains</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Chain&gt;&nbsp;getAllChains(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                            boolean&nbsp;useSecondaryLanguage)
+                                                                     throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllAccommodations-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllAccommodations</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Accommodation&gt;&nbsp;getAllAccommodations(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                            boolean&nbsp;useSecondaryLanguage)
+                                                                                     throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllCategories-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllCategories</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Category&gt;&nbsp;getAllCategories(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                   boolean&nbsp;useSecondaryLanguage)
+                                                                            throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllRateComments-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllRateComments</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.RateComments&gt;&nbsp;getAllRateComments(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                         boolean&nbsp;useSecondaryLanguage)
+                                                                                  throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllCurrencies-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllCurrencies</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Currency&gt;&nbsp;getAllCurrencies(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                   boolean&nbsp;useSecondaryLanguage)
+                                                                            throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllFacilities-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllFacilities</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Facility&gt;&nbsp;getAllFacilities(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                   boolean&nbsp;useSecondaryLanguage)
+                                                                            throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllFacilityGroups-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllFacilityGroups</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.FacilityGroup&gt;&nbsp;getAllFacilityGroups(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                            boolean&nbsp;useSecondaryLanguage)
+                                                                                     throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllFacilityTypes-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllFacilityTypes</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.FacilityType&gt;&nbsp;getAllFacilityTypes(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                          boolean&nbsp;useSecondaryLanguage)
+                                                                                   throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllIssues-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllIssues</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Issue&gt;&nbsp;getAllIssues(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                            boolean&nbsp;useSecondaryLanguage)
+                                                                     throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllLanguages-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllLanguages</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Language&gt;&nbsp;getAllLanguages(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                  boolean&nbsp;useSecondaryLanguage)
+                                                                           throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllPromotions-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllPromotions</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Promotion&gt;&nbsp;getAllPromotions(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                    boolean&nbsp;useSecondaryLanguage)
+                                                                             throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllRooms-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllRooms</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Room&gt;&nbsp;getAllRooms(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                          boolean&nbsp;useSecondaryLanguage)
+                                                                   throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllSegments-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllSegments</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Segment&gt;&nbsp;getAllSegments(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                boolean&nbsp;useSecondaryLanguage)
+                                                                         throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllTerminals-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllTerminals</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.Terminal&gt;&nbsp;getAllTerminals(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                  boolean&nbsp;useSecondaryLanguage)
+                                                                           throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllImageTypes-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllImageTypes</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.ImageType&gt;&nbsp;getAllImageTypes(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                    boolean&nbsp;useSecondaryLanguage)
+                                                                             throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getAllGroupCategories-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAllGroupCategories</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.GroupCategory&gt;&nbsp;getAllGroupCategories(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;language,
+                                                                                             boolean&nbsp;useSecondaryLanguage)
+                                                                                      throws <a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiSDKException.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiSDKException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="close--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>close</h4>
+<pre>public&nbsp;void&nbsp;close()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/AutoCloseable.html?is-external=true#close--" title="class or interface in java.lang">close</a></code>&nbsp;in interface&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang">AutoCloseable</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -749,34 +1208,24 @@ public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.h
 public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getSharedSecret()</pre>
 </li>
 </ul>
-<a name="getVersion--">
+<a name="getHotelApiversion--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getVersion</h4>
+<h4>getHotelApiversion</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
-public&nbsp;<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiVersion.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiVersion</a>&nbsp;getVersion()</pre>
+public&nbsp;<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiVersion.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiVersion</a>&nbsp;getHotelApiversion()</pre>
 </li>
 </ul>
-<a name="getService--">
+<a name="getHotelApiService--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getService</h4>
+<h4>getHotelApiService</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
-public&nbsp;<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiService.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiService</a>&nbsp;getService()</pre>
-</li>
-</ul>
-<a name="getBasePath--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getBasePath</h4>
-<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
-public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;getBasePath()</pre>
+public&nbsp;<a href="../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelApiService.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">HotelApiService</a>&nbsp;getHotelApiService()</pre>
 </li>
 </ul>
 <a name="getProperties--">
@@ -787,6 +1236,16 @@ public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.h
 <h4>getProperties</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
 public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;getProperties()</pre>
+</li>
+</ul>
+<a name="getRestTemplate--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRestTemplate</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
+public&nbsp;okhttp3.OkHttpClient&nbsp;getRestTemplate()</pre>
 </li>
 </ul>
 <a name="isInitialised--">
@@ -829,6 +1288,26 @@ public&nbsp;int&nbsp;getConnectTimeout()</pre>
 public&nbsp;int&nbsp;getConnectionRequestTimeout()</pre>
 </li>
 </ul>
+<a name="getExecutorService--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getExecutorService</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
+public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;getExecutorService()</pre>
+</li>
+</ul>
+<a name="getMapper--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMapper</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
+public&nbsp;com.fasterxml.jackson.databind.ObjectMapper&nbsp;getMapper()</pre>
+</li>
+</ul>
 <a name="setProperties-java.util.Properties-">
 <!--   -->
 </a>
@@ -839,14 +1318,14 @@ public&nbsp;int&nbsp;getConnectionRequestTimeout()</pre>
 public&nbsp;void&nbsp;setProperties(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;properties)</pre>
 </li>
 </ul>
-<a name="setRestTemplate-org.springframework.web.client.RestTemplate-">
+<a name="setRestTemplate-okhttp3.OkHttpClient-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setRestTemplate</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
-public&nbsp;void&nbsp;setRestTemplate(org.springframework.web.client.RestTemplate&nbsp;restTemplate)</pre>
+public&nbsp;void&nbsp;setRestTemplate(okhttp3.OkHttpClient&nbsp;restTemplate)</pre>
 </li>
 </ul>
 <a name="setInitialised-boolean-">
@@ -857,6 +1336,26 @@ public&nbsp;void&nbsp;setRestTemplate(org.springframework.web.client.RestTemplat
 <h4>setInitialised</h4>
 <pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
 public&nbsp;void&nbsp;setInitialised(boolean&nbsp;initialised)</pre>
+</li>
+</ul>
+<a name="setExecutorService-java.util.concurrent.ExecutorService-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setExecutorService</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
+public&nbsp;void&nbsp;setExecutorService(<a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ExecutorService.html?is-external=true" title="class or interface in java.util.concurrent">ExecutorService</a>&nbsp;executorService)</pre>
+</li>
+</ul>
+<a name="setMapper-com.fasterxml.jackson.databind.ObjectMapper-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setMapper</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
+public&nbsp;void&nbsp;setMapper(com.fasterxml.jackson.databind.ObjectMapper&nbsp;mapper)</pre>
 </li>
 </ul>
 <a name="equals-java.lang.Object-">

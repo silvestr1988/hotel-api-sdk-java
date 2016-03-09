@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":9,"i2":9,"i3":9,"i4":9};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -50,7 +50,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/ConfirmRoom.ConfirmRoomBuilder.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/RestTemplateSpecificErrorHandler.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/RoomDetail.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html" target="_top">Frames</a></li>
@@ -75,13 +75,13 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -109,36 +109,43 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd>org.springframework.http.client.ClientHttpRequestInterceptor</dd>
+<dd>okhttp3.Interceptor</dd>
 </dl>
 <hr>
 <br>
-<pre>public class <span class="typeNameLabel">LoggingRequestInterceptor</span>
+<pre>public final class <span class="typeNameLabel">LoggingRequestInterceptor</span>
 extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
-implements org.springframework.http.client.ClientHttpRequestInterceptor</pre>
+implements okhttp3.Interceptor</pre>
+<div class="block">An OkHttp interceptor that logs information about the requests and responses depending on the log level set.
+
+
+
+ INFO logs just the most basic information about the request and response. DEBUG adds headers information TRACE shows the request, if present, and
+
+ response bodies, beautifying them as JSON objects if they match.
+
+
+
+ Inspired by: https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/src/main/java/okhttp3/logging/HttpLoggingInterceptor.java</div>
 </li>
 </ul>
 </div>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
+<!-- ======== NESTED CLASS SUMMARY ======== -->
 <ul class="blockList">
-<li class="blockList"><a name="field.summary">
+<li class="blockList"><a name="nested.class.summary">
 <!--   -->
 </a>
-<h3>Field Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
-<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Field and Description</th>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#TEST_ERROR_FLAG">TEST_ERROR_FLAG</a></span></code>&nbsp;</td>
-</tr>
-</table>
+<h3>Nested Class Summary</h3>
+<ul class="blockList">
+<li class="blockList"><a name="nested.classes.inherited.from.class.okhttp3.Interceptor">
+<!--   -->
+</a>
+<h3>Nested classes/interfaces inherited from interface&nbsp;okhttp3.Interceptor</h3>
+<code>okhttp3.Interceptor.Chain</code></li>
+</ul>
 </li>
 </ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -171,32 +178,24 @@ implements org.springframework.http.client.ClientHttpRequestInterceptor</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>org.springframework.http.client.ClientHttpResponse</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#intercept-org.springframework.http.HttpRequest-byte:A-org.springframework.http.client.ClientHttpRequestExecution-">intercept</a></span>(org.springframework.http.HttpRequest&nbsp;request,
-         byte[]&nbsp;body,
-         org.springframework.http.client.ClientHttpRequestExecution&nbsp;execution)</code>&nbsp;</td>
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#equals-java.lang.Object-">equals</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#writeJSON-java.lang.Object-boolean-">writeJSON</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object,
-         boolean&nbsp;pretty)</code>&nbsp;</td>
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#hashCode--">hashCode</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#writeJSON-java.lang.String-boolean-">writeJSON</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;jsonString,
-         boolean&nbsp;pretty)</code>&nbsp;</td>
+<td class="colFirst"><code>okhttp3.Response</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#intercept-okhttp3.Interceptor.Chain-">intercept</a></span>(okhttp3.Interceptor.Chain&nbsp;chain)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#writeXML-java.lang.Object-boolean-">writeXML</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;request,
-        boolean&nbsp;pretty)</code>
-<div class="block">A helper method to print the request sent as the XML message that would be sent to the API</div>
-</td>
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#writeXML-java.lang.String-boolean-">writeXML</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;request,
-        boolean&nbsp;pretty)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html#writeJSON-java.lang.Object-">writeJSON</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -204,7 +203,7 @@ implements org.springframework.http.client.ClientHttpRequestInterceptor</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
-<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#getClass--" title="class or interface in java.lang">getClass</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#notify--" title="class or interface in java.lang">notify</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#notifyAll--" title="class or interface in java.lang">notifyAll</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#wait--" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#wait-long-" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#wait-long-int-" title="class or interface in java.lang">wait</a></code></li>
+<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#getClass--" title="class or interface in java.lang">getClass</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#notify--" title="class or interface in java.lang">notify</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#notifyAll--" title="class or interface in java.lang">notifyAll</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#wait--" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#wait-long-" title="class or interface in java.lang">wait</a>, <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#wait-long-int-" title="class or interface in java.lang">wait</a></code></li>
 </ul>
 </li>
 </ul>
@@ -214,27 +213,6 @@ implements org.springframework.http.client.ClientHttpRequestInterceptor</pre>
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
-<!-- ============ FIELD DETAIL =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.detail">
-<!--   -->
-</a>
-<h3>Field Detail</h3>
-<a name="TEST_ERROR_FLAG">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>TEST_ERROR_FLAG</h4>
-<pre>public static final&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a> TEST_ERROR_FLAG</pre>
-<dl>
-<dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../../constant-values.html#com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor.TEST_ERROR_FLAG">Constant Field Values</a></dd>
-</dl>
-</li>
-</ul>
-</li>
-</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -247,7 +225,8 @@ implements org.springframework.http.client.ClientHttpRequestInterceptor</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>LoggingRequestInterceptor</h4>
-<pre>public&nbsp;LoggingRequestInterceptor()</pre>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
+public&nbsp;LoggingRequestInterceptor()</pre>
 </li>
 </ul>
 </li>
@@ -258,82 +237,70 @@ implements org.springframework.http.client.ClientHttpRequestInterceptor</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="intercept-org.springframework.http.HttpRequest-byte:A-org.springframework.http.client.ClientHttpRequestExecution-">
+<a name="intercept-okhttp3.Interceptor.Chain-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>intercept</h4>
-<pre>public&nbsp;org.springframework.http.client.ClientHttpResponse&nbsp;intercept(org.springframework.http.HttpRequest&nbsp;request,
-                                                                    byte[]&nbsp;body,
-                                                                    org.springframework.http.client.ClientHttpRequestExecution&nbsp;execution)
-                                                             throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<pre>public&nbsp;okhttp3.Response&nbsp;intercept(okhttp3.Interceptor.Chain&nbsp;chain)
+                           throws <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>intercept</code>&nbsp;in interface&nbsp;<code>org.springframework.http.client.ClientHttpRequestInterceptor</code></dd>
+<dd><code>intercept</code>&nbsp;in interface&nbsp;<code>okhttp3.Interceptor</code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="writeXML-java.lang.Object-boolean-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>writeXML</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;writeXML(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;request,
-                              boolean&nbsp;pretty)</pre>
-<div class="block">A helper method to print the request sent as the XML message that would be sent to the API</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>request</code> - </dd>
-<dd><code>pretty</code> - </dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-</dl>
-</li>
-</ul>
-<a name="writeXML-java.lang.String-boolean-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>writeXML</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;writeXML(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;request,
-                              boolean&nbsp;pretty)
-                       throws <a href="http://docs.oracle.com/javase/7/docs/api/javax/xml/transform/TransformerException.html?is-external=true" title="class or interface in javax.xml.transform">TransformerException</a></pre>
-<dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/javax/xml/transform/TransformerException.html?is-external=true" title="class or interface in javax.xml.transform">TransformerException</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="writeJSON-java.lang.Object-boolean-">
+<a name="writeJSON-java.lang.Object-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>writeJSON</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;writeJSON(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object,
-                               boolean&nbsp;pretty)</pre>
+<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;writeJSON(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;object)</pre>
 </li>
 </ul>
-<a name="writeJSON-java.lang.String-boolean-">
+<a name="equals-java.lang.Object-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>equals</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
+public&nbsp;boolean&nbsp;equals(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>&nbsp;o)</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#equals-java.lang.Object-" title="class or interface in java.lang">equals</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="hashCode--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hashCode</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
+public&nbsp;int&nbsp;hashCode()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#hashCode--" title="class or interface in java.lang">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="toString--">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>writeJSON</h4>
-<pre>public static&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;writeJSON(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;jsonString,
-                               boolean&nbsp;pretty)
-                        throws com.fasterxml.jackson.core.JsonParseException,
-                               com.fasterxml.jackson.databind.JsonMappingException,
-                               <a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<h4>toString</h4>
+<pre><a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true" title="class or interface in javax.annotation">@Generated</a>(<a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/Generated.html?is-external=true#value--" title="class or interface in javax.annotation">value</a>="lombok")
+public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;toString()</pre>
 <dl>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>com.fasterxml.jackson.core.JsonParseException</code></dd>
-<dd><code>com.fasterxml.jackson.databind.JsonMappingException</code></dd>
-<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true#toString--" title="class or interface in java.lang">toString</a></code>&nbsp;in class&nbsp;<code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -366,7 +333,7 @@ implements org.springframework.http.client.ClientHttpRequestInterceptor</pre>
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/ConfirmRoom.ConfirmRoomBuilder.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/RestTemplateSpecificErrorHandler.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/helpers/RoomDetail.html" title="class in com.hotelbeds.distribution.hotel_api_sdk.helpers"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?com/hotelbeds/distribution/hotel_api_sdk/helpers/LoggingRequestInterceptor.html" target="_top">Frames</a></li>
@@ -391,13 +358,13 @@ implements org.springframework.http.client.ClientHttpRequestInterceptor</pre>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
