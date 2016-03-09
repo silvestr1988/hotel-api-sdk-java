@@ -27,7 +27,6 @@ package com.hotelbeds.hotelapimodel.auto.util;
  * #L%
  */
 
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -45,11 +44,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.SiNo;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.YesNo;
+import com.hotelbeds.hotelapimodel.util.Shortcuts;
 
 public final class AssignUtils {
     public static final String DEFAULT_DATE_FORMAT = "yyyyMMdd";
@@ -160,7 +159,7 @@ public final class AssignUtils {
 
     public static String getSortedString(final String separator, final List<String> stringList) {
         String result = null;
-        if (CollectionUtils.isNotEmpty(stringList)) {
+        if (Shortcuts.isNotEmpty(stringList)) {
             result = stringList.stream().sorted().collect(Collectors.joining(separator));
         }
         return result;
@@ -287,13 +286,14 @@ public final class AssignUtils {
     }
 
     /**
-     * Truncate a String to the given length with no warnings
-     * or error raised if it is bigger.
+     * Truncate a String to the given length with no warnings or error raised if it is bigger.
      *
-     * @param value String to be truncated
-     * @param length Maximum length of string
-     * @return Returns value if value is null or value.length() is less or equal to than length, otherwise a String representing
-     *         value truncated to length.
+     * @param value
+     *        String to be truncated
+     * @param length
+     *        Maximum length of string
+     * @return Returns value if value is null or value.length() is less or equal to than length, otherwise a String representing value truncated to
+     *         length.
      */
     public static String truncate(String value, int length) {
         String truncatedString = "";

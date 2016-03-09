@@ -22,7 +22,6 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
  * #L%
  */
 
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom.AvailRoomBuilder;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
@@ -56,6 +54,7 @@ import com.hotelbeds.hotelapimodel.auto.model.Pax;
 import com.hotelbeds.hotelapimodel.auto.model.ReviewFilter;
 import com.hotelbeds.hotelapimodel.auto.model.Rooms;
 import com.hotelbeds.hotelapimodel.auto.model.Stay;
+import com.hotelbeds.hotelapimodel.util.Shortcuts;
 import com.hotelbeds.hotelapimodel.util.UnitMeasure;
 
 import lombok.Builder;
@@ -211,7 +210,7 @@ public class Availability {
             } else {
                 occupancy.setRooms(1);
             }
-            if (!CollectionUtils.isEmpty(room.getDetails())) {
+            if (!Shortcuts.isEmpty(room.getDetails())) {
                 occupancy.setPaxes(new ArrayList<>());
                 for (RoomDetail detail : room.getDetails()) {
                     Pax pax = new Pax();
@@ -252,18 +251,18 @@ public class Availability {
             availabilityRQ.setDestination(dest);
         }
         //
-        if (!CollectionUtils.isEmpty(matchingKeywords)) {
+        if (!Shortcuts.isEmpty(matchingKeywords)) {
             List<Integer> keywords = new ArrayList<>();
             keywords.addAll(matchingKeywords);
             availabilityRQ.setKeywordsFilter(new KeywordsFilter(keywords, Matcher.ALL.equals(keywordsMatcher)));
         }
         //
-        if (!CollectionUtils.isEmpty(includeHotels) && !CollectionUtils.isEmpty(excludeHotels)) {
+        if (!Shortcuts.isEmpty(includeHotels) && !Shortcuts.isEmpty(excludeHotels)) {
             includeHotels.removeAll(excludeHotels);
         }
-        if (!CollectionUtils.isEmpty(includeHotels) || !CollectionUtils.isEmpty(excludeHotels)) {
+        if (!Shortcuts.isEmpty(includeHotels) || !Shortcuts.isEmpty(excludeHotels)) {
             HotelsFilter hotelsFilter = new HotelsFilter();
-            if (!CollectionUtils.isEmpty(includeHotels)) {
+            if (!Shortcuts.isEmpty(includeHotels)) {
                 hotelsFilter.setIncluded(true);
                 hotelsFilter.setHotels(includeHotels);
             } else {
@@ -274,9 +273,9 @@ public class Availability {
             availabilityRQ.setHotelsFilter(hotelsFilter);
         }
         //
-        if (!CollectionUtils.isEmpty(includeBoards) || !CollectionUtils.isEmpty(excludeBoards)) {
+        if (!Shortcuts.isEmpty(includeBoards) || !Shortcuts.isEmpty(excludeBoards)) {
             Boards boardFilter = new Boards();
-            if (!CollectionUtils.isEmpty(includeBoards)) {
+            if (!Shortcuts.isEmpty(includeBoards)) {
                 boardFilter.setIncluded(true);
                 boardFilter.setBoard(includeBoards);
             } else {
@@ -287,9 +286,9 @@ public class Availability {
         }
         //
         //
-        if (!CollectionUtils.isEmpty(includeRoomCodes) || !CollectionUtils.isEmpty(excludeRoomCodes)) {
+        if (!Shortcuts.isEmpty(includeRoomCodes) || !Shortcuts.isEmpty(excludeRoomCodes)) {
             Rooms roomFilter = new Rooms();
-            if (!CollectionUtils.isEmpty(includeRoomCodes)) {
+            if (!Shortcuts.isEmpty(includeRoomCodes)) {
                 roomFilter.setIncluded(true);
                 roomFilter.setRoom(includeRoomCodes);
             } else {
@@ -301,7 +300,7 @@ public class Availability {
         //
         availabilityRQ.setDailyRate(dailyRate);
         //
-        if (!CollectionUtils.isEmpty(ofTypes)) {
+        if (!Shortcuts.isEmpty(ofTypes)) {
             List<Accommodation> types = new ArrayList<>();
             for (Accommodation type : ofTypes) {
                 types.add(Accommodation.valueOf(type.name()));

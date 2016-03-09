@@ -22,7 +22,6 @@ package com.hotelbeds.demo;
  * #L%
  */
 
-
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Random;
@@ -70,7 +69,7 @@ public class HotelAPIClientDemo {
         if (doCheckStatus) {
             log.info("Requesting status...");
             StatusRS statusRS = apiClient.status();
-            log.debug("StatusRS: {}", LoggingRequestInterceptor.writeJSON(statusRS, true));
+            log.debug("StatusRS: {}", LoggingRequestInterceptor.writeJSON(statusRS));
         }
         if (doAvailability) {
             log.info("Requesting availability...");
@@ -167,7 +166,7 @@ public class HotelAPIClientDemo {
             // @formatter:on
             if (availabilityRS != null && availabilityRS.getHotels() != null && availabilityRS.getHotels().getHotels() != null) {
                 log.info("Availability answered with {} hotels!", availabilityRS.getHotels().getHotels().size());
-                log.debug("AvailabilityRS: {}", LoggingRequestInterceptor.writeJSON(availabilityRS, true));
+                log.debug("AvailabilityRS: {}", LoggingRequestInterceptor.writeJSON(availabilityRS));
             } else {
                 log.info("No availability!");
             }
@@ -205,7 +204,7 @@ public class HotelAPIClientDemo {
                                 .build());
                         // @formatter:on
                         if (bookingRS != null) {
-                            log.debug("CheckRateRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS, true));
+                            log.debug("CheckRateRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
                         }
                     } else {
                         log.info("No hotel available");
@@ -233,19 +232,19 @@ public class HotelAPIClientDemo {
                                 .build());
                         // @formatter:on
                         if (bookingRS != null) {
-                            log.debug("BookingRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS, true));
+                            log.debug("BookingRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
                         }
                         if (bookingRS.getBooking() != null) {
                             log.info("Confirmation succedded. Canceling reservation with id {}", bookingRS.getBooking().getReference());
                             BookingCancellationRS bookingCancellationRS = apiClient.cancel(bookingRS.getBooking().getReference());
                             if (bookingCancellationRS != null) {
-                                log.debug("BookingCancellationRS: {}", LoggingRequestInterceptor.writeJSON(bookingCancellationRS, true));
+                                log.debug("BookingCancellationRS: {}", LoggingRequestInterceptor.writeJSON(bookingCancellationRS));
                             }
                             //
                             log.info("Getting detail after cancelation of id {}", bookingRS.getBooking().getReference());
                             BookingDetailRS bookingDetailRS = apiClient.detail(bookingRS.getBooking().getReference());
                             if (bookingDetailRS != null) {
-                                log.debug("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS, true));
+                                log.debug("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS));
                             }
                             log.info("Detail obtained!");
                         } else {
@@ -263,16 +262,16 @@ public class HotelAPIClientDemo {
         if (doBookingList) {
             log.info("Requesting booking list...");
             // @formatter:off
-            BookingListRS bookingListRS = apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, true, FilterType.CREATION);
-            // @formatter:on
+      BookingListRS bookingListRS = apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, true, FilterType.CREATION);
+      // @formatter:on
             if (bookingListRS != null) {
-                log.info("BookingListRS: {}", LoggingRequestInterceptor.writeJSON(bookingListRS, true));
+                log.info("BookingListRS: {}", LoggingRequestInterceptor.writeJSON(bookingListRS));
             }
             if (bookingListRS != null && doBookingDetail) {
                 bookingListRS.getBookings().getBookings().stream().limit(bookingDetails).forEach(Unchecked.consumer(booking -> {
                     BookingDetailRS bookingDetailRS = apiClient.detail(booking.getReference());
                     if (bookingDetailRS != null) {
-                        log.info("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS, true));
+                        log.info("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS));
                     }
                 }));
             }
