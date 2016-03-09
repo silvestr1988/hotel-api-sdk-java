@@ -15,6 +15,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.hotelbeds.hotel-api-sdk-java</groupId>
+      <artifactId>hotel-content-model</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <version>4.2.1.RELEASE</version>

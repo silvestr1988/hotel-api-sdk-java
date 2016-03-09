@@ -28,18 +28,24 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
  */
 public enum HotelApiService {
 
-    DEVELOPMENT("http://localhost:8181"),
-    LIVE("https://api.hotelbeds.com/hotel-api"),
-    TEST("https://api.test.hotelbeds.com/hotel-api");
+    DEVELOPMENT("http://localhost:8181", "http://localhost:8080"),
+    LIVE("https://api.hotelbeds.com/hotel-api", "https://api.hotelbeds.com/hotel-content-api"),
+    TEST("https://api.test.hotelbeds.com/hotel-api", "https://api.test.hotelbeds.com/hotel-content-api");
 
-    private String version;
+    private String hotelApiPath;
+    private String hotelContentPath;
 
-    HotelApiService(final String version) {
-        this.version = version;
+    HotelApiService(final String hotelApiPath, final String hotelContentPath) {
+        this.hotelApiPath = hotelApiPath;
+        this.hotelContentPath = hotelContentPath;
     }
 
-    public String getVersion() {
-        return version;
+    public String getHotelApiPath() {
+        return hotelApiPath;
+    }
+
+    public String getHotelContentPath() {
+        return hotelContentPath;
     }
 
 }

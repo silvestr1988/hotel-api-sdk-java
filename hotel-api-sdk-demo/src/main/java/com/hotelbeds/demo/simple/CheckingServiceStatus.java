@@ -24,7 +24,7 @@ package com.hotelbeds.demo.simple;
 
 
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelSDKException;
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
 import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class CheckingServiceStatus {
             log.info("Requesting status...");
             StatusRS statusRS = apiClient.status();
             log.info("Status: {}", statusRS.getStatus());
-        } catch (HotelSDKException e) {
+        } catch (HotelApiSDKException e) {
             log.error("Error requesting status", e);
         }
     }

@@ -36,7 +36,7 @@ import org.junit.Test;
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelSDKException;
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
 import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
 
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +76,7 @@ public class SDKAvailabilityCase {
     //    }
 
     @Test
-    public void testSimpleDispo() throws HotelSDKException {
+    public void testSimpleDispo() throws HotelApiSDKException {
         String destination = destinations.stream().findFirst().get();
         log.debug("Testing availability at {}", destination);
         // @formatter:off

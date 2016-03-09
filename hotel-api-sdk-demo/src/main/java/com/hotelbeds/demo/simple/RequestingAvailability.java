@@ -30,7 +30,7 @@ import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom.AvailRoomBuilder;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability.AvailabilityBuilder;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelSDKException;
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
 import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
 import com.hotelbeds.hotelapimodel.auto.model.Hotel;
 import com.hotelbeds.hotelapimodel.auto.model.Rate;
@@ -105,7 +105,7 @@ public class RequestingAvailability {
             } else {
                 log.info("No availability was obtained {}", availabilityRS.getError().getMessage());
             }
-        } catch (HotelSDKException e) {
+        } catch (HotelApiSDKException e) {
             log.error("Error requesting availability", e);
         }
     }

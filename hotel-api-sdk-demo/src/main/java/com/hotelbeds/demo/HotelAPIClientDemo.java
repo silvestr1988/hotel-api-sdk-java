@@ -40,7 +40,7 @@ import com.hotelbeds.distribution.hotel_api_sdk.helpers.ConfirmRoom.ConfirmRoomB
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
 import com.hotelbeds.distribution.hotel_api_sdk.types.FilterType;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelSDKException;
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
 import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
@@ -54,7 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class HotelAPIClientDemo {
-    public static void main(String[] args) throws HotelSDKException {
+    public static void main(String[] args) throws HotelApiSDKException {
         HotelApiClient apiClient = new HotelApiClient();
         apiClient.setReadTimeout(40000);
         apiClient.init();

@@ -72,15 +72,15 @@ public enum HotelApiPaths {
         return responseClass;
     }
 
-    public String getUrl(String basePath, HotelApiVersion version) {
-        return getUrl(basePath, version, null);
+    public String getUrl(HotelApiService service, HotelApiVersion version) {
+        return getUrl(service, version, null);
     }
 
-    public String getUrl(String basePath, HotelApiVersion version, Map<String, String> params) {
+    public String getUrl(HotelApiService service, HotelApiVersion version, Map<String, String> params) {
         if (params == null) {
             params = new HashMap<>();
         }
-        params.put("path", basePath);
+        params.put("path", service.getHotelApiPath());
         params.put("version", version.getVersion());
         StrSubstitutor strSubstitutor = new StrSubstitutor(params);
         return strSubstitutor.replace(urlTemplate);
