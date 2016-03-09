@@ -31,11 +31,11 @@ import java.util.function.Supplier;
 
 import org.jooq.lambda.Unchecked;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
+import com.hotelbeds.hotelapimodel.auto.util.AssignUtils;
 import com.hotelbeds.hotelapimodel.auto.util.ObjectJoiner;
-import com.hotelbeds.hotelapimodel.util.Shortcuts;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Connection;
@@ -55,7 +55,7 @@ import okio.BufferedSource;
 @Slf4j
 /**
  * An OkHttp interceptor that logs information about the requests and responses depending on the log level set.
- * 
+ *
  * INFO logs just the most basic information about the request and response. DEBUG adds headers information TRACE shows the request, if present, and
  * response bodies, beautifying them as JSON objects if they match.
  *
@@ -150,10 +150,10 @@ public final class LoggingRequestInterceptor implements Interceptor {
             log.trace("  Body: encoded, not shown");
         } else {
             Buffer buffer = bufferSupplier.get();
-            Charset charset = Shortcuts.UTF8;
+            Charset charset = AssignUtils.UTF8;
             if (contentType != null) {
                 try {
-                    charset = contentType.charset(Shortcuts.UTF8);
+                    charset = contentType.charset(AssignUtils.UTF8);
                 } catch (UnsupportedCharsetException e) {
                     log.error("  Body: Could not be decoded {}", e.getMessage());
                 }

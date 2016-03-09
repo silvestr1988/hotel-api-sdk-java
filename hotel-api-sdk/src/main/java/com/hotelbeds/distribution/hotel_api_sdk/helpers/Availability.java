@@ -54,7 +54,7 @@ import com.hotelbeds.hotelapimodel.auto.model.Pax;
 import com.hotelbeds.hotelapimodel.auto.model.ReviewFilter;
 import com.hotelbeds.hotelapimodel.auto.model.Rooms;
 import com.hotelbeds.hotelapimodel.auto.model.Stay;
-import com.hotelbeds.hotelapimodel.util.Shortcuts;
+import com.hotelbeds.hotelapimodel.auto.util.AssignUtils;
 import com.hotelbeds.hotelapimodel.util.UnitMeasure;
 
 import lombok.Builder;
@@ -210,7 +210,7 @@ public class Availability {
             } else {
                 occupancy.setRooms(1);
             }
-            if (!Shortcuts.isEmpty(room.getDetails())) {
+            if (!AssignUtils.isEmpty(room.getDetails())) {
                 occupancy.setPaxes(new ArrayList<>());
                 for (RoomDetail detail : room.getDetails()) {
                     Pax pax = new Pax();
@@ -251,18 +251,18 @@ public class Availability {
             availabilityRQ.setDestination(dest);
         }
         //
-        if (!Shortcuts.isEmpty(matchingKeywords)) {
+        if (!AssignUtils.isEmpty(matchingKeywords)) {
             List<Integer> keywords = new ArrayList<>();
             keywords.addAll(matchingKeywords);
             availabilityRQ.setKeywordsFilter(new KeywordsFilter(keywords, Matcher.ALL.equals(keywordsMatcher)));
         }
         //
-        if (!Shortcuts.isEmpty(includeHotels) && !Shortcuts.isEmpty(excludeHotels)) {
+        if (!AssignUtils.isEmpty(includeHotels) && !AssignUtils.isEmpty(excludeHotels)) {
             includeHotels.removeAll(excludeHotels);
         }
-        if (!Shortcuts.isEmpty(includeHotels) || !Shortcuts.isEmpty(excludeHotels)) {
+        if (!AssignUtils.isEmpty(includeHotels) || !AssignUtils.isEmpty(excludeHotels)) {
             HotelsFilter hotelsFilter = new HotelsFilter();
-            if (!Shortcuts.isEmpty(includeHotels)) {
+            if (!AssignUtils.isEmpty(includeHotels)) {
                 hotelsFilter.setIncluded(true);
                 hotelsFilter.setHotels(includeHotels);
             } else {
@@ -273,9 +273,9 @@ public class Availability {
             availabilityRQ.setHotelsFilter(hotelsFilter);
         }
         //
-        if (!Shortcuts.isEmpty(includeBoards) || !Shortcuts.isEmpty(excludeBoards)) {
+        if (!AssignUtils.isEmpty(includeBoards) || !AssignUtils.isEmpty(excludeBoards)) {
             Boards boardFilter = new Boards();
-            if (!Shortcuts.isEmpty(includeBoards)) {
+            if (!AssignUtils.isEmpty(includeBoards)) {
                 boardFilter.setIncluded(true);
                 boardFilter.setBoard(includeBoards);
             } else {
@@ -286,9 +286,9 @@ public class Availability {
         }
         //
         //
-        if (!Shortcuts.isEmpty(includeRoomCodes) || !Shortcuts.isEmpty(excludeRoomCodes)) {
+        if (!AssignUtils.isEmpty(includeRoomCodes) || !AssignUtils.isEmpty(excludeRoomCodes)) {
             Rooms roomFilter = new Rooms();
-            if (!Shortcuts.isEmpty(includeRoomCodes)) {
+            if (!AssignUtils.isEmpty(includeRoomCodes)) {
                 roomFilter.setIncluded(true);
                 roomFilter.setRoom(includeRoomCodes);
             } else {
@@ -300,7 +300,7 @@ public class Availability {
         //
         availabilityRQ.setDailyRate(dailyRate);
         //
-        if (!Shortcuts.isEmpty(ofTypes)) {
+        if (!AssignUtils.isEmpty(ofTypes)) {
             List<Accommodation> types = new ArrayList<>();
             for (Accommodation type : ofTypes) {
                 types.add(Accommodation.valueOf(type.name()));

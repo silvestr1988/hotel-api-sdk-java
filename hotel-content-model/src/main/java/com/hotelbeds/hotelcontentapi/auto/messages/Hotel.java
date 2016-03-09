@@ -5,6 +5,29 @@
  */
 package com.hotelbeds.hotelcontentapi.auto.messages;
 
+/*
+ * #%L
+ * Hotel Content Model
+ * %%
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 2.1 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Lesser Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Lesser Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/lgpl-2.1.html>.
+ * #L%
+ */
+
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hotelbeds.hotelcontentapi.auto.messages.Accommodation;
@@ -38,41 +61,41 @@ import lombok.Data;
 @Data
 public class Hotel {
 
-	private Integer code;
-	private Content name;
-	private Content description;
-	private String countryCode;
-	private Country country;
-	private String destinationCode;
-	private Short zoneCode;
-	private Destination destination;
-	private Zone zone;
-	private GeoLocation coordinates;
-	private String categoryCode;
-	private Category category;
-	private String chainCode;
-	private Chain chain;
-	private String accommodationTypeCode;
-	private Accommodation accommodationType;
-	private List<String> boardCodes;
-	private List<Board> boards;
-	private List<Integer> segmentCodes;
-	private List<Segment> segments;
-	private Content address;
-	private String postalCode;
-	private Content city;
-	private String email;
-	private String license;
-	private Integer giataCode;
-	private List<HotelPhone> phones;
-	private List<HotelRoom> rooms;
-	private List<HotelFacility> facilities;
-	private List<HotelTerminal> terminals;
-	private List<HotelIssue> issues;
-	private List<HotelPointOfInterest> interestPoints;
-	private List<Image> images;
-	private List<WildCard> wildcards;
-	private String web;
+    private Integer code;
+    private Content name;
+    private Content description;
+    private String countryCode;
+    private Country country;
+    private String destinationCode;
+    private Short zoneCode;
+    private Destination destination;
+    private Zone zone;
+    private GeoLocation coordinates;
+    private String categoryCode;
+    private Category category;
+    private String chainCode;
+    private Chain chain;
+    private String accommodationTypeCode;
+    private Accommodation accommodationType;
+    private List<String> boardCodes;
+    private List<Board> boards;
+    private List<Integer> segmentCodes;
+    private List<Segment> segments;
+    private Content address;
+    private String postalCode;
+    private Content city;
+    private String email;
+    private String license;
+    private Integer giataCode;
+    private List<HotelPhone> phones;
+    private List<HotelRoom> rooms;
+    private List<HotelFacility> facilities;
+    private List<HotelTerminal> terminals;
+    private List<HotelIssue> issues;
+    private List<HotelPointOfInterest> interestPoints;
+    private List<Image> images;
+    private List<WildCard> wildcards;
+    private String web;
 
 
 }

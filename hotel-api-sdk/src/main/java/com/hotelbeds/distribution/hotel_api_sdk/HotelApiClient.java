@@ -76,7 +76,7 @@ import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ;
 import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
 import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
 import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
-import com.hotelbeds.hotelapimodel.util.Shortcuts;
+import com.hotelbeds.hotelapimodel.auto.util.AssignUtils;
 import com.hotelbeds.hotelcontentapi.auto.convert.json.DateSerializer;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse;
@@ -491,7 +491,7 @@ public class HotelApiClient implements AutoCloseable {
             log.info("Retrieving {} elements of type {}...", response.getTotal(), type);
             total = response.getTotal();
             Collection<T> responseElements = (Collection<T>) type.getResultsFunction().apply(response);
-            if (Shortcuts.isNotEmpty(responseElements)) {
+            if (AssignUtils.isNotEmpty(responseElements)) {
                 elements.addAll(responseElements);
                 int from = response.getFrom() + 1000;
                 while (from < response.getTotal()) {
@@ -510,7 +510,7 @@ public class HotelApiClient implements AutoCloseable {
                 try {
                     response = future.get();
                     responseElements = (Collection<T>) type.getResultsFunction().apply(response);
-                    if (Shortcuts.isNotEmpty(responseElements)) {
+                    if (AssignUtils.isNotEmpty(responseElements)) {
                         elements.addAll(responseElements);
                     }
                 } catch (ExecutionException e) {
@@ -579,10 +579,10 @@ public class HotelApiClient implements AutoCloseable {
                     BufferedSource source = body.source();
                     source.request(Long.MAX_VALUE);
                     Buffer buffer = source.buffer();
-                    Charset charset = Shortcuts.UTF8;
+                    Charset charset = AssignUtils.UTF8;
                     if (body.contentType() != null) {
                         try {
-                            charset = body.contentType().charset(Shortcuts.UTF8);
+                            charset = body.contentType().charset(AssignUtils.UTF8);
                         } catch (UnsupportedCharsetException e) {
                             log.error("Response body could not be decoded {}", e.getMessage());
                         }
@@ -638,10 +638,10 @@ public class HotelApiClient implements AutoCloseable {
                     BufferedSource source = body.source();
                     source.request(Long.MAX_VALUE);
                     Buffer buffer = source.buffer();
-                    Charset charset = Shortcuts.UTF8;
+                    Charset charset = AssignUtils.UTF8;
                     if (body.contentType() != null) {
                         try {
-                            charset = body.contentType().charset(Shortcuts.UTF8);
+                            charset = body.contentType().charset(AssignUtils.UTF8);
                         } catch (UnsupportedCharsetException e) {
                             log.error("Response body could not be decoded {}", e.getMessage());
                         }
