@@ -22,7 +22,6 @@ package com.hotelbeds.demo;
  * #L%
  */
 
-
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Random;
@@ -55,48 +54,48 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HotelAPIClientDemo {
     public static void main(String[] args) throws HotelApiSDKException {
-        HotelApiClient apiClient = new HotelApiClient();
-        apiClient.setReadTimeout(40000);
-        apiClient.init();
-        boolean doCheckStatus = false;
-        boolean doAvailability = true;
-        boolean isRandom = true;
-        boolean doCheckRate = doAvailability && false;
-        boolean doConfirmation = doAvailability && false;
-        boolean doBookingList = false;
-        boolean doBookingDetail = doBookingList && true;
-        int bookingDetails = 1;
-        //
-        if (doCheckStatus) {
-            log.info("Requesting status...");
-            StatusRS statusRS = apiClient.status();
-            log.debug("StatusRS: {}", LoggingRequestInterceptor.writeJSON(statusRS, true));
-        }
-        if (doAvailability) {
-            log.info("Requesting availability...");
-            Random random = new Random();
-            int numDaysOffset = 90;
-            int numDaysStay = 2;
-            int numAdults = 1;
-            int numChildren = 0;
-            if (isRandom) {
-                numDaysOffset = 30 + random.nextInt(30);
-                numDaysStay = 1 + random.nextInt(4);
-                numAdults = 1 + random.nextInt(2);
-                numChildren = random.nextInt(2);
+        try (HotelApiClient apiClient = new HotelApiClient();) {
+            apiClient.setReadTimeout(40000);
+            apiClient.init();
+            boolean doCheckStatus = true;
+            boolean doAvailability = true;
+            boolean isRandom = true;
+            boolean doCheckRate = doAvailability && false;
+            boolean doConfirmation = doAvailability && false;
+            boolean doBookingList = true;
+            boolean doBookingDetail = doBookingList && true;
+            int bookingDetails = 1;
+            //
+            if (doCheckStatus) {
+                log.info("Requesting status...");
+                StatusRS statusRS = apiClient.status();
+                log.debug("StatusRS: {}", LoggingRequestInterceptor.writeJSON(statusRS));
             }
-            AvailRoomBuilder availRoom = AvailRoom.builder().adults(numAdults);
-            if (numChildren > 0) {
-                availRoom.children(numChildren);
-                for (int count = 0; count < numChildren; count++) {
-                    availRoom.childOf(4);
+            if (doAvailability) {
+                log.info("Requesting availability...");
+                Random random = new Random();
+                int numDaysOffset = 90;
+                int numDaysStay = 2;
+                int numAdults = 1;
+                int numChildren = 0;
+                if (isRandom) {
+                    numDaysOffset = 30 + random.nextInt(30);
+                    numDaysStay = 1 + random.nextInt(4);
+                    numAdults = 1 + random.nextInt(2);
+                    numChildren = random.nextInt(2);
                 }
-            }
-            LocalDate checkIn = LocalDate.now().plusDays(numDaysOffset);
-            LocalDate checkOut = LocalDate.now().plusDays(numDaysOffset + numDaysStay);
-            log.info("Requesting availability from {} to {} for {} adults and {} children", new Object[] {
-                checkIn, checkOut, numAdults, numChildren});
-            // @formatter:off
+                AvailRoomBuilder availRoom = AvailRoom.builder().adults(numAdults);
+                if (numChildren > 0) {
+                    availRoom.children(numChildren);
+                    for (int count = 0; count < numChildren; count++) {
+                        availRoom.childOf(4);
+                    }
+                }
+                LocalDate checkIn = LocalDate.now().plusDays(numDaysOffset);
+                LocalDate checkOut = LocalDate.now().plusDays(numDaysOffset + numDaysStay);
+                log.info("Requesting availability from {} to {} for {} adults and {} children", new Object[] {
+                    checkIn, checkOut, numAdults, numChildren});
+                // @formatter:off
             AvailabilityRS availabilityRS =
                 apiClient.availability(
                     Availability.builder()
@@ -165,116 +164,117 @@ public class HotelAPIClientDemo {
                     //.addRoom(Room.builder().adults(2).children(1).detailed(GuestType.ADULT, 30, "Perico", "Palotes").childOf(4))
                     .build());
             // @formatter:on
-            if (availabilityRS != null && availabilityRS.getHotels() != null && availabilityRS.getHotels().getHotels() != null) {
-                log.info("Availability answered with {} hotels!", availabilityRS.getHotels().getHotels().size());
-                log.debug("AvailabilityRS: {}", LoggingRequestInterceptor.writeJSON(availabilityRS, true));
-            } else {
-                log.info("No availability!");
-            }
-            //
-            ConfirmRoomBuilder confirmRoom = ConfirmRoom.builder();
-            for (int count = 0; count < numAdults; count++) {
-                int adultAge = 20 + random.nextInt(20);
-                confirmRoom.detailed(GuestType.ADULT, adultAge, "Perico-" + count, "Palotes", 1);
-            }
-            if (numChildren > 0) {
-                availRoom.children(numChildren);
-                for (int count = 0; count < numChildren; count++) {
-                    confirmRoom.childOf(4);
+                if (availabilityRS != null && availabilityRS.getHotels() != null && availabilityRS.getHotels().getHotels() != null) {
+                    log.info("Availability answered with {} hotels!", availabilityRS.getHotels().getHotels().size());
+                    log.debug("AvailabilityRS: {}", LoggingRequestInterceptor.writeJSON(availabilityRS));
+                } else {
+                    log.info("No availability!");
                 }
-            }
-            //
-            if (doCheckRate && availabilityRS != null) {
-                if (availabilityRS.getHotels() != null && availabilityRS.getHotels().getHotels() != null) {
-                    Optional<Hotel> firstHotel = availabilityRS.getHotels().getHotels().stream().findFirst();
-                    if (firstHotel.isPresent()) {
-                        Hotel theHotel = firstHotel.get();
-                        String rateKey = theHotel.getRooms().stream().findAny().get().getRates().stream().findAny().get().getRateKey();
-                        // Wait a bit so the availability is stored in the system (it's stored asynchronously)
-                        try {
-                            log.info("Waiting to try a check rate");
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            log.error("Error waiting. Wot? ", e);
-                        }
-                        log.info("Checking reservation with rate {}", rateKey);
-                        // @formatter:off
+                //
+                ConfirmRoomBuilder confirmRoom = ConfirmRoom.builder();
+                for (int count = 0; count < numAdults; count++) {
+                    int adultAge = 20 + random.nextInt(20);
+                    confirmRoom.detailed(GuestType.ADULT, adultAge, "Perico-" + count, "Palotes", 1);
+                }
+                if (numChildren > 0) {
+                    availRoom.children(numChildren);
+                    for (int count = 0; count < numChildren; count++) {
+                        confirmRoom.childOf(4);
+                    }
+                }
+                //
+                if (doCheckRate && availabilityRS != null) {
+                    if (availabilityRS.getHotels() != null && availabilityRS.getHotels().getHotels() != null) {
+                        Optional<Hotel> firstHotel = availabilityRS.getHotels().getHotels().stream().findFirst();
+                        if (firstHotel.isPresent()) {
+                            Hotel theHotel = firstHotel.get();
+                            String rateKey = theHotel.getRooms().stream().findAny().get().getRates().stream().findAny().get().getRateKey();
+                            // Wait a bit so the availability is stored in the system (it's stored asynchronously)
+                            try {
+                                log.info("Waiting to try a check rate");
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                log.error("Error waiting. Wot? ", e);
+                            }
+                            log.info("Checking reservation with rate {}", rateKey);
+                            // @formatter:off
                         CheckRateRS bookingRS =
                             apiClient.check(BookingCheck.builder()
                                 .addRoom(rateKey, confirmRoom)
                                 .build());
                         // @formatter:on
-                        if (bookingRS != null) {
-                            log.debug("CheckRateRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS, true));
+                            if (bookingRS != null) {
+                                log.debug("CheckRateRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
+                            }
+                        } else {
+                            log.info("No hotel available");
                         }
                     } else {
                         log.info("No hotel available");
                     }
-                } else {
-                    log.info("No hotel available");
                 }
-            }
-            if (doConfirmation && availabilityRS != null) {
-                if (availabilityRS.getHotels() != null && availabilityRS.getHotels().getHotels() != null) {
-                    Optional<Hotel> firstHotel = availabilityRS.getHotels().getHotels().stream().findFirst();
-                    if (firstHotel.isPresent()) {
-                        Hotel theHotel = firstHotel.get();
-                        String rateKey = theHotel.getRooms().stream().findAny().get().getRates().stream().findAny().get().getRateKey();
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            log.error("Interrupted while waiting to confirm", e);
-                        }
-                        log.info("Confirming reservation with rate {}", rateKey);
-                        // @formatter:off
+                if (doConfirmation && availabilityRS != null) {
+                    if (availabilityRS.getHotels() != null && availabilityRS.getHotels().getHotels() != null) {
+                        Optional<Hotel> firstHotel = availabilityRS.getHotels().getHotels().stream().findFirst();
+                        if (firstHotel.isPresent()) {
+                            Hotel theHotel = firstHotel.get();
+                            String rateKey = theHotel.getRooms().stream().findAny().get().getRates().stream().findAny().get().getRateKey();
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                log.error("Interrupted while waiting to confirm", e);
+                            }
+                            log.info("Confirming reservation with rate {}", rateKey);
+                            // @formatter:off
                         BookingRS bookingRS =
                             apiClient.confirm(Booking.builder().withHolder("Rosetta", "Pruebas").clientReference("SDK Test").remark("***SDK***TESTING")
                                 .addRoom(rateKey, confirmRoom)
                                 .build());
                         // @formatter:on
-                        if (bookingRS != null) {
-                            log.debug("BookingRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS, true));
-                        }
-                        if (bookingRS.getBooking() != null) {
-                            log.info("Confirmation succedded. Canceling reservation with id {}", bookingRS.getBooking().getReference());
-                            BookingCancellationRS bookingCancellationRS = apiClient.cancel(bookingRS.getBooking().getReference());
-                            if (bookingCancellationRS != null) {
-                                log.debug("BookingCancellationRS: {}", LoggingRequestInterceptor.writeJSON(bookingCancellationRS, true));
+                            if (bookingRS != null) {
+                                log.debug("BookingRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
                             }
-                            //
-                            log.info("Getting detail after cancelation of id {}", bookingRS.getBooking().getReference());
-                            BookingDetailRS bookingDetailRS = apiClient.detail(bookingRS.getBooking().getReference());
-                            if (bookingDetailRS != null) {
-                                log.debug("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS, true));
+                            if (bookingRS.getBooking() != null) {
+                                log.info("Confirmation succedded. Canceling reservation with id {}", bookingRS.getBooking().getReference());
+                                BookingCancellationRS bookingCancellationRS = apiClient.cancel(bookingRS.getBooking().getReference());
+                                if (bookingCancellationRS != null) {
+                                    log.debug("BookingCancellationRS: {}", LoggingRequestInterceptor.writeJSON(bookingCancellationRS));
+                                }
+                                //
+                                log.info("Getting detail after cancelation of id {}", bookingRS.getBooking().getReference());
+                                BookingDetailRS bookingDetailRS = apiClient.detail(bookingRS.getBooking().getReference());
+                                if (bookingDetailRS != null) {
+                                    log.debug("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS));
+                                }
+                                log.info("Detail obtained!");
+                            } else {
+                                log.info("Confirmation failed");
                             }
-                            log.info("Detail obtained!");
                         } else {
-                            log.info("Confirmation failed");
+                            log.info("No hotel available");
                         }
                     } else {
                         log.info("No hotel available");
                     }
-                } else {
-                    log.info("No hotel available");
                 }
             }
-        }
-        //
-        if (doBookingList) {
-            log.info("Requesting booking list...");
-            // @formatter:off
-            BookingListRS bookingListRS = apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, true, FilterType.CREATION);
-            // @formatter:on
-            if (bookingListRS != null) {
-                log.info("BookingListRS: {}", LoggingRequestInterceptor.writeJSON(bookingListRS, true));
-            }
-            if (bookingListRS != null && doBookingDetail) {
-                bookingListRS.getBookings().getBookings().stream().limit(bookingDetails).forEach(Unchecked.consumer(booking -> {
-                    BookingDetailRS bookingDetailRS = apiClient.detail(booking.getReference());
-                    if (bookingDetailRS != null) {
-                        log.info("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS, true));
-                    }
-                }));
+            //
+            if (doBookingList) {
+                log.info("Requesting booking list...");
+                // @formatter:off
+      BookingListRS bookingListRS = apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, true, FilterType.CREATION);
+      // @formatter:on
+                if (bookingListRS != null) {
+                    log.info("BookingListRS: {}", LoggingRequestInterceptor.writeJSON(bookingListRS));
+                }
+                if (bookingListRS != null && doBookingDetail) {
+                    bookingListRS.getBookings().getBookings().stream().limit(bookingDetails).forEach(Unchecked.consumer(booking -> {
+                        BookingDetailRS bookingDetailRS = apiClient.detail(booking.getReference());
+                        if (bookingDetailRS != null) {
+                            log.info("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS));
+                        }
+                    }));
+                }
             }
         }
     }

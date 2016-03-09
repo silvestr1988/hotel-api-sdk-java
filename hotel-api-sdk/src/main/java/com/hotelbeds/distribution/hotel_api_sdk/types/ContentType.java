@@ -4,8 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Function;
 
-import org.apache.commons.collections.CollectionUtils;
-
+import com.hotelbeds.hotelapimodel.util.Shortcuts;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse;
 import com.hotelbeds.hotelcontentapi.auto.messages.Accommodation;
@@ -154,7 +153,7 @@ public enum ContentType {
                 @SuppressWarnings("unchecked")
                 T response = (T) abstractGenericContentResponse;
                 Collection<Y> responseResults = resultsFunction.apply(response);
-                if (CollectionUtils.isNotEmpty(responseResults)) {
+                if (Shortcuts.isNotEmpty(responseResults)) {
                     result = responseResults;
                 }
             }

@@ -10,12 +10,12 @@ package com.hotelbeds.demo.simple;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -24,8 +24,8 @@ package com.hotelbeds.demo.simple;
 
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
+import com.hotelbeds.hotelcontentapi.auto.messages.Board;
 import com.hotelbeds.hotelcontentapi.auto.messages.BoardsRQ;
-import com.hotelbeds.hotelcontentapi.auto.messages.RateComments;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,8 +42,7 @@ public class HotelContentSample {
             boardsRQ.setLanguage("ENG");
             boardsRQ.setFrom(1);
             boardsRQ.setTo(100);
-            boardsRQ.setFields(new String[] {
-                "all"});
+            boardsRQ.setFields(new String[] {"all"});
             //
             // BoardsRS boardsRS = apiClient.getBoards(boardsRQ);
             // //log.info("boardsRS: {}", LoggingRequestInterceptor.writeJSON(boardsRS, true));
@@ -52,10 +51,10 @@ public class HotelContentSample {
             //                    board.getCode(), board.getMultiLingualCode(), board.getDescription() != null ? board.getDescription().getContent() : ""});
             //            }
             //
-            //            for (Board element : apiClient.getAllBoards("ENG", false)) {
-            //                log.info("Board: {}/{} - {}", new Object[] {
-            //                    element.getCode(), element.getMultiLingualCode(), element.getDescription() != null ? element.getDescription().getContent() : ""});
-            //            }
+            for (Board element : apiClient.getAllBoards("ENG", false)) {
+                log.info("Board: {}/{} - {}", new Object[] {
+                    element.getCode(), element.getMultiLingualCode(), element.getDescription() != null ? element.getDescription().getContent() : ""});
+            }
             //
             //            for (Chain element : apiClient.getAllChains("ENG", false)) {
             //                log.info("Chain: {} - {}", new Object[] {
@@ -71,11 +70,11 @@ public class HotelContentSample {
             //                log.info("Category: {} - {}", new Object[] {
             //                    element.getCode(), element.getDescription() != null ? element.getDescription().getContent() : ""});
             //            }
-
-            for (RateComments element : apiClient.getAllRateComments("ENG", false)) {
-                log.info("RateComment: {} {}-{}", new Object[] {
-                    element.getHotel(), element.getIncoming(), element.getCode()});
-            }
+            //
+            //            for (RateComments element : apiClient.getAllRateComments("ENG", false)) {
+            //                log.info("RateComment: {} {}-{}", new Object[] {
+            //                    element.getHotel(), element.getIncoming(), element.getCode()});
+            //            }
             //            //
             //            for (Currency element : apiClient.getAllCurrencies("ENG", false)) {
             //                log.info("Currency: {} - {}", new Object[] {

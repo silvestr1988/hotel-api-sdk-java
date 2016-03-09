@@ -2,9 +2,9 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
 
 /*
  * #%L
- * hotel-api-sdk
+ * HotelAPI SDK
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,254 +23,169 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
  */
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map.Entry;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
+import org.jooq.lambda.Unchecked;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
+import com.hotelbeds.hotelapimodel.auto.util.ObjectJoiner;
+import com.hotelbeds.hotelapimodel.util.Shortcuts;
+
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Connection;
+import okhttp3.Headers;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.Protocol;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okhttp3.internal.http.HttpEngine;
+import okio.Buffer;
+import okio.BufferedSource;
 
+@Data
 @Slf4j
-public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
-
-    public static final String TEST_ERROR_FLAG = "TEST_ERROR_FLAG";
-
-    private static final List<LogRequestType> JSON_PRINT_LIST = Arrays.asList(LogRequestType.BOTH, LogRequestType.JSON);
-    private static final List<LogRequestType> XML_PRINT_LIST = Arrays.asList(LogRequestType.BOTH, LogRequestType.XML);
-
-    private final boolean showMethod = true;
-    private final boolean showRequest = true;
-    private final boolean showResponse = true;
-    private final boolean showRequestHeaders = true;
-    private final boolean showResponseHeaders = true;
-    private final boolean showResponseStatusCode = true;
-    private final boolean showUrl = true;
-    private final boolean beautify = true;
-    private final LogRequestType logRequestType = LogRequestType.BOTH;
-
-    private enum LogRequestType {
-        XML,
-        JSON,
-        BOTH;
-    };
-
+/**
+ * An OkHttp interceptor that logs information about the requests and responses depending on the log level set.
+ * 
+ * INFO logs just the most basic information about the request and response. DEBUG adds headers information TRACE shows the request, if present, and
+ * response bodies, beautifying them as JSON objects if they match.
+ *
+ * Inspired by: https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/src/main/java/okhttp3/logging/HttpLoggingInterceptor.java
+ */
+public final class LoggingRequestInterceptor implements Interceptor {
 
     @Override
-    public ClientHttpResponse intercept(final HttpRequest request, final byte[] body, final ClientHttpRequestExecution execution) throws IOException {
-
-        // BEGIN Code to avoid IOException on 400 response
-        final ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        HttpRequest interceptedRequest = request;
-        boolean skipPrintResponseBecauseOfBug = false;
-        final String query = request.getURI().getQuery();
-        if (StringUtils.isNotBlank(query) && query.indexOf(TEST_ERROR_FLAG) != -1) {
-            final UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUri(request.getURI());
-            // This is because the request its intercepted twice. I don't know why...
-            if (StringUtils.countMatches(query, TEST_ERROR_FLAG) == 3) {
-                interceptedRequest =
-                    requestFactory.createRequest(uriBuilder.replaceQueryParam(TEST_ERROR_FLAG, TEST_ERROR_FLAG).build().toUri(), request.getMethod());
-            } else {
-                interceptedRequest = requestFactory.createRequest(uriBuilder.replaceQueryParam(TEST_ERROR_FLAG).build().toUri(), request.getMethod());
-            }
-            //set the headers lost when create new request
-            interceptedRequest.getHeaders().putAll(request.getHeaders());
-            skipPrintResponseBecauseOfBug = true;
-        }
-        // END Code to avoid IOException on 400 response
-
-
-        final ClientHttpResponse response = execution.execute(interceptedRequest, body);
-        final Boolean isJson = isJsonRequest(new String(body, StandardCharsets.UTF_8), request);
-
-
-        if (log.isDebugEnabled()) {
-            logRequest(interceptedRequest, body, response, isJson, skipPrintResponseBecauseOfBug);
-        }
-
-        return response;
-    }
-
-    private Boolean isJsonRequest(final String string, final HttpRequest request) {
-        Boolean result = null;
-        if (StringUtils.isBlank(string) && Arrays.asList(HttpMethod.GET, HttpMethod.DELETE).contains(request.getMethod())) {
-            if (request.getHeaders().getAccept().contains(MediaType.APPLICATION_JSON)) {
-                result = true;
-            } else {
-                result = false;
-            }
-
+    public Response intercept(Chain chain) throws IOException {
+        Request request = chain.request();
+        if (!log.isInfoEnabled()) {
+            return chain.proceed(request);
         } else {
-            final ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY);
-            try {
-                mapper.readTree(string);
-                result = true;
-            } catch (final IOException e) {
-                result = false;
+            final RequestBody requestBody = request.body();
+            final boolean hasRequestBody = requestBody != null;
+            final Connection connection = chain.connection();
+            final Protocol protocol = connection != null ? connection.protocol() : Protocol.HTTP_1_1;
+            final StringBuilder requestInformation = new StringBuilder("Request: ");
+            requestInformation.append(ObjectJoiner.join(" ", protocol.toString().toUpperCase(), request.method(), request.url()));
+            long requestBodySize = -1;
+            if (hasRequestBody) {
+                requestBodySize = requestBody.contentLength();
+                requestInformation.append(", body:");
+                requestInformation.append(requestBodySize);
+                requestInformation.append(" bytes");
             }
-        }
-        return result;
-    }
+            log.info(requestInformation.toString());
 
-    private void logRequest(final HttpRequest request, final byte[] body, final ClientHttpResponse response, final boolean isJson,
-        final boolean skipLogResponseBecauseOfBug) throws IOException {
-        final boolean doPrintJson = JSON_PRINT_LIST.contains(logRequestType);
-        final boolean doPrintXml = XML_PRINT_LIST.contains(logRequestType);
-
-        if (isJson && doPrintJson || !isJson && doPrintXml) {
-            log.debug("-----------------------------------------------------------------------------");
-            //do logging
-            if (showMethod) {
-                log.debug("request.getMethod(): {}", request.getMethod());
-            }
-            if (showUrl) {
-                log.debug("url: {}", request.getURI().toString());
-            }
-            if (showRequestHeaders) {
-                log.debug("request.getHeaders(): {}", request.getHeaders());
-            }
-            if (showRequest && Arrays.asList(HttpMethod.POST, HttpMethod.PUT).contains(request.getMethod())) {
-                doLogging("request body:  ", new String(body, StandardCharsets.UTF_8), isJson);
-            }
-            if (showResponseStatusCode) {
-                log.debug("response.getRawStatusCode(): {}", response.getRawStatusCode());
-            }
-            if (showResponseHeaders) {
-                log.debug("Response headers: ");
-                for (final Entry<String, List<String>> responseHeader : response.getHeaders().entrySet()) {
-                    log.debug("{}", responseHeader);
+            if (log.isDebugEnabled()) {
+                // If the request has a body, sometimes these headers are not present, so let's make them explicit
+                if (hasRequestBody) {
+                    if (requestBody.contentType() != null) {
+                        logHeader(HotelApiClient.CONTENT_TYPE_HEADER, requestBody.contentType().toString());
+                    }
+                    if (requestBodySize != -1) {
+                        logHeader(HotelApiClient.CONTENT_LENGTH_HEADER, Long.toString(requestBodySize));
+                    }
                 }
-                log.debug("End Response headers:");
-            }
-
-            if (!skipLogResponseBecauseOfBug) {
-                if (response != null && response.getBody() != null && showResponse) {
-
-                    final StringWriter writer = new StringWriter();
-                    try (InputStream theIS = response.getBody();
-                        InputStreamReader theISR = new InputStreamReader(theIS, StandardCharsets.UTF_8);
-                        BufferedReader theBR = new BufferedReader(theISR)) {
-                        char[] buffer = new char[4096];
-                        int count = -1;
-                        while ((count = theBR.read(buffer)) >= 0) {
-                            writer.write(buffer, 0, count);
-
+                // Log the other headers
+                for (String header : request.headers().names()) {
+                    if (!HotelApiClient.CONTENT_TYPE_HEADER.equalsIgnoreCase(header)
+                        && !HotelApiClient.CONTENT_LENGTH_HEADER.equalsIgnoreCase(header)) {
+                        for (String value : request.headers().values(header)) {
+                            logHeader(header, value);
                         }
                     }
-                    doLogging("response.getBody(): ", writer.toString(), isJson);
-                } else if (response == null || response.getBody() == null) {
-                    log.debug("Empty body!!! ");
+                }
+                if (log.isTraceEnabled() && hasRequestBody) {
+                    Supplier<Buffer> requestBufferSupplier = Unchecked.supplier(() -> {
+                        Buffer buffer = new Buffer();
+                        requestBody.writeTo(buffer);
+                        return buffer;
+                    });
+                    logBody(requestBufferSupplier, requestBody.contentType(), request.headers());
                 }
             }
-            log.debug("-----------------------------------------------------------------------------");
-        }
+            final long requestStart = System.nanoTime();
+            final Response response = chain.proceed(request);
+            final long totalRequestTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - requestStart);
 
-    }
+            final ResponseBody responseBody = response.body();
+            final long contentLength = responseBody.contentLength();
 
-    private void doLogging(final String message, final String body, final boolean isJson) throws JsonParseException, JsonMappingException,
-        IOException, UnsupportedEncodingException {
-        if (log.isDebugEnabled()) {
-            if (isJson) {
-                log.debug(message + writeJSON(body, beautify));
-            } else {
-                try {
-                    log.debug(message + writeXML(body, beautify));
-                } catch (final TransformerException e) {
-                    e.printStackTrace();
+            log.info("Response: {}", ObjectJoiner.join(" ", response.code(), response.message()));
+            if (contentLength >= 0) {
+                log.info("  {}: {}", HotelApiClient.CONTENT_LENGTH_HEADER, contentLength);
+            }
+            log.info("  Request took {} ms", totalRequestTime);
+
+            if (log.isDebugEnabled()) {
+                for (String header : response.headers().names()) {
+                    for (String value : response.headers().values(header)) {
+                        logHeader(header, value);
+                    }
+                }
+                if (log.isTraceEnabled() && HttpEngine.hasBody(response)) {
+                    MediaType contentType = responseBody.contentType();
+                    Supplier<Buffer> responseBufferSupplier = Unchecked.supplier(() -> {
+                        BufferedSource source = responseBody.source();
+                        source.request(Long.MAX_VALUE);
+                        return source.buffer().clone();
+                    });
+                    logBody(responseBufferSupplier, contentType, response.headers());
                 }
             }
+            return response;
         }
     }
 
-    /***********************************************************************
-     * * * * * * * * * * * * * * * WRITE * * * * * * * * * * * * * * * *
-     ***********************************************************************/
-
-    /**
-     * A helper method to print the request sent as the XML message that would be sent to the API
-     * 
-     * @param request
-     * @param pretty
-     * @return
-     */
-    public static String writeXML(final Object request, final boolean pretty) {
-        String result = null;
-        try {
-            final JAXBContext jaxbContext = JAXBContext.newInstance(request.getClass());
-            final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, pretty);
-            final StringWriter writer = new StringWriter();
-            jaxbMarshaller.marshal(request, writer);
-            result = writer.toString();
-        } catch (final JAXBException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public static String writeXML(final String request, final boolean pretty) throws TransformerException {
-        final Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        if (pretty) {
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+    private void logBody(Supplier<Buffer> bufferSupplier, MediaType contentType, Headers headers) {
+        if (bodyEncoded(headers)) {
+            log.trace("  Body: encoded, not shown");
         } else {
-            transformer.setOutputProperty(OutputKeys.INDENT, "no");
+            Buffer buffer = bufferSupplier.get();
+            Charset charset = Shortcuts.UTF8;
+            if (contentType != null) {
+                try {
+                    charset = contentType.charset(Shortcuts.UTF8);
+                } catch (UnsupportedCharsetException e) {
+                    log.error("  Body: Could not be decoded {}", e.getMessage());
+                }
+            }
+            String body = buffer.readString(charset);
+            if (headers.get(HotelApiClient.CONTENT_TYPE_HEADER).equalsIgnoreCase(HotelApiClient.APPLICATION_JSON_HEADER)) {
+                log.trace("  Body:{}", writeJSON(body));
+            } else {
+                log.trace("  Body:{}", body);
+            }
         }
-        final StreamResult resultStream = new StreamResult(new StringWriter());
-        transformer.transform(new StreamSource(new StringReader(request)), resultStream);
-        return resultStream.getWriter().toString();
     }
 
-    public static String writeJSON(final Object object, final boolean pretty) {
+    private void logHeader(final String headerName, final String headerValue) {
+        log.debug("  Header: {}: \"{}\"", headerName, headerValue);
+    }
+
+    private boolean bodyEncoded(Headers headers) {
+        String contentEncoding = headers.get(HotelApiClient.CONTENT_ENCODING_HEADER);
+        return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
+    }
+
+    public static String writeJSON(final Object object) {
         ObjectMapper mapper = null;
         String result = null;
         mapper = new ObjectMapper();
         try {
-            if (pretty) {
-                result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-            } else {
-                result = mapper.writeValueAsString(object);
-            }
+            result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
         } catch (final IOException e) {
-            e.printStackTrace();
+            log.warn("Body is not a json object {}", e.getMessage());
         }
         return result;
     }
 
-    public static String writeJSON(final String jsonString, final boolean pretty) throws JsonParseException, JsonMappingException, IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final Object object = mapper.readValue(jsonString, Object.class);
-        return writeJSON(object, pretty);
-    }
 }

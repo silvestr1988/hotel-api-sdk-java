@@ -5,29 +5,6 @@
  */
 package com.hotelbeds.hotelapimodel.auto.model;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -55,42 +32,42 @@ import lombok.Data;
 @Data
 public class Hotel {
 
-    @JsonProperty
-    @JsonSerialize(using = DateSerializer.class)
-    private LocalDate checkIn;
-    @JsonProperty
-    @JsonSerialize(using = DateSerializer.class)
-    private LocalDate checkOut;
-    private Integer code;
-    private String name;
-    private String categoryCode;
-    private String categoryName;
-    private String destinationCode;
-    private String destinationName;
-    private Short zoneCode;
-    private String zoneName;
-    private String latitude;
-    private String longitude;
-    private String giata;
-    private List<Keyword> keywords;
-    private List<Review> reviews;
-    private List<Room> rooms;
-    @JsonSerialize(using = RateSerializer.class)
-    private BigDecimal minRate;
-    @JsonSerialize(using = RateSerializer.class)
-    private BigDecimal maxRate;
-    @JsonSerialize(using = RateSerializer.class)
-    private BigDecimal totalSellingRate;
-    @JsonSerialize(using = RateSerializer.class)
-    private BigDecimal totalNet;
-    @JsonSerialize(using = RateSerializer.class)
-    private BigDecimal pendingAmount;
-    private String currency;
-    private List<CreditCard> creditCards;
-    private Supplier supplier;
-    private String clientComments;
-    private BigDecimal cancellationAmount;
-    private Upselling upselling;
+	@JsonProperty
+	@JsonSerialize(using = DateSerializer.class)
+	private LocalDate checkIn;
+	@JsonProperty
+	@JsonSerialize(using = DateSerializer.class)
+	private LocalDate checkOut;
+	private Integer code;
+	private String name;
+	private String categoryCode;
+	private String categoryName;
+	private String destinationCode;
+	private String destinationName;
+	private Short zoneCode;
+	private String zoneName;
+	private String latitude;
+	private String longitude;
+	private String giata;
+	private List<Keyword> keywords;
+	private List<Review> reviews;
+	private List<Room> rooms;
+	@JsonSerialize(using = RateSerializer.class)
+	private BigDecimal minRate;
+	@JsonSerialize(using = RateSerializer.class)
+	private BigDecimal maxRate;
+	@JsonSerialize(using = RateSerializer.class)
+	private BigDecimal totalSellingRate;
+	@JsonSerialize(using = RateSerializer.class)
+	private BigDecimal totalNet;
+	@JsonSerialize(using = RateSerializer.class)
+	private BigDecimal pendingAmount;
+	private String currency;
+	private List<CreditCard> creditCards;
+	private Supplier supplier;
+	private String clientComments;
+	private BigDecimal cancellationAmount;
+	private Upselling upselling;
 
 
 }

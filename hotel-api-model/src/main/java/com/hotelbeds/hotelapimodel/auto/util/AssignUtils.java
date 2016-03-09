@@ -5,29 +5,6 @@
  */
 package com.hotelbeds.hotelapimodel.auto.util;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -41,11 +18,11 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.SiNo;
@@ -160,7 +137,7 @@ public final class AssignUtils {
 
     public static String getSortedString(final String separator, final List<String> stringList) {
         String result = null;
-        if (CollectionUtils.isNotEmpty(stringList)) {
+        if (isNotEmpty(stringList)) {
             result = stringList.stream().sorted().collect(Collectors.joining(separator));
         }
         return result;
@@ -301,5 +278,13 @@ public final class AssignUtils {
             truncatedString = value.substring(0, length);
         }
         return truncatedString;
+    }
+
+    public static boolean isEmpty(Collection<?> collection) {
+        return collection == null || collection.isEmpty();
+    }
+
+    public static boolean isNotEmpty(Collection<?> collection) {
+        return !isEmpty(collection);
     }
 }

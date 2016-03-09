@@ -22,17 +22,21 @@ package com.hotelbeds.distribution.hotel_api_sdk;
  * #L%
  */
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map;
+import java.util.Properties;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -40,30 +44,17 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.InterceptingClientHttpRequestFactory;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.ResourceAccessException;
-import org.springframework.web.client.RestTemplate;
 
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingList;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.RestTemplateSpecificErrorHandler;
+import com.hotelbeds.distribution.hotel_api_sdk.types.AllowedMethod;
 import com.hotelbeds.distribution.hotel_api_sdk.types.CancellationFlags;
 import com.hotelbeds.distribution.hotel_api_sdk.types.ContentType;
 import com.hotelbeds.distribution.hotel_api_sdk.types.FilterType;
@@ -71,6 +62,7 @@ import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiPaths;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiService;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiVersion;
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelContentPaths;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelbedsError;
 import com.hotelbeds.hotelapimodel.auto.messages.AbstractGenericRequest;
 import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRQ;
@@ -84,6 +76,7 @@ import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ;
 import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
 import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
 import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
+import com.hotelbeds.hotelapimodel.util.Shortcuts;
 import com.hotelbeds.hotelcontentapi.auto.convert.json.DateSerializer;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse;
@@ -105,8 +98,18 @@ import com.hotelbeds.hotelcontentapi.auto.messages.Room;
 import com.hotelbeds.hotelcontentapi.auto.messages.Segment;
 import com.hotelbeds.hotelcontentapi.auto.messages.Terminal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
 
 /**
  * Copyright (c) Hotelbeds Technology S.L.U. All rights reserved.
@@ -115,14 +118,18 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class HotelApiClient implements AutoCloseable {
 
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    public static final String APPLICATION_JSON_HEADER = "application/json";
     public static final String APIKEY_PROPERTY_NAME = "hotelapi.apikey";
     public static final String SHAREDSECRET_PROPERTY_NAME = "hotelapi.sharedsecret";
     public static final String VERSION_PROPERTY_NAME = "hotelapi.version";
     public static final String SERVICE_PROPERTY_NAME = "hotelapi.service";
     public static final String HOTELAPI_PROPERTIES_FILE_NAME = "hotelapi.properties";
+    public static final String CONTENT_TYPE_HEADER = "Content-Type";
+    public static final String CONTENT_LENGTH_HEADER = "Content-Length";
+    public static final String CONTENT_ENCODING_HEADER = "Content-Encoding";
     public static final String DEFAULT_LANGUAGE = "ENG";
     private static final int REST_TEMPLATE_READ_TIME_OUT = 5000;
-
 
     private static final String API_KEY_HEADER_NAME = "Api-Key";
     private static final String SIGNATURE_HEADER_NAME = "X-Signature";
@@ -132,12 +139,13 @@ public class HotelApiClient implements AutoCloseable {
     private final HotelApiVersion hotelApiversion;
     private final HotelApiService hotelApiService;
     private Properties properties = null;
-    private RestTemplate restTemplate = null;
+    private OkHttpClient restTemplate = null;
     private boolean initialised = false;
     private int readTimeout = REST_TEMPLATE_READ_TIME_OUT;
     private int connectTimeout = REST_TEMPLATE_READ_TIME_OUT;
     private int connectionRequestTimeout = REST_TEMPLATE_READ_TIME_OUT;
     private ExecutorService executorService = null;
+    private ObjectMapper mapper = null;
 
     public HotelApiClient() {
         this((String) null, null);
@@ -172,9 +180,18 @@ public class HotelApiClient implements AutoCloseable {
     }
 
     public void init() {
-        restTemplate = getRestTemplate();
+        // @formatter:off
+        restTemplate = new OkHttpClient.Builder()
+        .writeTimeout(connectionRequestTimeout, TimeUnit.MILLISECONDS)
+        .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+        .readTimeout(readTimeout, TimeUnit.MILLISECONDS)
+        .addInterceptor(new LoggingRequestInterceptor())
+        .build();
+        // @formatter:on
         initialised = true;
         executorService = Executors.newFixedThreadPool(8);
+        mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
     }
 
     public void setReadTimeout(int readTimeout) {
@@ -276,24 +293,21 @@ public class HotelApiClient implements AutoCloseable {
         return apiKey;
     }
 
+
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public AvailabilityRS availability(Availability availability) throws HotelApiSDKException {
-        AvailabilityRQ availabilityRQ = availability.toAvailabilityRQ();
-        AvailabilityRS availabilityRS = doAvailability(availabilityRQ);
-        return availabilityRS;
+        return doAvailability(availability.toAvailabilityRQ());
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public AvailabilityRS doAvailability(final AvailabilityRQ request) throws HotelApiSDKException {
-        final ResponseEntity<AvailabilityRS> responseEntity = callRemoteAPI(request, HotelApiPaths.AVAILABILITY);
-        final AvailabilityRS response = responseEntity.getBody();
-        return response;
+        return (AvailabilityRS) callRemoteAPI(request, HotelApiPaths.AVAILABILITY);
     }
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if failed
-    //TODO Documentation pending
+    // TODO Fix so it does return an object of the proper type, else throw an error if failed
+    // TODO Documentation pending
     public BookingListRS list(LocalDate start, LocalDate end, int from, int to, boolean includeCancelled, FilterType filterType)
         throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
@@ -303,8 +317,7 @@ public class HotelApiClient implements AutoCloseable {
         params.put("to", Integer.toString(to));
         params.put("includeCancelled", Boolean.toString(includeCancelled));
         params.put("filterType", filterType.name());
-        final ResponseEntity<BookingListRS> responseEntity = callRemoteAPI(params, HotelApiPaths.BOOKING_LIST);
-        return responseEntity.getBody();
+        return (BookingListRS) callRemoteAPI(params, HotelApiPaths.BOOKING_LIST);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -319,25 +332,19 @@ public class HotelApiClient implements AutoCloseable {
     public BookingDetailRS detail(String bookingId) throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
-        final ResponseEntity<BookingDetailRS> responseEntity = callRemoteAPI(params, HotelApiPaths.BOOKING_DETAIL);
-        return responseEntity.getBody();
+        return (BookingDetailRS) callRemoteAPI(params, HotelApiPaths.BOOKING_DETAIL);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingRS confirm(Booking booking) throws HotelApiSDKException {
-        BookingRQ bookingRQ = booking.toBookingRQ();
-        BookingRS bookingRS = doBookingConfirm(bookingRQ);
-        return bookingRS;
+        return doBookingConfirm(booking.toBookingRQ());
     }
-
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingRS doBookingConfirm(BookingRQ request) throws HotelApiSDKException {
-        final ResponseEntity<BookingRS> responseEntity = callRemoteAPI(request, HotelApiPaths.BOOKING_CONFIRM);
-        final BookingRS response = responseEntity.getBody();
-        return response;
+        return (BookingRS) callRemoteAPI(request, HotelApiPaths.BOOKING_CONFIRM);
     }
 
     public BookingCancellationRS cancel(String bookingId) throws HotelApiSDKException {
@@ -350,32 +357,25 @@ public class HotelApiClient implements AutoCloseable {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
         params.put("flag", isSimulation ? CancellationFlags.SIMULATION.name() : CancellationFlags.CANCELLATION.name());
-        final ResponseEntity<BookingCancellationRS> responseEntity = callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL);
-        return responseEntity.getBody();
+        return (BookingCancellationRS) callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public CheckRateRS check(BookingCheck bookingCheck) throws HotelApiSDKException {
-        CheckRateRQ bookingCheckRQ = bookingCheck.toCheckRateRQ();
-        CheckRateRS bookingCheckRS = doCheckRate(bookingCheckRQ);
-        return bookingCheckRS;
+        return doCheckRate(bookingCheck.toCheckRateRQ());
     }
-
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public CheckRateRS doCheckRate(CheckRateRQ request) throws HotelApiSDKException {
-        final ResponseEntity<CheckRateRS> responseEntity = callRemoteAPI(request, HotelApiPaths.CHECK_AVAIL);
-        final CheckRateRS response = responseEntity.getBody();
-        return response;
+        return (CheckRateRS) callRemoteAPI(request, HotelApiPaths.CHECK_AVAIL);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public StatusRS status() throws HotelApiSDKException {
-        final ResponseEntity<StatusRS> responseEntity = callRemoteAPI(HotelApiPaths.STATUS);
-        return responseEntity.getBody();
+        return (StatusRS) callRemoteAPI(HotelApiPaths.STATUS);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -468,15 +468,12 @@ public class HotelApiClient implements AutoCloseable {
 
         @Override
         public AbstractGenericContentResponse call() throws Exception {
-            ResponseEntity<AbstractGenericContentResponse> responseEntity = callRemoteContentAPI(abstractGenericContentRequest, callableParams, type);
-            return responseEntity.getBody();
+            return callRemoteContentAPI(abstractGenericContentRequest, callableParams, type);
         }
     }
 
-    //TODO Fix so it does return an object of the proper type, else throw an error if failed
-    //TODO Documentation pending
     @SuppressWarnings("unchecked")
-    public <T> List<T> getAllElements(final String language, final boolean useSecondaryLanguage, ContentType type) throws HotelApiSDKException {
+    private <T> List<T> getAllElements(final String language, final boolean useSecondaryLanguage, ContentType type) throws HotelApiSDKException {
         AbstractGenericContentRequest abstractGenericContentRequest;
         List<T> elements = new ArrayList<>();
         int total = 0;
@@ -490,12 +487,11 @@ public class HotelApiClient implements AutoCloseable {
             addCommonParameters(abstractGenericContentRequest, type, params);
             params.put("from", Integer.toString(1));
             params.put("to", Integer.toString(1000));
-            ResponseEntity<AbstractGenericContentResponse> responseEntity = callRemoteContentAPI(abstractGenericContentRequest, params, type);
-            AbstractGenericContentResponse response = responseEntity.getBody();
+            AbstractGenericContentResponse response = callRemoteContentAPI(abstractGenericContentRequest, params, type);
             log.info("Retrieving {} elements of type {}...", response.getTotal(), type);
             total = response.getTotal();
             Collection<T> responseElements = (Collection<T>) type.getResultsFunction().apply(response);
-            if (CollectionUtils.isNotEmpty(responseElements)) {
+            if (Shortcuts.isNotEmpty(responseElements)) {
                 elements.addAll(responseElements);
                 int from = response.getFrom() + 1000;
                 while (from < response.getTotal()) {
@@ -514,7 +510,7 @@ public class HotelApiClient implements AutoCloseable {
                 try {
                     response = future.get();
                     responseElements = (Collection<T>) type.getResultsFunction().apply(response);
-                    if (CollectionUtils.isNotEmpty(responseElements)) {
+                    if (Shortcuts.isNotEmpty(responseElements)) {
                         elements.addAll(responseElements);
                     }
                 } catch (ExecutionException e) {
@@ -547,75 +543,65 @@ public class HotelApiClient implements AutoCloseable {
     /////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    private <T extends GenericResponse> ResponseEntity<T> callRemoteAPI(HotelApiPaths path) throws HotelApiSDKException {
+    private GenericResponse callRemoteAPI(HotelApiPaths path) throws HotelApiSDKException {
         return callRemoteAPI(null, null, path);
     }
 
-    private <T extends GenericResponse> ResponseEntity<T> callRemoteAPI(final Map<String, String> params, HotelApiPaths path)
-        throws HotelApiSDKException {
+    private GenericResponse callRemoteAPI(final Map<String, String> params, HotelApiPaths path) throws HotelApiSDKException {
         return callRemoteAPI(null, params, path);
     }
 
-    private <T extends GenericResponse> ResponseEntity<T> callRemoteAPI(final AbstractGenericRequest request, HotelApiPaths path)
-        throws HotelApiSDKException {
+    private GenericResponse callRemoteAPI(final AbstractGenericRequest request, HotelApiPaths path) throws HotelApiSDKException {
         return callRemoteAPI(request, null, path);
     }
 
-    private <T extends GenericResponse> ResponseEntity<T> callRemoteAPI(final AbstractGenericRequest abstractGenericRequest,
-        final Map<String, String> params, HotelApiPaths path) throws HotelApiSDKException {
-        if (isInitialised()) {
-            final HttpMethod httpMethod = path.getHttpMethod();
-            final String url = path.getUrl(hotelApiService, hotelApiversion, params);
-            HttpEntity<?> httpEntity = null;
-            if (httpMethod.equals(HttpMethod.POST) && abstractGenericRequest != null) {
-                httpEntity = new HttpEntity<>(abstractGenericRequest, getHeaders(httpMethod));
-            } else {
-                httpEntity = new HttpEntity<>(getHeaders(httpMethod));
-            }
-            try {
-                @SuppressWarnings("unchecked")
-                final ResponseEntity<T> responseEntity =
-                    (ResponseEntity<T>) restTemplate.exchange(url, httpMethod, httpEntity, path.getResponseClass());
-                if (responseEntity.getBody().getError() != null) {
-                    throw new HotelApiSDKException(responseEntity.getBody().getError());
-                }
-                return responseEntity;
-            } catch (HotelApiSDKException e) {
-                throw e;
-            } catch (ResourceAccessException e) {
-                if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
-                    throw new HotelApiSDKException(new HotelbedsError("Timeout", e.getCause().getMessage()));
-                } else {
-                    throw new HotelApiSDKException(new HotelbedsError("Error accessing API", e.getCause().getMessage()));
-                }
-            } catch (Exception e) {
-                throw new HotelApiSDKException(new HotelbedsError(e.getClass().getName(), e.getMessage()), e);
-            }
-        } else {
-            throw new HotelApiSDKException(new HotelbedsError("HotelAPIClient not initialised",
-                "You have to call init() first, to be able to use this object."));
-        }
-    }
 
-    private <T extends AbstractGenericContentResponse> ResponseEntity<T> callRemoteContentAPI(
-        final AbstractGenericContentRequest abstractGenericContentResponse, final Map<String, String> params, ContentType type)
+    private GenericResponse callRemoteAPI(final AbstractGenericRequest abstractGenericRequest, final Map<String, String> params, HotelApiPaths path)
         throws HotelApiSDKException {
         if (isInitialised()) {
-            final HttpMethod httpMethod = HttpMethod.GET;
-            final String url = type.getPath().getUrl(hotelApiService, hotelApiversion, params);
-            log.debug("HTTP Get: {}", url);
-            HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders(httpMethod));
+            final AllowedMethod allowedMethod = path.getAllowedMethod();
+            final String url = path.getUrl(hotelApiService, hotelApiversion, params);
             try {
-                @SuppressWarnings("unchecked")
-                final ResponseEntity<T> responseEntity =
-                    (ResponseEntity<T>) restTemplate.exchange(url, httpMethod, httpEntity, type.getResponseClass());
-                if (responseEntity.getBody().getError() != null) {
-                    throw new HotelApiSDKException(responseEntity.getBody().getError());
+                Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod)).url(url);
+                switch (allowedMethod) {
+                    case DELETE:
+                        requestBuilder.delete(transformToRequestBody(abstractGenericRequest));
+                        break;
+                    case POST:
+                        requestBuilder.post(transformToRequestBody(abstractGenericRequest));
+                        break;
+                    default:
+                        break;
                 }
-                return responseEntity;
+
+                Response response = restTemplate.newCall(requestBuilder.build()).execute();
+                try (ResponseBody body = response.body()) {
+                    BufferedSource source = body.source();
+                    source.request(Long.MAX_VALUE);
+                    Buffer buffer = source.buffer();
+                    Charset charset = Shortcuts.UTF8;
+                    if (body.contentType() != null) {
+                        try {
+                            charset = body.contentType().charset(Shortcuts.UTF8);
+                        } catch (UnsupportedCharsetException e) {
+                            log.error("Response body could not be decoded {}", e.getMessage());
+                        }
+                    }
+                    String theContent = buffer.readString(charset);
+                    if (response.headers().get(CONTENT_TYPE_HEADER).toLowerCase().startsWith(HotelApiClient.APPLICATION_JSON_HEADER)) {
+                        GenericResponse genericResponse = transformToGenericResponse(theContent, path.getResponseClass());
+                        if (genericResponse.getError() != null) {
+                            throw new HotelApiSDKException(genericResponse.getError());
+                        }
+                        return genericResponse;
+                    } else {
+                        throw new HotelApiSDKException(new HotelbedsError("Invalid response", "Wrong content type"
+                            + response.headers().get(CONTENT_TYPE_HEADER)));
+                    }
+                }
             } catch (HotelApiSDKException e) {
                 throw e;
-            } catch (ResourceAccessException e) {
+            } catch (IOException e) {
                 if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
                     throw new HotelApiSDKException(new HotelbedsError("Timeout", e.getCause().getMessage()));
                 } else {
@@ -630,43 +616,103 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
-    private MultiValueMap<String, String> getHeaders(HttpMethod httpMethod) {
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.add(API_KEY_HEADER_NAME, apiKey);
-        headers.add("User-Agent", "hotel-api-sdk-java, " + getClass().getPackage().getImplementationVersion());
+    private GenericResponse transformToGenericResponse(String content, Class<? extends GenericResponse> responseClass) throws HotelApiSDKException {
+        try {
+            return mapper.readValue(content, responseClass);
+        } catch (IOException e) {
+            log.error("Error parsing JSON response: ", e);
+            throw new HotelApiSDKException(new HotelbedsError("Error parsing JSON response", e.getMessage()));
+        }
+    }
+
+    private AbstractGenericContentResponse callRemoteContentAPI(final AbstractGenericContentRequest abstractGenericContentResponse,
+        final Map<String, String> params, ContentType type) throws HotelApiSDKException {
+        HotelContentPaths path = type.getPath();
+        if (isInitialised()) {
+            final AllowedMethod allowedMethod = AllowedMethod.GET;
+            final String url = path.getUrl(hotelApiService, hotelApiversion, params);
+            try {
+                Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod)).url(url);
+                Response response = restTemplate.newCall(requestBuilder.build()).execute();
+                try (ResponseBody body = response.body()) {
+                    BufferedSource source = body.source();
+                    source.request(Long.MAX_VALUE);
+                    Buffer buffer = source.buffer();
+                    Charset charset = Shortcuts.UTF8;
+                    if (body.contentType() != null) {
+                        try {
+                            charset = body.contentType().charset(Shortcuts.UTF8);
+                        } catch (UnsupportedCharsetException e) {
+                            log.error("Response body could not be decoded {}", e.getMessage());
+                        }
+                    }
+                    String theContent = buffer.readString(charset);
+                    if (response.headers().get(CONTENT_TYPE_HEADER).toLowerCase().startsWith(HotelApiClient.APPLICATION_JSON_HEADER)) {
+                        AbstractGenericContentResponse genericResponse = transformToGenericContentResponse(theContent, type.getResponseClass());
+                        if (genericResponse.getError() != null) {
+                            throw new HotelApiSDKException(genericResponse.getError());
+                        }
+                        return genericResponse;
+                    } else {
+                        throw new HotelApiSDKException(new HotelbedsError("Invalid response", "Wrong content type"
+                            + response.headers().get(CONTENT_TYPE_HEADER)));
+                    }
+                }
+            } catch (HotelApiSDKException e) {
+                throw e;
+            } catch (IOException e) {
+                if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
+                    throw new HotelApiSDKException(new HotelbedsError("Timeout", e.getCause().getMessage()));
+                } else {
+                    throw new HotelApiSDKException(new HotelbedsError("Error accessing API", e.getCause().getMessage()));
+                }
+            } catch (Exception e) {
+                throw new HotelApiSDKException(new HotelbedsError(e.getClass().getName(), e.getMessage()), e);
+            }
+        } else {
+            throw new HotelApiSDKException(new HotelbedsError("HotelAPIClient not initialised",
+                "You have to call init() first, to be able to use this object."));
+        }
+    }
+
+    private AbstractGenericContentResponse transformToGenericContentResponse(String content,
+        Class<? extends AbstractGenericContentResponse> responseClass) throws HotelApiSDKException {
+        try {
+            return mapper.readValue(content, responseClass);
+        } catch (IOException e) {
+            log.error("Error parsing JSON response: ", e);
+            throw new HotelApiSDKException(new HotelbedsError("Error parsing JSON response", e.getMessage()));
+        }
+    }
+
+    private RequestBody transformToRequestBody(AbstractGenericRequest request) throws HotelApiSDKException {
+        try {
+            return RequestBody.create(JSON, mapper.writeValueAsString(request));
+        } catch (IOException e) {
+            log.error("Error parsing JSON response: ", e);
+            throw new HotelApiSDKException(new HotelbedsError("Error parsing JSON response", e.getMessage()));
+        }
+    }
+
+    private Headers getHeaders(AllowedMethod httpMethod) {
+        Headers.Builder headersBuilder = new Headers.Builder();
+        headersBuilder.add(API_KEY_HEADER_NAME, apiKey);
+        headersBuilder.add("User-Agent", "hotel-api-sdk-java, " + getClass().getPackage().getImplementationVersion());
         // Hash the Api Key + Shared Secret + Current timestamp in seconds
-        String signature = org.apache.commons.codec.digest.DigestUtils.sha256Hex(apiKey + sharedSecret + System.currentTimeMillis() / 1000);
-        headers.add(SIGNATURE_HEADER_NAME, signature);
+        headersBuilder.add(SIGNATURE_HEADER_NAME, DigestUtils.sha256Hex(apiKey + sharedSecret + System.currentTimeMillis() / 1000));
         switch (httpMethod) {
             case GET:
             case DELETE:
-                headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+                headersBuilder.add("Accept", APPLICATION_JSON_HEADER);
                 break;
             case POST:
-            case PUT:
-                headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+                // case PUT:
+                headersBuilder.add("Content-Type", APPLICATION_JSON_HEADER);
                 break;
             default:
                 break;
         }
-        return headers;
-    }
-
-    private RestTemplate getRestTemplate() {
-        final LoggingRequestInterceptor loggingRequestInterceptor = new LoggingRequestInterceptor();
-        final List<ClientHttpRequestInterceptor> arrayClientHttpRequestInterceptor = new ArrayList<ClientHttpRequestInterceptor>();
-        arrayClientHttpRequestInterceptor.add(loggingRequestInterceptor);
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-        factory.setReadTimeout(readTimeout);
-        factory.setConnectTimeout(connectTimeout);
-        factory.setConnectionRequestTimeout(connectionRequestTimeout);
-        final RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(factory));
-        restTemplate.setInterceptors(arrayClientHttpRequestInterceptor);
-        restTemplate.setRequestFactory(new InterceptingClientHttpRequestFactory(restTemplate.getRequestFactory(), arrayClientHttpRequestInterceptor));
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        restTemplate.setErrorHandler(new RestTemplateSpecificErrorHandler());
-        return restTemplate;
+        return headersBuilder.build();
     }
 
     @Override

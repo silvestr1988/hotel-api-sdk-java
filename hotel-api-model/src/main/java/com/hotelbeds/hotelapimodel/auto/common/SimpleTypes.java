@@ -5,35 +5,13 @@
  */
 package com.hotelbeds.hotelapimodel.auto.common;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -227,8 +205,7 @@ public final class SimpleTypes {
         /**
          * Used for children.
          */
-        ,
-        CH("1", 8, "C", "N", "NI", "CH");
+        ,CH("1", 8, "C", "N", "NI", "CH");
         private final String paxType;
         private final int defaultAge;
         private final String paxId;
@@ -363,9 +340,8 @@ public final class SimpleTypes {
         }
 
         public static PaymentType getPaymentType(final String paymentType) {
-            if (paymentType != null
-                && (paymentType.equals(PaymentType.AT_HOTEL.abbreviated) || paymentType.equals(PaymentType.AT_HOTEL.name()) || paymentType
-                    .equals(PaymentType.AT_HOTEL.rateKeyValue))) {
+            if (paymentType != null && (paymentType.equals(PaymentType.AT_HOTEL.abbreviated) || paymentType.equals(PaymentType.AT_HOTEL.name())
+                || paymentType.equals(PaymentType.AT_HOTEL.rateKeyValue))) {
                 return PaymentType.AT_HOTEL;
             } else {
                 return PaymentType.AT_WEB;
