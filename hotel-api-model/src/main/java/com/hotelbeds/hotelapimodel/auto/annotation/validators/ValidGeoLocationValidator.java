@@ -53,7 +53,7 @@ public class ValidGeoLocationValidator implements ConstraintValidator<ValidGeoLo
             result = true;
         }
         if (!result) {
-            log.info("Some required value in geolocation are empty, geolocation: " + geoLocation.toString());
+            log.info("Some required value in geolocation are empty, geolocation: {}", geoLocation);
         }
         return result;
     }

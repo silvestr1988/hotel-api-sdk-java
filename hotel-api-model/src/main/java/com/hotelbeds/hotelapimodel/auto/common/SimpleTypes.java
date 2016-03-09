@@ -57,10 +57,11 @@ public final class SimpleTypes {
     private static final String NO = "No";
     private static final String YES = "Yes";
     private static final String ONLY = "Only";
-    private static final int INTERNAL_STATUS_NEW = 200;
-    private static final int INTERNAL_STATUS_PRECONFIRMED = 500;
     private static final int STATUS_CONFIRMED = 0;
     private static final int STATUS_CANCELLED = 100;
+    private static final int INTERNAL_STATUS_NEW = 200;
+    private static final int INTERNAL_STATUS_TO_BE_UPDATED = 300;
+    private static final int INTERNAL_STATUS_PRECONFIRMED = 500;
     private static final String SI = "Si";
 
     private SimpleTypes() {
@@ -69,22 +70,38 @@ public final class SimpleTypes {
     @XmlType(name = "ChangeMode")
     @XmlEnum
     public enum ChangeMode {
-        SIMULATION,
-        UPDATE;
+        SIMULATION(YesNo.Y),
+        UPDATE(YesNo.N);
+
+        private YesNo internal;
+
+        private ChangeMode(final YesNo internal) {
+            this.internal = internal;
+        }
+
+        public YesNo getInternal() {
+            return internal;
+        }
+
+        public String getBDDValue() {
+            return internal.getBDDValue();
+        }
     }
 
     @XmlType(name = "YesNo")
     @XmlEnum
     public enum YesNo {
-        Y(SimpleTypes.YES, SiNo.S),
-        N(SimpleTypes.NO, SiNo.N),
-        O(SimpleTypes.ONLY, SiNo.N);
+        Y(SimpleTypes.YES, SiNo.S, "Y"),
+        N(SimpleTypes.NO, SiNo.N, "N"),
+        O(SimpleTypes.ONLY, SiNo.N, "O");
         private String label;
         private SiNo internal;
+        private String bddValue;
 
-        YesNo(final String label, final SiNo internal) {
+        YesNo(final String label, final SiNo internal, final String bddValue) {
             this.label = label;
             this.internal = internal;
+            this.bddValue = bddValue;
         }
 
         public String getLabel() {
@@ -93,6 +110,10 @@ public final class SimpleTypes {
 
         public SiNo getInternal() {
             return internal;
+        }
+
+        public String getBDDValue() {
+            return bddValue;
         }
 
         public static YesNo getFromBoolean(final Boolean value) {
@@ -179,15 +200,15 @@ public final class SimpleTypes {
         }
 
         public static SiNo getSafeValue(final String value) {
-            if (SI_CODE.equalsIgnoreCase(value)) {
+            if (SiNo.S.name().equalsIgnoreCase(value)) {
                 return SiNo.S;
             } else {
                 return SiNo.valueOf(value);
             }
         }
 
-        public static boolean getBoolean(SiNo sino) {
-            return SiNo.S.equals(sino) ? true : false;
+        public boolean toBoolean() {
+            return SiNo.S.equals(this) ? true : false;
         }
 
         public static SiNo getFromBoolean(Boolean value) {
@@ -551,6 +572,7 @@ public final class SimpleTypes {
         NEW(INTERNAL_STATUS_NEW),
         PRECONFIRMED(INTERNAL_STATUS_PRECONFIRMED),
         CONFIRMED(STATUS_CONFIRMED),
+        TO_BE_UPDATED(INTERNAL_STATUS_TO_BE_UPDATED),
         CANCELLED(STATUS_CANCELLED);
 
         private final int code;

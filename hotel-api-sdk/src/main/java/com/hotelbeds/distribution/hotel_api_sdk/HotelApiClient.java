@@ -40,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
+import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingList;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
 import com.hotelbeds.distribution.hotel_api_sdk.types.AllowedMethod;
 import com.hotelbeds.distribution.hotel_api_sdk.types.CancellationFlags;
@@ -287,8 +288,15 @@ public class HotelApiClient {
         return (BookingListRS) callRemoteAPI(params, HotelApiPaths.BOOKING_LIST);
     }
 
-    // TODO Fix so it does return an object of the proper type, else throw an error if failed
-    // TODO Documentation pending
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingListRS list(BookingList bookingList) throws HotelSDKException {
+        return list(bookingList.getFromDate(), bookingList.getToDate(), bookingList.getFrom(), bookingList.getTo(),
+            !bookingList.isExcludeCancelled(), bookingList.getUsingDate());
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
     public BookingDetailRS detail(String bookingId) throws HotelSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);

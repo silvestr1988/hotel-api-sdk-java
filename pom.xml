@@ -32,6 +32,7 @@
   <modules>
     <module>build-tools</module>
     <module>hotel-api-model</module>
+    <module>hotel-content-model</module>
     <module>hotel-api-sdk</module>
     <module>hotel-api-sdk-demo</module>
   </modules>
