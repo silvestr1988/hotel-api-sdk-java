@@ -5,29 +5,6 @@
  */
 package com.hotelbeds.hotelcontentapi.auto.messages;
 
-/*
- * #%L
- * Hotel Content Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import com.hotelbeds.hotelcontentapi.util.ContentType;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -43,22 +20,22 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class FreeTextSearchRQ {
 
-    @NotNull
-    private String query;
-    @NotNull
-    private List<String> languages;
-    private ContentType contentType;
-    private Integer from;
-    private Integer to;
-    private Integer nHotels;
-    private Integer nZones;
-    private Integer nDestinations;
-    private String highlightStart;
-    private String highlightEnd;
-    private Integer fuzzy;
-    private Integer nGroupDest;
-    private Integer nGroupZones;
-    private Integer fuzzyLength;
+	@NotNull
+	private String query;
+	@NotNull
+	private List<String> languages;
+	private ContentType contentType;
+	private Integer from;
+	private Integer to;
+	private Integer nHotels;
+	private Integer nZones;
+	private Integer nDestinations;
+	private String highlightStart;
+	private String highlightEnd;
+	private Integer fuzzy;
+	private Integer nGroupDest;
+	private Integer nGroupZones;
+	private Integer fuzzyLength;
 
 
 }
