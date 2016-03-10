@@ -29,13 +29,15 @@ import java.util.Map;
 import org.apache.commons.lang3.text.StrSubstitutor;
 
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse;
+import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentDetailsRS;
 
 /**
  * Copyright (c) Hotelbeds Technology S.L.U. All rights reserved.
  */
 public enum HotelContentPaths {
 
-    TYPES_URL(ConstantHolder.TYPE_PATH, AbstractGenericContentResponse.class);
+    TYPES_URL(ConstantHolder.PAGING_TYPE_PATH, AbstractGenericContentResponse.class),
+    RATECOMMENT_DETAIL_URL(ConstantHolder.BASIC_TYPE_PATH + "&date=${date}&code=${code}", RateCommentDetailsRS.class), ;
 
     private final String urlTemplate;
     private final Class<? extends AbstractGenericContentResponse> responseClass;
@@ -68,8 +70,11 @@ public enum HotelContentPaths {
     }
 
     private static class ConstantHolder {
-        private final static String TYPE_PATH =
-            "${path}/${version}/types/${type}?fields=${fields}&language=${language}&from=${from}&to=${to}&useSecondaryLanguage=${useSecondaryLanguage}&lastUpdateTime=${lastUpdateTime}";
+        private final static String BASIC_PATH = "${path}/${version}/";
+        private final static String COMMON_PARAMETERS = "?fields=${fields}&language=${language}&useSecondaryLanguage=${useSecondaryLanguage}";
+        private final static String PAGINATION_PARAMETERS = "&from=${from}&to=${to}&lastUpdateTime=${lastUpdateTime}";
+        private final static String BASIC_TYPE_PATH = BASIC_PATH + "types/${type}" + COMMON_PARAMETERS;
+        private final static String PAGING_TYPE_PATH = BASIC_TYPE_PATH + PAGINATION_PARAMETERS;
     }
 
 }

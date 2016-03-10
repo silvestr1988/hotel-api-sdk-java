@@ -225,12 +225,9 @@ public class HotelAPIClientDemo {
                                 log.error("Interrupted while waiting to confirm", e);
                             }
                             log.info("Confirming reservation with rate {}", rateKey);
-                            // @formatter:off
-                        BookingRS bookingRS =
-                            apiClient.confirm(Booking.builder().withHolder("Rosetta", "Pruebas").clientReference("SDK Test").remark("***SDK***TESTING")
-                                .addRoom(rateKey, confirmRoom)
-                                .build());
-                        // @formatter:on
+                            BookingRS bookingRS =
+                                apiClient.confirm(Booking.builder().withHolder("Rosetta", "Pruebas").clientReference("SDK Test")
+                                    .remark("***SDK***TESTING").addRoom(rateKey, confirmRoom).build());
                             if (bookingRS != null) {
                                 log.debug("BookingRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
                             }
@@ -261,9 +258,8 @@ public class HotelAPIClientDemo {
             //
             if (doBookingList) {
                 log.info("Requesting booking list...");
-                // @formatter:off
-      BookingListRS bookingListRS = apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, true, FilterType.CREATION);
-      // @formatter:on
+                BookingListRS bookingListRS =
+                    apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, true, FilterType.CREATION);
                 if (bookingListRS != null) {
                     log.info("BookingListRS: {}", LoggingRequestInterceptor.writeJSON(bookingListRS));
                 }

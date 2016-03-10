@@ -77,11 +77,14 @@ import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
 import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
 import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
 import com.hotelbeds.hotelapimodel.auto.util.AssignUtils;
+import com.hotelbeds.hotelapimodel.auto.util.ObjectJoiner;
 import com.hotelbeds.hotelcontentapi.auto.convert.json.DateSerializer;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse;
 import com.hotelbeds.hotelcontentapi.auto.messages.Accommodation;
 import com.hotelbeds.hotelcontentapi.auto.messages.Board;
+import com.hotelbeds.hotelcontentapi.auto.messages.BoardsRQ;
+import com.hotelbeds.hotelcontentapi.auto.messages.BoardsRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.Category;
 import com.hotelbeds.hotelcontentapi.auto.messages.Chain;
 import com.hotelbeds.hotelcontentapi.auto.messages.Currency;
@@ -93,6 +96,8 @@ import com.hotelbeds.hotelcontentapi.auto.messages.ImageType;
 import com.hotelbeds.hotelcontentapi.auto.messages.Issue;
 import com.hotelbeds.hotelcontentapi.auto.messages.Language;
 import com.hotelbeds.hotelcontentapi.auto.messages.Promotion;
+import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentDetailsRQ;
+import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentDetailsRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.RateComments;
 import com.hotelbeds.hotelcontentapi.auto.messages.Room;
 import com.hotelbeds.hotelcontentapi.auto.messages.Segment;
@@ -384,13 +389,24 @@ public class HotelApiClient implements AutoCloseable {
     /////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    //    public BoardsRS getBoards(BoardsRQ request) throws HotelApiSDKException {
-    //        final Map<String, String> params = new HashMap<>();
-    //        addCommonParameters(request, ContentType.BOARD, params);
-    //        final ResponseEntity<BoardsRS> responseEntity = callRemoteContentAPI(request, params, ContentType.BOARD);
-    //        final BoardsRS response = responseEntity.getBody();
-    //        return response;
-    //    }
+    public RateCommentDetailsRS getRateCommentDetail(RateCommentDetailsRQ request) throws HotelApiSDKException {
+        final Map<String, String> params = new HashMap<>();
+        addCommonParameters(request, ContentType.RATECOMMENT_DETAIL, params);
+        params.put("code", ObjectJoiner.join("|", request.getContract(), request.getIncoming(), ObjectJoiner.join(",", request.getRates())));
+        // Validate, date cannot be null
+        params.put("date", DateSerializer.REST_FORMATTER.format(request.getDate()));
+        return (RateCommentDetailsRS) callRemoteContentAPI(request, params, ContentType.RATECOMMENT_DETAIL);
+    }
+
+    ////////////////
+    // Gemeric Types
+    ////////////////
+
+    public BoardsRS getBoards(BoardsRQ request) throws HotelApiSDKException {
+        final Map<String, String> params = new HashMap<>();
+        addCommonParameters(request, ContentType.BOARD, params);
+        return (BoardsRS) callRemoteContentAPI(request, params, ContentType.BOARD);
+    }
 
     public List<Board> getAllBoards(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.BOARD);
@@ -490,32 +506,38 @@ public class HotelApiClient implements AutoCloseable {
             AbstractGenericContentResponse response = callRemoteContentAPI(abstractGenericContentRequest, params, type);
             log.info("Retrieving {} elements of type {}...", response.getTotal(), type);
             total = response.getTotal();
-            Collection<T> responseElements = (Collection<T>) type.getResultsFunction().apply(response);
-            if (AssignUtils.isNotEmpty(responseElements)) {
-                elements.addAll(responseElements);
-                int from = response.getFrom() + 1000;
-                while (from < response.getTotal()) {
-                    params.put("from", Integer.toString(from));
-                    params.put("to", Integer.toString(from + 999));
-                    //
-                    final Map<String, String> callableParams = new HashMap<>();
-                    callableParams.putAll(params);
-                    Callable<AbstractGenericContentResponse> callable = new RemoteApiCallable(type, abstractGenericContentRequest, callableParams);
-                    callables.add(callable);
-                    from += 1000;
-                }
-            }
-            List<Future<AbstractGenericContentResponse>> futures = executorService.invokeAll(callables);
-            for (Future<AbstractGenericContentResponse> future : futures) {
-                try {
-                    response = future.get();
-                    responseElements = (Collection<T>) type.getResultsFunction().apply(response);
-                    if (AssignUtils.isNotEmpty(responseElements)) {
-                        elements.addAll(responseElements);
+            if (type.getResultsFunction() != null) {
+                Collection<T> responseElements = (Collection<T>) type.getResultsFunction().apply(response);
+                if (AssignUtils.isNotEmpty(responseElements)) {
+                    elements.addAll(responseElements);
+                    int from = response.getFrom() + 1000;
+                    while (from < response.getTotal()) {
+                        params.put("from", Integer.toString(from));
+                        params.put("to", Integer.toString(from + 999));
+                        //
+                        final Map<String, String> callableParams = new HashMap<>();
+                        callableParams.putAll(params);
+                        Callable<AbstractGenericContentResponse> callable =
+                            new RemoteApiCallable(type, abstractGenericContentRequest, callableParams);
+                        callables.add(callable);
+                        from += 1000;
                     }
-                } catch (ExecutionException e) {
-                    log.error("Error while retrieving a block of elements of type {}", type.name(), e);
                 }
+                List<Future<AbstractGenericContentResponse>> futures = executorService.invokeAll(callables);
+                for (Future<AbstractGenericContentResponse> future : futures) {
+                    try {
+                        response = future.get();
+                        responseElements = (Collection<T>) type.getResultsFunction().apply(response);
+                        if (AssignUtils.isNotEmpty(responseElements)) {
+                            elements.addAll(responseElements);
+                        }
+                    } catch (ExecutionException e) {
+                        log.error("Error while retrieving a block of elements of type {}", type.name(), e);
+                    }
+                }
+            } else {
+                throw new HotelApiSDKException(new HotelbedsError("SDK Configuration error",
+                    "Extracting results from a type that has no extractor configured: " + type.name()));
             }
         } catch (InstantiationException | IllegalAccessException e) {
             throw new HotelApiSDKException(new HotelbedsError("SDK Configuration error", e.getCause().getMessage()));
@@ -532,7 +554,7 @@ public class HotelApiClient implements AutoCloseable {
         params.put("language", request.getLanguage() != null ? request.getLanguage() : "ENG");
         params.put("from", request.getFrom() != null ? request.getFrom().toString() : "1");
         params.put("to", request.getTo() != null ? request.getTo().toString() : "100");
-        params.put("fields", String.join(",", request.getFields()));
+        params.put("fields", request.getFields() != null ? String.join(",", request.getFields()) : "");
         params.put("useSecondaryLanguage", Boolean.toString(request.isUseSecondaryLanguage()));
         params.put("lastUpdateTime", request.getLastUpdateTime() != null ? DateSerializer.REST_FORMATTER.format(request.getLastUpdateTime()) : "");
     }

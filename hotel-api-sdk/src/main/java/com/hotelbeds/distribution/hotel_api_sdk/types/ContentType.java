@@ -45,6 +45,8 @@ import com.hotelbeds.hotelcontentapi.auto.messages.LanguagesRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.Promotion;
 import com.hotelbeds.hotelcontentapi.auto.messages.PromotionsRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.PromotionsRS;
+import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentDetailsRQ;
+import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentDetailsRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.RateComments;
 import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentsRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentsRS;
@@ -85,6 +87,8 @@ import lombok.Data;
 
 public enum ContentType {
     // @formatter:off
+    RATECOMMENT_DETAIL("ratecommentdetail", HotelContentPaths.RATECOMMENT_DETAIL_URL, RateCommentDetailsRQ.class, RateCommentDetailsRS.class, null),
+    //
     BOARD("boards", HotelContentPaths.TYPES_URL, BoardsRQ.class, BoardsRS.class, FunctionHolder.BOARD_EXTRACTOR),
     CHAIN("chains", HotelContentPaths.TYPES_URL, ChainsRQ.class, ChainsRS.class, FunctionHolder.CHAIN_EXTRACTOR),
     ACCOMODATION("accommodations", HotelContentPaths.TYPES_URL, AccommodationsRQ.class, AccommodationsRS.class, FunctionHolder.ACCOMMODATION_EXTRACTOR),
