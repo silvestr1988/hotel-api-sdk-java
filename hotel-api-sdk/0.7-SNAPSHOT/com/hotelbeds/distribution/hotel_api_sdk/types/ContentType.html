@@ -18,7 +18,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":9,"i6":9};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":9,"i8":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -150,7 +150,13 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#CHAIN">CHAIN</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#COUNTRY">COUNTRY</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#CURRENCY">CURRENCY</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#DESTINATION">DESTINATION</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#FACILITY">FACILITY</a></span></code>&nbsp;</td>
@@ -163,6 +169,12 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#GROUP_CATEGORY">GROUP_CATEGORY</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#HOTEL">HOTEL</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#HOTEL_DETAIL">HOTEL_DETAIL</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#IMAGE_TYPE">IMAGE_TYPE</a></span></code>&nbsp;</td>
@@ -207,32 +219,41 @@ extends <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html?is
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#addCommonParameters-com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest-java.util.Map-">addCommonParameters</a></span>(com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest&nbsp;request,
+                   <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;params)</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>[]</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#getDefaultParameters--">getDefaultParameters</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/HotelContentPaths.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">HotelContentPaths</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#getPath--">getPath</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#getRequestClass--">getRequestClass</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Class.html?is-external=true" title="class or interface in java.lang">Class</a>&lt;? extends com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#getResponseClass--">getResponseClass</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/util/function.Function.html?is-external=true" title="class or interface in java.util">java.util.function.Function</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#getResultsFunction--">getResultsFunction</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#getUrlTag--">getUrlTag</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">ContentType</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#valueOf-java.lang.String-">valueOf</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</code>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">ContentType</a>[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html#values--">values</a></span>()</code>
 <div class="block">Returns an array containing the constants of this enum type, in
@@ -275,6 +296,42 @@ the order they are declared.</div>
 <li class="blockList">
 <h4>RATECOMMENT_DETAIL</h4>
 <pre>public static final&nbsp;<a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">ContentType</a> RATECOMMENT_DETAIL</pre>
+</li>
+</ul>
+<a name="HOTEL_DETAIL">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>HOTEL_DETAIL</h4>
+<pre>public static final&nbsp;<a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">ContentType</a> HOTEL_DETAIL</pre>
+</li>
+</ul>
+<a name="HOTEL">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>HOTEL</h4>
+<pre>public static final&nbsp;<a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">ContentType</a> HOTEL</pre>
+</li>
+</ul>
+<a name="DESTINATION">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DESTINATION</h4>
+<pre>public static final&nbsp;<a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">ContentType</a> DESTINATION</pre>
+</li>
+</ul>
+<a name="COUNTRY">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>COUNTRY</h4>
+<pre>public static final&nbsp;<a href="../../../../../com/hotelbeds/distribution/hotel_api_sdk/types/ContentType.html" title="enum in com.hotelbeds.distribution.hotel_api_sdk.types">ContentType</a> COUNTRY</pre>
 </li>
 </ul>
 <a name="BOARD">
@@ -519,10 +576,29 @@ not permitted.)</div>
 <a name="getResultsFunction--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getResultsFunction</h4>
 <pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/function.Function.html?is-external=true" title="class or interface in java.util">java.util.function.Function</a>&lt;com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse,<a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;?&gt;&gt;&nbsp;getResultsFunction()</pre>
+</li>
+</ul>
+<a name="getDefaultParameters--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDefaultParameters</h4>
+<pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>[]&nbsp;getDefaultParameters()</pre>
+</li>
+</ul>
+<a name="addCommonParameters-com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest-java.util.Map-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>addCommonParameters</h4>
+<pre>public&nbsp;void&nbsp;addCommonParameters(com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest&nbsp;request,
+                                <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;params)</pre>
 </li>
 </ul>
 </li>
