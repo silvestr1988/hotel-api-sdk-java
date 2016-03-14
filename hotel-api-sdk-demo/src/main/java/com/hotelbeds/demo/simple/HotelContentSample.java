@@ -1,8 +1,5 @@
 package com.hotelbeds.demo.simple;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-
 /*
  * #%L
  * HotelAPI SDK Demo
@@ -26,10 +23,8 @@ import java.util.Arrays;
  */
 
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
-import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentDetailsRQ;
-import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentDetailsRS;
+import com.hotelbeds.hotelcontentapi.auto.messages.Destination;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,28 +37,39 @@ public class HotelContentSample {
             apiClient.setReadTimeout(20000);
             apiClient.init();
 
-            RateCommentDetailsRQ rateCommentDetailsRQ = new RateCommentDetailsRQ();
-            rateCommentDetailsRQ.setDate(LocalDate.now());
-            rateCommentDetailsRQ.setContract(1);
-            rateCommentDetailsRQ.setIncoming(92331);
-            rateCommentDetailsRQ.setRates(Arrays.asList(96));
-            RateCommentDetailsRS rateCommentDetailsRS = apiClient.getRateCommentDetail(rateCommentDetailsRQ);
-            log.info("rateCommentDetailsRS: {}", LoggingRequestInterceptor.writeJSON(rateCommentDetailsRS));
 
-            //            log.info("Requesting boards...");
-            //            BoardsRQ boardsRQ = new BoardsRQ();
-            //            boardsRQ.setLanguage("ENG");
-            //            boardsRQ.setFrom(1);
-            //            boardsRQ.setTo(100);
-            //            boardsRQ.setFields(new String[] {
-            //                "all"});
-            // BoardsRS boardsRS = apiClient.getBoards(boardsRQ);
-            // //log.info("boardsRS: {}", LoggingRequestInterceptor.writeJSON(boardsRS));
-            //            for (Board board : boardsRS.getBoards()) {
-            //                log.info("Board: {}/{} - {}", new Object[] {
-            //                    board.getCode(), board.getMultiLingualCode(), board.getDescription() != null ? board.getDescription().getContent() : ""});
+            //            for (Hotel hotel : apiClient.getAllHotels("ENG", false)) {
+            //                log.info("Hotel: {} {}", new Object[] {
+            //                    hotel.getCode(), hotel.getName() != null ? hotel.getName().getContent() : ""});
             //            }
+
+            //            Hotel hotel = apiClient.getHotel(11234, "ENG", false);
+            //            log.info("hotel: {}", hotel);
+
+            for (Destination destination : apiClient.getAllDestinations("ENG", false)) {
+                log.info("Destination: {} {}", new Object[] {
+                    destination.getCode(), destination.getName() != null ? destination.getName().getContent() : ""});
+            }
+
+            apiClient.destinationsStream("ENG", false).forEach(destination -> {
+                log.info("Destination: {} {}", new Object[] {
+                    destination.getCode(), destination.getName() != null ? destination.getName().getContent() : ""});
+            });
+
             //
+            //            for (Country country : apiClient.getAllCountries("ENG", false)) {
+            //                log.info("Country: {}({}) {}", new Object[] {
+            //                    country.getCode(), country.getIsoCode(), country.getDescription() != null ? country.getDescription().getContent() : ""});
+            //            }
+
+            //            RateCommentDetailsRQ rateCommentDetailsRQ = new RateCommentDetailsRQ();
+            //            rateCommentDetailsRQ.setDate(LocalDate.now());
+            //            rateCommentDetailsRQ.setContract(1);
+            //            rateCommentDetailsRQ.setIncoming(92331);
+            //            rateCommentDetailsRQ.setRates(Arrays.asList(96));
+            //            RateCommentDetailsRS rateCommentDetailsRS = apiClient.getRateCommentDetail(rateCommentDetailsRQ);
+            //            log.info("rateCommentDetailsRS: {}", LoggingRequestInterceptor.writeJSON(rateCommentDetailsRS));
+
             //            for (Board element : apiClient.getAllBoards("ENG", false)) {
             //                log.info("Board: {}/{} - {}", new Object[] {
             //                    element.getCode(), element.getMultiLingualCode(), element.getDescription() != null ? element.getDescription().getContent() : ""});

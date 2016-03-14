@@ -29,6 +29,8 @@ import java.util.Map;
 import org.apache.commons.lang3.text.StrSubstitutor;
 
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse;
+import com.hotelbeds.hotelcontentapi.auto.messages.HotelDetailsRS;
+import com.hotelbeds.hotelcontentapi.auto.messages.HotelsRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentDetailsRS;
 
 /**
@@ -36,8 +38,12 @@ import com.hotelbeds.hotelcontentapi.auto.messages.RateCommentDetailsRS;
  */
 public enum HotelContentPaths {
 
+    COUNTRIES_URL(ConstantHolder.BASIC_LOCATION_PATH, AbstractGenericContentResponse.class),
+    DESTINATIONS_URL(ConstantHolder.BASIC_LOCATION_PATH + "&countryCodes=${countryCodes}", AbstractGenericContentResponse.class),
     TYPES_URL(ConstantHolder.PAGING_TYPE_PATH, AbstractGenericContentResponse.class),
-    RATECOMMENT_DETAIL_URL(ConstantHolder.BASIC_TYPE_PATH + "&date=${date}&code=${code}", RateCommentDetailsRS.class), ;
+    RATECOMMENT_DETAIL_URL(ConstantHolder.BASIC_TYPE_PATH + "&date=${date}&code=${code}", RateCommentDetailsRS.class),
+    HOTEL_DETAIL_URL(ConstantHolder.BASIC_HOTEL_PATH, HotelDetailsRS.class),
+    HOTELS_URL(ConstantHolder.HOTELS_PATH, HotelsRS.class);
 
     private final String urlTemplate;
     private final Class<? extends AbstractGenericContentResponse> responseClass;
@@ -73,8 +79,13 @@ public enum HotelContentPaths {
         private final static String BASIC_PATH = "${path}/${version}/";
         private final static String COMMON_PARAMETERS = "?fields=${fields}&language=${language}&useSecondaryLanguage=${useSecondaryLanguage}";
         private final static String PAGINATION_PARAMETERS = "&from=${from}&to=${to}&lastUpdateTime=${lastUpdateTime}";
+        private static final String EXTRA_HOTEL_PARAMETERS = "&countryCode=${countryCode}&destinationCode=${destinationCode}";
+        private static final String COMMON_CODED_PAGINATION = COMMON_PARAMETERS + "&codes=${codes}" + PAGINATION_PARAMETERS;
         private final static String BASIC_TYPE_PATH = BASIC_PATH + "types/${type}" + COMMON_PARAMETERS;
+        private final static String BASIC_HOTEL_PATH = BASIC_PATH + "${type}/${code}" + COMMON_PARAMETERS;
+        private final static String BASIC_LOCATION_PATH = BASIC_PATH + "locations/${type}" + COMMON_CODED_PAGINATION;
         private final static String PAGING_TYPE_PATH = BASIC_TYPE_PATH + PAGINATION_PARAMETERS;
+        private final static String HOTELS_PATH = BASIC_PATH + "${type}" + COMMON_CODED_PAGINATION + EXTRA_HOTEL_PARAMETERS;
     }
 
 }

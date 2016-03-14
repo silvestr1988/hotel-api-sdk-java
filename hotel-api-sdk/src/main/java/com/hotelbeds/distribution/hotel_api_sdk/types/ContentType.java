@@ -2,9 +2,11 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.function.Function;
 
 import com.hotelbeds.hotelapimodel.auto.util.AssignUtils;
+import com.hotelbeds.hotelcontentapi.auto.convert.json.DateSerializer;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse;
 import com.hotelbeds.hotelcontentapi.auto.messages.Accommodation;
@@ -19,9 +21,15 @@ import com.hotelbeds.hotelcontentapi.auto.messages.Category;
 import com.hotelbeds.hotelcontentapi.auto.messages.Chain;
 import com.hotelbeds.hotelcontentapi.auto.messages.ChainsRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.ChainsRS;
+import com.hotelbeds.hotelcontentapi.auto.messages.CountriesRQ;
+import com.hotelbeds.hotelcontentapi.auto.messages.CountriesRS;
+import com.hotelbeds.hotelcontentapi.auto.messages.Country;
 import com.hotelbeds.hotelcontentapi.auto.messages.CurrenciesRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.CurrenciesRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.Currency;
+import com.hotelbeds.hotelcontentapi.auto.messages.Destination;
+import com.hotelbeds.hotelcontentapi.auto.messages.DestinationsRQ;
+import com.hotelbeds.hotelcontentapi.auto.messages.DestinationsRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.FacilitiesRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.FacilitiesRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.Facility;
@@ -33,6 +41,11 @@ import com.hotelbeds.hotelcontentapi.auto.messages.FacilityTypologiesRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.GroupCategoriesRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.GroupCategoriesRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.GroupCategory;
+import com.hotelbeds.hotelcontentapi.auto.messages.Hotel;
+import com.hotelbeds.hotelcontentapi.auto.messages.HotelDetailsRQ;
+import com.hotelbeds.hotelcontentapi.auto.messages.HotelDetailsRS;
+import com.hotelbeds.hotelcontentapi.auto.messages.HotelsRQ;
+import com.hotelbeds.hotelcontentapi.auto.messages.HotelsRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.ImageType;
 import com.hotelbeds.hotelcontentapi.auto.messages.ImageTypesRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.ImageTypesRS;
@@ -89,6 +102,13 @@ public enum ContentType {
     // @formatter:off
     RATECOMMENT_DETAIL("ratecommentdetail", HotelContentPaths.RATECOMMENT_DETAIL_URL, RateCommentDetailsRQ.class, RateCommentDetailsRS.class, null),
     //
+    HOTEL_DETAIL("hotels", HotelContentPaths.HOTEL_DETAIL_URL, HotelDetailsRQ.class, HotelDetailsRS.class, null),
+    //
+    HOTEL("hotels", HotelContentPaths.HOTELS_URL, HotelsRQ.class, HotelsRS.class, FunctionHolder.HOTELS_EXTRACTOR, "codes", "countryCode","destinationCode"),
+    //
+    DESTINATION("destinations", HotelContentPaths.DESTINATIONS_URL, DestinationsRQ.class, DestinationsRS.class, FunctionHolder.DESTINATIONS_EXTRACTOR, "codes","countryCodes"),
+    COUNTRY("countries", HotelContentPaths.COUNTRIES_URL, CountriesRQ.class, CountriesRS.class, FunctionHolder.COUNTRIES_EXTRACTOR, "codes"),
+    //
     BOARD("boards", HotelContentPaths.TYPES_URL, BoardsRQ.class, BoardsRS.class, FunctionHolder.BOARD_EXTRACTOR),
     CHAIN("chains", HotelContentPaths.TYPES_URL, ChainsRQ.class, ChainsRS.class, FunctionHolder.CHAIN_EXTRACTOR),
     ACCOMODATION("accommodations", HotelContentPaths.TYPES_URL, AccommodationsRQ.class, AccommodationsRS.class, FunctionHolder.ACCOMMODATION_EXTRACTOR),
@@ -114,14 +134,17 @@ public enum ContentType {
     private final Class<? extends AbstractGenericContentRequest> requestClass;
     private final Class<? extends AbstractGenericContentResponse> responseClass;
     private final Function<AbstractGenericContentResponse, Collection<?>> resultsFunction;
+    private final String[] defaultParameters;
 
     private ContentType(String urlTag, HotelContentPaths path, final Class<? extends AbstractGenericContentRequest> requestClass,
-        final Class<? extends AbstractGenericContentResponse> responseClass, Function<AbstractGenericContentResponse, Collection<?>> resultsFunction) {
+        final Class<? extends AbstractGenericContentResponse> responseClass,
+        final Function<AbstractGenericContentResponse, Collection<?>> resultsFunction, final String... defaultParameters) {
         this.urlTag = urlTag;
         this.path = path;
         this.requestClass = requestClass;
         this.responseClass = responseClass;
         this.resultsFunction = resultsFunction;
+        this.defaultParameters = defaultParameters;
     }
 
     public String getUrlTag() {
@@ -143,6 +166,26 @@ public enum ContentType {
     public Function<AbstractGenericContentResponse, Collection<?>> getResultsFunction() {
         return resultsFunction;
     }
+
+    public String[] getDefaultParameters() {
+        return defaultParameters;
+    }
+
+    public void addCommonParameters(AbstractGenericContentRequest request, final Map<String, String> params) {
+        if (getDefaultParameters() != null) {
+            for (String param : getDefaultParameters()) {
+                params.put(param, "");
+            }
+        }
+        params.put("type", getUrlTag());
+        params.put("language", request.getLanguage() != null ? request.getLanguage() : "ENG");
+        params.put("from", request.getFrom() != null ? request.getFrom().toString() : "1");
+        params.put("to", request.getTo() != null ? request.getTo().toString() : "100");
+        params.put("fields", request.getFields() != null ? String.join(",", request.getFields()) : "");
+        params.put("useSecondaryLanguage", Boolean.toString(request.isUseSecondaryLanguage()));
+        params.put("lastUpdateTime", request.getLastUpdateTime() != null ? DateSerializer.REST_FORMATTER.format(request.getLastUpdateTime()) : "");
+    }
+
 
     @Data
     private static class Extractor<T extends AbstractGenericContentResponse, Y> implements Function<AbstractGenericContentResponse, Collection<?>> {
@@ -166,6 +209,23 @@ public enum ContentType {
     }
 
     private static class FunctionHolder {
+        //
+        private static final Function<HotelsRS, Collection<Hotel>> HOTELS_RS_EXTRACTOR = response -> {
+            return response.getHotels();
+        };
+        private static final Extractor<HotelsRS, Hotel> HOTELS_EXTRACTOR = new Extractor<HotelsRS, Hotel>(HotelsRS.class, HOTELS_RS_EXTRACTOR);
+        //
+        private static final Function<CountriesRS, Collection<Country>> COUNTRIES_RS_EXTRACTOR = response -> {
+            return response.getCountries();
+        };
+        private static final Extractor<CountriesRS, Country> COUNTRIES_EXTRACTOR = new Extractor<CountriesRS, Country>(CountriesRS.class,
+            COUNTRIES_RS_EXTRACTOR);
+        //
+        private static final Function<DestinationsRS, Collection<Destination>> DESTINATIONS_RS_EXTRACTOR = response -> {
+            return response.getDestinations();
+        };
+        private static final Extractor<DestinationsRS, Destination> DESTINATIONS_EXTRACTOR = new Extractor<DestinationsRS, Destination>(
+            DestinationsRS.class, DESTINATIONS_RS_EXTRACTOR);
         //
         private static final Function<BoardsRS, Collection<Board>> BOARD_RS_EXTRACTOR = response -> {
             return response.getBoards();

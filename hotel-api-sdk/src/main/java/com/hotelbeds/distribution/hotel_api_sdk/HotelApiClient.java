@@ -28,23 +28,17 @@ import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -83,15 +77,18 @@ import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse;
 import com.hotelbeds.hotelcontentapi.auto.messages.Accommodation;
 import com.hotelbeds.hotelcontentapi.auto.messages.Board;
-import com.hotelbeds.hotelcontentapi.auto.messages.BoardsRQ;
-import com.hotelbeds.hotelcontentapi.auto.messages.BoardsRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.Category;
 import com.hotelbeds.hotelcontentapi.auto.messages.Chain;
+import com.hotelbeds.hotelcontentapi.auto.messages.Country;
 import com.hotelbeds.hotelcontentapi.auto.messages.Currency;
+import com.hotelbeds.hotelcontentapi.auto.messages.Destination;
 import com.hotelbeds.hotelcontentapi.auto.messages.Facility;
 import com.hotelbeds.hotelcontentapi.auto.messages.FacilityGroup;
 import com.hotelbeds.hotelcontentapi.auto.messages.FacilityType;
 import com.hotelbeds.hotelcontentapi.auto.messages.GroupCategory;
+import com.hotelbeds.hotelcontentapi.auto.messages.Hotel;
+import com.hotelbeds.hotelcontentapi.auto.messages.HotelDetailsRQ;
+import com.hotelbeds.hotelcontentapi.auto.messages.HotelDetailsRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.ImageType;
 import com.hotelbeds.hotelcontentapi.auto.messages.Issue;
 import com.hotelbeds.hotelcontentapi.auto.messages.Language;
@@ -391,89 +388,198 @@ public class HotelApiClient implements AutoCloseable {
 
     public RateCommentDetailsRS getRateCommentDetail(RateCommentDetailsRQ request) throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
-        addCommonParameters(request, ContentType.RATECOMMENT_DETAIL, params);
+        ContentType.RATECOMMENT_DETAIL.addCommonParameters(request, params);
         params.put("code", ObjectJoiner.join("|", request.getContract(), request.getIncoming(), ObjectJoiner.join(",", request.getRates())));
         // Validate, date cannot be null
         params.put("date", DateSerializer.REST_FORMATTER.format(request.getDate()));
         return (RateCommentDetailsRS) callRemoteContentAPI(request, params, ContentType.RATECOMMENT_DETAIL);
     }
 
+
+    public Hotel getHotel(final int code, final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        HotelDetailsRQ request = new HotelDetailsRQ();
+        request.setLanguage(language);
+        request.setUseSecondaryLanguage(useSecondaryLanguage);
+        request.setFields(new String[] {"all"});
+        final Map<String, String> params = new HashMap<>();
+        ContentType.HOTEL_DETAIL.addCommonParameters(request, params);
+        params.put("code", Integer.toString(code));
+        HotelDetailsRS hotelDetailRS = (HotelDetailsRS) callRemoteContentAPI(request, params, ContentType.HOTEL_DETAIL);
+        if (hotelDetailRS.getHotel() != null) {
+            return hotelDetailRS.getHotel();
+        } else {
+            throw new HotelApiSDKException(new HotelbedsError("Hotel not found", Integer.toString(code)));
+        }
+    }
+
+    public List<Destination> getAllDestinations(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getAllElements(language, useSecondaryLanguage, ContentType.DESTINATION);
+    }
+
+    public Stream<Destination> destinationsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.DESTINATION);
+    }
+
+    public List<Country> getAllCountries(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getAllElements(language, useSecondaryLanguage, ContentType.COUNTRY);
+    }
+
+    public Stream<Country> countriesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.COUNTRY);
+    }
+
+    public List<Hotel> getAllHotels(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getAllElements(language, useSecondaryLanguage, ContentType.HOTEL);
+    }
+
+    public Stream<Hotel> hotelsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.HOTEL);
+    }
+
     ////////////////
     // Gemeric Types
     ////////////////
 
-    public BoardsRS getBoards(BoardsRQ request) throws HotelApiSDKException {
-        final Map<String, String> params = new HashMap<>();
-        addCommonParameters(request, ContentType.BOARD, params);
-        return (BoardsRS) callRemoteContentAPI(request, params, ContentType.BOARD);
-    }
+    //    public BoardsRS getBoards(BoardsRQ request) throws HotelApiSDKException {
+    //        final Map<String, String> params = new HashMap<>();
+    //        addCommonParameters(request, ContentType.BOARD, params);
+    //        return (BoardsRS) callRemoteContentAPI(request, params, ContentType.BOARD);
+    //    }
 
     public List<Board> getAllBoards(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.BOARD);
+    }
+
+    public Stream<Board> boardsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.BOARD);
     }
 
     public List<Chain> getAllChains(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.CHAIN);
     }
 
+    public Stream<Chain> chainsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.CHAIN);
+    }
+
     public List<Accommodation> getAllAccommodations(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.ACCOMODATION);
+    }
+
+    public Stream<Accommodation> accommodationsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.ACCOMODATION);
     }
 
     public List<Category> getAllCategories(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.CATEGORY);
     }
 
+    public Stream<Category> categoriesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.CATEGORY);
+    }
+
     public List<RateComments> getAllRateComments(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.RATECOMMENT);
+    }
+
+    public Stream<RateComments> rateCommentsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.RATECOMMENT);
     }
 
     public List<Currency> getAllCurrencies(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.CURRENCY);
     }
 
+    public Stream<Currency> currenciesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.CURRENCY);
+    }
+
     public List<Facility> getAllFacilities(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.FACILITY);
+    }
+
+    public Stream<Facility> facilitiesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.FACILITY);
     }
 
     public List<FacilityGroup> getAllFacilityGroups(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.FACILITY_GROUP);
     }
 
+    public Stream<FacilityGroup> facilityGroupsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.FACILITY_GROUP);
+    }
+
     public List<FacilityType> getAllFacilityTypes(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.FACILITY_TYPE);
+    }
+
+    public Stream<FacilityType> facilityTypesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.FACILITY_TYPE);
     }
 
     public List<Issue> getAllIssues(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.ISSUE);
     }
 
+    public Stream<Issue> issuesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.ISSUE);
+    }
+
     public List<Language> getAllLanguages(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.LANGUAGE);
+    }
+
+    public Stream<Language> languagesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.LANGUAGE);
     }
 
     public List<Promotion> getAllPromotions(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.PROMOTION);
     }
 
+    public Stream<Promotion> promotionsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.PROMOTION);
+    }
+
     public List<Room> getAllRooms(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.ROOM);
+    }
+
+    public Stream<Room> roomsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.ROOM);
     }
 
     public List<Segment> getAllSegments(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.SEGMENT);
     }
 
+    public Stream<Segment> segmentsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.SEGMENT);
+    }
+
     public List<Terminal> getAllTerminals(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.TERMINAL);
+    }
+
+    public Stream<Terminal> terminalsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.TERMINAL);
     }
 
     public List<ImageType> getAllImageTypes(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.IMAGE_TYPE);
     }
 
+    public Stream<ImageType> imageTypesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.IMAGE_TYPE);
+    }
+
     public List<GroupCategory> getAllGroupCategories(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.GROUP_CATEGORY);
+    }
+
+    public Stream<GroupCategory> groupCategoriesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.GROUP_CATEGORY);
     }
 
     @Data
@@ -488,75 +594,35 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private <T> List<T> getAllElements(final String language, final boolean useSecondaryLanguage, ContentType type) throws HotelApiSDKException {
-        AbstractGenericContentRequest abstractGenericContentRequest;
-        List<T> elements = new ArrayList<>();
-        int total = 0;
         try {
-            abstractGenericContentRequest = type.getRequestClass().newInstance();
-            abstractGenericContentRequest.setFields(new String[] {"all"});
-
-            Set<Callable<AbstractGenericContentResponse>> callables = new HashSet<Callable<AbstractGenericContentResponse>>();
-
-            final Map<String, String> params = new HashMap<>();
-            addCommonParameters(abstractGenericContentRequest, type, params);
-            params.put("from", Integer.toString(1));
-            params.put("to", Integer.toString(1000));
-            AbstractGenericContentResponse response = callRemoteContentAPI(abstractGenericContentRequest, params, type);
-            log.info("Retrieving {} elements of type {}...", response.getTotal(), type);
-            total = response.getTotal();
-            if (type.getResultsFunction() != null) {
-                Collection<T> responseElements = (Collection<T>) type.getResultsFunction().apply(response);
-                if (AssignUtils.isNotEmpty(responseElements)) {
-                    elements.addAll(responseElements);
-                    int from = response.getFrom() + 1000;
-                    while (from < response.getTotal()) {
-                        params.put("from", Integer.toString(from));
-                        params.put("to", Integer.toString(from + 999));
-                        //
-                        final Map<String, String> callableParams = new HashMap<>();
-                        callableParams.putAll(params);
-                        Callable<AbstractGenericContentResponse> callable =
-                            new RemoteApiCallable(type, abstractGenericContentRequest, callableParams);
-                        callables.add(callable);
-                        from += 1000;
-                    }
-                }
-                List<Future<AbstractGenericContentResponse>> futures = executorService.invokeAll(callables);
-                for (Future<AbstractGenericContentResponse> future : futures) {
-                    try {
-                        response = future.get();
-                        responseElements = (Collection<T>) type.getResultsFunction().apply(response);
-                        if (AssignUtils.isNotEmpty(responseElements)) {
-                            elements.addAll(responseElements);
-                        }
-                    } catch (ExecutionException e) {
-                        log.error("Error while retrieving a block of elements of type {}", type.name(), e);
-                    }
-                }
-            } else {
-                throw new HotelApiSDKException(new HotelbedsError("SDK Configuration error",
-                    "Extracting results from a type that has no extractor configured: " + type.name()));
-            }
+            return StreamSupport.stream(
+                new ContentElementSpliterator<T>(this, type, generateDefaultFullRequest(language, useSecondaryLanguage, type)), false).collect(
+                Collectors.toList());
         } catch (InstantiationException | IllegalAccessException e) {
             throw new HotelApiSDKException(new HotelbedsError("SDK Configuration error", e.getCause().getMessage()));
-        } catch (InterruptedException e) {
-            throw new HotelApiSDKException(new HotelbedsError("Interrupted while calling service", e.getCause().getMessage()));
         }
-        log.info("Retrieved {} of {} elements of type {}", new Object[] {
-            elements.size(), total, type});
-        return elements;
     }
 
-    private void addCommonParameters(AbstractGenericContentRequest request, final ContentType type, final Map<String, String> params) {
-        params.put("type", type.getUrlTag());
-        params.put("language", request.getLanguage() != null ? request.getLanguage() : "ENG");
-        params.put("from", request.getFrom() != null ? request.getFrom().toString() : "1");
-        params.put("to", request.getTo() != null ? request.getTo().toString() : "100");
-        params.put("fields", request.getFields() != null ? String.join(",", request.getFields()) : "");
-        params.put("useSecondaryLanguage", Boolean.toString(request.isUseSecondaryLanguage()));
-        params.put("lastUpdateTime", request.getLastUpdateTime() != null ? DateSerializer.REST_FORMATTER.format(request.getLastUpdateTime()) : "");
+    private <T> Stream<T> getStreamOf(final String language, final boolean useSecondaryLanguage, ContentType type) throws HotelApiSDKException {
+        try {
+            return StreamSupport.stream(
+                new ContentElementSpliterator<T>(this, type, generateDefaultFullRequest(language, useSecondaryLanguage, type)), false);
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new HotelApiSDKException(new HotelbedsError("SDK Configuration error", e.getCause().getMessage()));
+        }
+    }
+
+    private AbstractGenericContentRequest generateDefaultFullRequest(final String language, final boolean useSecondaryLanguage, ContentType type)
+        throws InstantiationException, IllegalAccessException {
+        final AbstractGenericContentRequest abstractGenericContentRequest;
+        final Map<String, String> params = new HashMap<>();
+        abstractGenericContentRequest = type.getRequestClass().newInstance();
+        abstractGenericContentRequest.setLanguage(language);
+        abstractGenericContentRequest.setUseSecondaryLanguage(useSecondaryLanguage);
+        abstractGenericContentRequest.setFields(new String[] {"all"});
+        type.addCommonParameters(abstractGenericContentRequest, params);
+        return abstractGenericContentRequest;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -647,7 +713,7 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
-    private AbstractGenericContentResponse callRemoteContentAPI(final AbstractGenericContentRequest abstractGenericContentResponse,
+    AbstractGenericContentResponse callRemoteContentAPI(final AbstractGenericContentRequest abstractGenericContentResponse,
         final Map<String, String> params, ContentType type) throws HotelApiSDKException {
         HotelContentPaths path = type.getPath();
         if (isInitialised()) {

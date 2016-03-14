@@ -32,12 +32,10 @@ package com.hotelbeds.hotelcontentapi.auto.messages;
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
-import lombok.AllArgsConstructor;
 
 @ToString
 @NoArgsConstructor
 @Data
-@AllArgsConstructor
 public class Location {
 
     private LocationElement zone;
