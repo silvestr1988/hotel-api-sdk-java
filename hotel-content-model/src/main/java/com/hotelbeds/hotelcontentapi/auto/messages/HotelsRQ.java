@@ -49,13 +49,24 @@ public class HotelsRQ extends AbstractGenericContentRequest {
 
     private String destinationCode;
     private String countryCode;
+    private List<String> chainCodes;
+    private List<String> accommodationTypeCodes;
+    private List<String> boardCodes;
+    private List<String> segmentCodes;
+    private List<String> languageDescriptions;
     @Min(value = 0)
     @Digits(fraction = 1, integer = 1)
     private BigDecimal minTripadvisorRate;
     @Min(value = 0)
     @Digits(fraction = 1, integer = 1)
     private BigDecimal maxTripadvisorRate;
+    private Integer minTripadvisorReviewCount;
     private List<String> accomodationTypes;
+    private List<String> categoryCodes;
+    private List<String> categoryGroupCodes;
+    @Min(value = 1)
+    private Integer minImages;
+    private Boolean allIncluded;
 
 
 }

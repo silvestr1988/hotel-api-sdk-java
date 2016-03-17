@@ -38,6 +38,7 @@ import com.hotelbeds.hotelcontentapi.auto.messages.Content;
 import com.hotelbeds.hotelcontentapi.auto.messages.Country;
 import com.hotelbeds.hotelcontentapi.auto.messages.Destination;
 import com.hotelbeds.hotelcontentapi.auto.messages.GeoLocation;
+import com.hotelbeds.hotelcontentapi.auto.messages.GroupCategory;
 import com.hotelbeds.hotelcontentapi.auto.messages.HotelFacility;
 import com.hotelbeds.hotelcontentapi.auto.messages.HotelIssue;
 import com.hotelbeds.hotelcontentapi.auto.messages.HotelPhone;
@@ -73,6 +74,8 @@ public class Hotel {
     private GeoLocation coordinates;
     private String categoryCode;
     private Category category;
+    private String categoryGroupCode;
+    private GroupCategory categoryGroup;
     private String chainCode;
     private Chain chain;
     private String accommodationTypeCode;

@@ -172,9 +172,6 @@ public final class SimpleTypes {
 
         /**
          * Translates DirectPayments values from Ace to the ones used in Hotel-
-         *
-         * @param value
-         * @return
          */
         public static ShowDirectPayment getDirectPaymentFromAceValue(final String value) {
             return showDirectPaymentByAceValue.get(value);

@@ -24,7 +24,6 @@ package com.hotelbeds.demo.simple;
 
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
-import com.hotelbeds.hotelcontentapi.auto.messages.Destination;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,12 +45,12 @@ public class HotelContentSample {
             //            Hotel hotel = apiClient.getHotel(11234, "ENG", false);
             //            log.info("hotel: {}", hotel);
 
-            for (Destination destination : apiClient.getAllDestinations("ENG", false)) {
-                log.info("Destination: {} {}", new Object[] {
-                    destination.getCode(), destination.getName() != null ? destination.getName().getContent() : ""});
-            }
+            //            for (Destination destination : apiClient.getAllDestinations("ENG", false)) {
+            //                log.info("Destination: {} {}", new Object[] {
+            //                    destination.getCode(), destination.getName() != null ? destination.getName().getContent() : ""});
+            //            }
 
-            apiClient.destinationsStream("ENG", false).forEach(destination -> {
+            apiClient.destinationsStream("ENG", false).parallel().forEach(destination -> {
                 log.info("Destination: {} {}", new Object[] {
                     destination.getCode(), destination.getName() != null ? destination.getName().getContent() : ""});
             });
