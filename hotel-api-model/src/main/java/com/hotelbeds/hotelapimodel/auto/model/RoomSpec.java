@@ -3,7 +3,7 @@
  * Do not edit. Any modification on this file will be removed automatically after project build
  *
  */
-package com.hotelbeds.hotelapimodel.auto.messages;
+package com.hotelbeds.hotelapimodel.auto.model;
 
 /*
  * #%L
@@ -30,47 +30,21 @@ package com.hotelbeds.hotelapimodel.auto.messages;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidStay;
-import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.ChangeMode;
-import com.hotelbeds.hotelapimodel.auto.model.Holder;
-import com.hotelbeds.hotelapimodel.auto.model.Pax;
-import com.hotelbeds.hotelapimodel.auto.model.RoomSpec;
-import com.hotelbeds.hotelapimodel.auto.model.Stay;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Min;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class BookingChangeRQ extends AbstractGenericRequest {
+public class RoomSpec {
 
-    @NotNull
-    private String bookingId;
-    @Valid
-    @NotNull
-    private ChangeMode mode;
-    private String boardCode;
-    @Valid
-    private Holder holder;
-    @Valid
-    @ValidStay(maxDaysRange = 30)
-    private Stay stay;
-    @Valid
-    private List<Pax> paxes;
-    @Valid
-    private List<RoomSpec> roomSpecifications;
-    @Valid
-    @Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}")
-    private String clientReference;
+    private int id;
+    @Min(value = 1)
+    private int rooms;
 
 
 }

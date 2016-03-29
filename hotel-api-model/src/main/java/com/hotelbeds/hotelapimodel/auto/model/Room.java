@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.ShoppingCartStatus;
 import com.hotelbeds.hotelapimodel.auto.model.Pax;
 import com.hotelbeds.hotelapimodel.auto.model.Rate;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
 
@@ -47,6 +48,7 @@ import lombok.Data;
 public class Room {
 
     private ShoppingCartStatus status;
+    private BigDecimal id;
     private String code;
     private String name;
     private List<Pax> paxes;

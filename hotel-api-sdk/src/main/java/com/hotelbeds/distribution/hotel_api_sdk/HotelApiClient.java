@@ -28,6 +28,7 @@ import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -385,11 +386,25 @@ public class HotelApiClient implements AutoCloseable {
     //////////////////////// HOTEL CONTENT
     /////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////
+    public RateCommentDetailsRS getRateCommentDetail(Integer contract, Integer incoming, Integer... rates) throws HotelApiSDKException {
+        return getRateCommentDetail(LocalDate.now(), contract, incoming, rates);
+    }
 
-    public RateCommentDetailsRS getRateCommentDetail(RateCommentDetailsRQ request) throws HotelApiSDKException {
+    public RateCommentDetailsRS getRateCommentDetail(LocalDate date, Integer contract, Integer incoming, Integer... rates)
+        throws HotelApiSDKException {
+        return getRateCommentDetail(date, ObjectJoiner.join("|", contract, incoming, ObjectJoiner.join(",", Arrays.asList(rates))));
+    }
+
+    public RateCommentDetailsRS getRateCommentDetail(String rateCommentId) throws HotelApiSDKException {
+        return getRateCommentDetail(LocalDate.now(), rateCommentId);
+    }
+
+    public RateCommentDetailsRS getRateCommentDetail(LocalDate date, String rateCommentId) throws HotelApiSDKException {
+        RateCommentDetailsRQ request = new RateCommentDetailsRQ();
         final Map<String, String> params = new HashMap<>();
+        request.setDate(date);
         ContentType.RATECOMMENT_DETAIL.addCommonParameters(request, params);
-        params.put("code", ObjectJoiner.join("|", request.getContract(), request.getIncoming(), ObjectJoiner.join(",", request.getRates())));
+        params.put("code", rateCommentId);
         // Validate, date cannot be null
         params.put("date", DateSerializer.REST_FORMATTER.format(request.getDate()));
         return (RateCommentDetailsRS) callRemoteContentAPI(request, params, ContentType.RATECOMMENT_DETAIL);
@@ -693,7 +708,7 @@ public class HotelApiClient implements AutoCloseable {
                 if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
                     throw new HotelApiSDKException(new HotelbedsError("Timeout", e.getCause().getMessage()));
                 } else {
-                    throw new HotelApiSDKException(new HotelbedsError("Error accessing API", e.getCause().getMessage()));
+                    throw new HotelApiSDKException(new HotelbedsError("Error accessing API", e.getMessage()));
                 }
             } catch (Exception e) {
                 throw new HotelApiSDKException(new HotelbedsError(e.getClass().getName(), e.getMessage()), e);
