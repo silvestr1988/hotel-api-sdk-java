@@ -30,6 +30,7 @@ package com.hotelbeds.hotelcontentapi.auto.messages;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hotelbeds.hotelcontentapi.auto.messages.Accommodation;
 import com.hotelbeds.hotelcontentapi.auto.messages.Board;
 import com.hotelbeds.hotelcontentapi.auto.messages.Category;
@@ -99,6 +100,8 @@ public class Hotel {
     private List<Image> images;
     private List<WildCard> wildcards;
     private String web;
+    @JsonProperty("S2C")
+    private String sureToCare;
 
 
 }
