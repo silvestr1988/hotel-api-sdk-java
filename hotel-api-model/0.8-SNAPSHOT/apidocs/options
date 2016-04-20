@@ -1,0 +1,34 @@
+-locale
+'en'
+-classpath
+'C:/rosetta/hotel-api-sdk-java/hotel-api-model/target/classes;C:/Maven/Nexuslib/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.6.3/jackson-datatype-jsr310-2.6.3.jar;C:/Maven/Nexuslib/com/fasterxml/jackson/core/jackson-annotations/2.6.0/jackson-annotations-2.6.0.jar;C:/Maven/Nexuslib/org/projectlombok/lombok/1.16.6/lombok-1.16.6.jar;C:/Maven/Nexuslib/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar;C:/Maven/Nexuslib/com/fasterxml/jackson/core/jackson-databind/2.6.3/jackson-databind-2.6.3.jar;C:/Maven/Nexuslib/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar;C:/Maven/Nexuslib/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6.jar;C:/Maven/Nexuslib/com/fasterxml/jackson/core/jackson-core/2.6.3/jackson-core-2.6.3.jar'
+-encoding
+'UTF-8'
+-public
+-sourcepath
+'C:/rosetta/hotel-api-sdk-java/hotel-api-model/target/generated-sources/delombok'
+-author
+-bottom
+'Copyright &#169; 2016 <a href="http://www.hotelbeds.com/">HOTELBEDS, S.L.U.</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/rosetta/hotel-api-sdk-java-pages/hotel-api-model/0.8-SNAPSHOT/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'HotelAPI Model, 0.8-SNAPSHOT'
+-footer
+'HotelAPI Model, 0.8-SNAPSHOT'
+-header
+'HotelAPI Model, 0.8-SNAPSHOT'
+-link
+'http://hotelbeds-sdk.github.io/hotel-api-sdk-java/hotel-api-model/0.8-SNAPSHOT/apidocs'
+-linkoffline
+'http://docs.oracle.com/javase/7/docs/api' 'C:/rosetta/hotel-api-sdk-java/hotel-api-model/target/javadoc-bundle-options'
+-nohelp
+-notimestamp
+-use
+-version
+-windowtitle
+'HotelAPI Model 0.8-SNAPSHOT API'

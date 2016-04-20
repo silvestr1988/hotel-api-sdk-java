@@ -1,0 +1,1 @@
+"C:\Program Files\Java\jdk1.8.0_25\jre\..\bin\javadoc.exe" -J-Dhttp.proxySet=true -J-Dhttp.proxyHost=proxy1.services.gfc -J-Dhttp.proxyPort=3128 "-J-Dhttp.nonProxyHosts=\"nexus.hotelbeds\"" @options @argfile
