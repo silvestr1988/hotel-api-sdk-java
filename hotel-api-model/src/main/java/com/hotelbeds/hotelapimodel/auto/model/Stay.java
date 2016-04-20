@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.FutureForLocalDate;
 import com.hotelbeds.hotelapimodel.auto.convert.json.DateSerializer;
 import java.time.LocalDate;
 import javax.validation.constraints.Min;
@@ -53,7 +52,6 @@ public class Stay {
     @JsonProperty
     @JsonSerialize(using = DateSerializer.class)
     @NotNull
-    @FutureForLocalDate
     private LocalDate checkIn;
     @JsonProperty
     @JsonSerialize(using = DateSerializer.class)

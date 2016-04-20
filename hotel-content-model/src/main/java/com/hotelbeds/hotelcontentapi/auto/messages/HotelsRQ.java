@@ -31,6 +31,7 @@ package com.hotelbeds.hotelcontentapi.auto.messages;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
@@ -50,9 +51,8 @@ public class HotelsRQ extends AbstractGenericContentRequest {
     private String destinationCode;
     private String countryCode;
     private List<String> chainCodes;
-    private List<String> accommodationTypeCodes;
     private List<String> boardCodes;
-    private List<String> segmentCodes;
+    private List<Integer> segmentCodes;
     private List<String> languageDescriptions;
     @Min(value = 0)
     @Digits(fraction = 1, integer = 1)
@@ -62,11 +62,24 @@ public class HotelsRQ extends AbstractGenericContentRequest {
     private BigDecimal maxTripadvisorRate;
     private Integer minTripadvisorReviewCount;
     private List<String> accomodationTypes;
+    private List<String> imageTypes;
     private List<String> categoryCodes;
     private List<String> categoryGroupCodes;
+    private List<String> sureToCare;
     @Min(value = 1)
     private Integer minImages;
     private Boolean allIncluded;
+    private LocalDate creationTime;
+    @Min(value = 0)
+    private Integer maxPax;
+    @Min(value = 0)
+    private Integer minPax;
+    @Min(value = 0)
+    private Integer maxAdults;
+    @Min(value = 0)
+    private Integer minAdults;
+    @Min(value = 0)
+    private Integer maxChildren;
 
 
 }

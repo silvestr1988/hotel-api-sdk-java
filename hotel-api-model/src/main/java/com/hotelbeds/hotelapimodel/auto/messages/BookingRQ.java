@@ -63,6 +63,7 @@ public class BookingRQ extends AbstractGenericRequest {
     private String clientReference;
     @Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}")
     private String remark;
+    private String sourceMarket;
 
 
 }
