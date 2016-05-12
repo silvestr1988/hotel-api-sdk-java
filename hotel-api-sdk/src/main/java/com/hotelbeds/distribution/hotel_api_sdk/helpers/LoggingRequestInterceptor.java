@@ -159,10 +159,11 @@ public final class LoggingRequestInterceptor implements Interceptor {
                 }
             }
             String body = buffer.readString(charset);
-            if (headers.get(HotelApiClient.CONTENT_TYPE_HEADER).equalsIgnoreCase(HotelApiClient.APPLICATION_JSON_HEADER)) {
-                log.trace("  Body:{}", writeJSON(body));
+            String bodyContentType = headers.get(HotelApiClient.CONTENT_TYPE_HEADER);
+            if (bodyContentType != null && bodyContentType.toLowerCase().startsWith(HotelApiClient.APPLICATION_JSON_HEADER)) {
+                log.trace("  JSON Body: {}", writeJSON(body));
             } else {
-                log.trace("  Body:{}", body);
+                log.trace("  Body: {}", body);
             }
         }
     }
@@ -181,7 +182,12 @@ public final class LoggingRequestInterceptor implements Interceptor {
         String result = null;
         mapper = new ObjectMapper();
         try {
-            result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+            if (object instanceof String) {
+                Object json = mapper.readValue((String) object, Object.class);
+                result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+            } else {
+                result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+            }
         } catch (final IOException e) {
             log.warn("Body is not a json object {}", e.getMessage());
         }
