@@ -70,15 +70,15 @@ public enum HotelApiPaths {
         return responseClass;
     }
 
-    public String getUrl(HotelApiService service, HotelApiVersion version) {
-        return getUrl(service, version, null);
+    public String getUrl(HotelApiService service, HotelApiVersion version, String alternativeHotelApiPath) {
+        return getUrl(service, version, null, alternativeHotelApiPath);
     }
 
-    public String getUrl(HotelApiService service, HotelApiVersion version, Map<String, String> params) {
+    public String getUrl(HotelApiService service, HotelApiVersion version, Map<String, String> params, String alternativeHotelApiPath) {
         if (params == null) {
             params = new HashMap<>();
         }
-        params.put("path", service.getHotelApiPath());
+        params.put("path", service.getHotelApiPath(alternativeHotelApiPath));
         params.put("version", version.getVersion());
         StrSubstitutor strSubstitutor = new StrSubstitutor(params);
         return strSubstitutor.replace(urlTemplate);

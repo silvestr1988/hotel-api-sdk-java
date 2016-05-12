@@ -40,12 +40,12 @@ public enum HotelApiService {
         this.hotelContentPath = hotelContentPath;
     }
 
-    public String getHotelApiPath() {
-        return hotelApiPath;
+    public String getHotelApiPath(String alternativePath) {
+        return alternativePath != null ? alternativePath : hotelApiPath;
     }
 
-    public String getHotelContentPath() {
-        return hotelContentPath;
+    public String getHotelContentPath(String alternativePath) {
+        return alternativePath != null ? alternativePath : hotelContentPath;
     }
 
 }

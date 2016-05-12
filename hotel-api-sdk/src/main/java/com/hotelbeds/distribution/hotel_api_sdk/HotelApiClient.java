@@ -134,6 +134,8 @@ public class HotelApiClient implements AutoCloseable {
     public static final String DEFAULT_LANGUAGE = "ENG";
     private static final int REST_TEMPLATE_READ_TIME_OUT = 5000;
 
+    private static final String HOTEL_API_URL_PROPERTY = "hotel-api.url";
+    private static final String HOTEL_CONTENT_URL_PROPERTY = "hotel-content.url";
     private static final String API_KEY_HEADER_NAME = "Api-Key";
     private static final String SIGNATURE_HEADER_NAME = "X-Signature";
 
@@ -141,6 +143,8 @@ public class HotelApiClient implements AutoCloseable {
     private final String sharedSecret;
     private final HotelApiVersion hotelApiversion;
     private final HotelApiService hotelApiService;
+    private String defaultLanguage;
+    private boolean defaultUseSecondaryLanguage;
     private Properties properties = null;
     private OkHttpClient restTemplate = null;
     private boolean initialised = false;
@@ -149,6 +153,8 @@ public class HotelApiClient implements AutoCloseable {
     private int connectionRequestTimeout = REST_TEMPLATE_READ_TIME_OUT;
     private ExecutorService executorService = null;
     private ObjectMapper mapper = null;
+    private final String alternativeHotelApiPath;
+    private final String alternativeHotelContentPath;
 
     public HotelApiClient() {
         this((String) null, null);
@@ -179,6 +185,8 @@ public class HotelApiClient implements AutoCloseable {
             throw new IllegalArgumentException(
                 "HotelApiClient cannot be created without specifying an API key, Shared Secret, the Hotel API version and the service you are connecting to.");
         }
+        alternativeHotelApiPath = getHotelApiUrl();
+        alternativeHotelContentPath = getHotelContentUrl();
         properties = new Properties();
     }
 
@@ -230,6 +238,24 @@ public class HotelApiClient implements AutoCloseable {
             }
         }
         return properties.getProperty(propertyName);
+    }
+
+    private String getHotelApiUrl() {
+        String result = null;
+        String alternativeUrl = getValueFromProperties("Alternative Hotel Api Url", HOTEL_API_URL_PROPERTY);
+        if (alternativeUrl != null) {
+            result = alternativeUrl;
+        }
+        return result;
+    }
+
+    private String getHotelContentUrl() {
+        String result = null;
+        String alternativeUrl = getValueFromProperties("Alternative Hotel Content Url", HOTEL_CONTENT_URL_PROPERTY);
+        if (alternativeUrl != null) {
+            result = alternativeUrl;
+        }
+        return result;
     }
 
     private String getHotelApiKey(String providedDefault) {
@@ -431,6 +457,11 @@ public class HotelApiClient implements AutoCloseable {
         return getAllElements(language, useSecondaryLanguage, ContentType.DESTINATION);
     }
 
+    public Stream<Destination> destinationsStream() throws HotelApiSDKException {
+        checkDefaultValues();
+        return destinationsStream(defaultLanguage, defaultUseSecondaryLanguage);
+    }
+
     public Stream<Destination> destinationsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getStreamOf(language, useSecondaryLanguage, ContentType.DESTINATION);
     }
@@ -439,12 +470,28 @@ public class HotelApiClient implements AutoCloseable {
         return getAllElements(language, useSecondaryLanguage, ContentType.COUNTRY);
     }
 
+    public Stream<Country> countriesStream() throws HotelApiSDKException {
+        checkDefaultValues();
+        return countriesStream(defaultLanguage, defaultUseSecondaryLanguage);
+    }
+
     public Stream<Country> countriesStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getStreamOf(language, useSecondaryLanguage, ContentType.COUNTRY);
     }
 
     public List<Hotel> getAllHotels(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
         return getAllElements(language, useSecondaryLanguage, ContentType.HOTEL);
+    }
+
+    public Stream<Hotel> hotelsStream() throws HotelApiSDKException {
+        checkDefaultValues();
+        return hotelsStream(defaultLanguage, defaultUseSecondaryLanguage);
+    }
+
+    private void checkDefaultValues() {
+        if (StringUtils.isBlank(defaultLanguage)) {
+            throw new IllegalArgumentException("You must specify a language or set the default language");
+        }
     }
 
     public Stream<Hotel> hotelsStream(final String language, final boolean useSecondaryLanguage) throws HotelApiSDKException {
@@ -663,7 +710,7 @@ public class HotelApiClient implements AutoCloseable {
         throws HotelApiSDKException {
         if (isInitialised()) {
             final AllowedMethod allowedMethod = path.getAllowedMethod();
-            final String url = path.getUrl(hotelApiService, hotelApiversion, params);
+            final String url = path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelApiPath);
             try {
                 Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod)).url(url);
                 switch (allowedMethod) {
@@ -733,7 +780,7 @@ public class HotelApiClient implements AutoCloseable {
         HotelContentPaths path = type.getPath();
         if (isInitialised()) {
             final AllowedMethod allowedMethod = AllowedMethod.GET;
-            final String url = path.getUrl(hotelApiService, hotelApiversion, params);
+            final String url = path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelContentPath);
             try {
                 Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod)).url(url);
                 Response response = restTemplate.newCall(requestBuilder.build()).execute();
