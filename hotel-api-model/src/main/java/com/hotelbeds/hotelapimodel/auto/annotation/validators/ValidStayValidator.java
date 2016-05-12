@@ -52,15 +52,25 @@ public class ValidStayValidator implements ConstraintValidator<ValidStay, Stay> 
         boolean result = true;
         if (stay != null && stay.getCheckIn() != null && stay.getCheckOut() != null) {
             context.disableDefaultConstraintViolation();
-            if (stay.getCheckIn().isEqual(stay.getCheckOut()) || stay.getCheckIn().isAfter(stay.getCheckOut())) {
+            if (stay.getCheckIn().isBefore(LocalDate.now().minusDays(2))) {
+                context.buildConstraintViolationWithTemplate("{com.hotelbeds.Stay.dates.checkin.future.message}").addConstraintViolation();
+                result = false;
+                if (log.isDebugEnabled()) {
+                    log.debug("property must be in the future " + stay.getCheckIn());
+                }
+            } else if (stay.getCheckIn().isEqual(stay.getCheckOut()) || stay.getCheckIn().isAfter(stay.getCheckOut())) {
                 context.buildConstraintViolationWithTemplate("{com.hotelbeds.Stay.dates.before.message}").addConstraintViolation();
                 result = false;
-                log.info("CheckIn must be prior to checkOut date, checkin: " + stay.getCheckIn() + " , checkout: " + stay.getCheckOut());
+                if (log.isDebugEnabled()) {
+                    log.debug("CheckIn must be prior to checkOut date, checkin: " + stay.getCheckIn() + " , checkout: " + stay.getCheckOut());
+                }
             } else if (!isValidDateRange(stay.getCheckIn(), stay.getCheckOut())) {
                 context.buildConstraintViolationWithTemplate("{com.hotelbeds.Stay.dates.range.message}").addConstraintViolation();
                 result = false;
-                log.info("The number of nights must be less than or equal to " + maxDaysRange + ", checkin: " + stay.getCheckIn() + " , checkout: "
-                    + stay.getCheckOut());
+                if (log.isDebugEnabled()) {
+                    log.debug("The number of nights must be less than or equal to " + maxDaysRange + ", checkin: " + stay.getCheckIn()
+                        + " , checkout: " + stay.getCheckOut());
+                }
             }
         }
         return result;

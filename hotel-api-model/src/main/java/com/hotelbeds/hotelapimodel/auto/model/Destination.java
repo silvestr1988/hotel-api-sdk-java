@@ -30,6 +30,7 @@ package com.hotelbeds.hotelapimodel.auto.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.lang.Short;
 import javax.validation.constraints.NotNull;
 
 import lombok.ToString;
@@ -44,7 +45,7 @@ public class Destination {
 
     @NotNull
     private String code;
-    private Integer zone;
+    private Short zone;
 
 
 }

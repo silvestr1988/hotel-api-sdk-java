@@ -3,7 +3,7 @@
  * Do not edit. Any modification on this file will be removed automatically after project build
  *
  */
-package com.hotelbeds.hotelapimodel.auto.messages;
+package com.hotelbeds.hotelapimodel.auto.model;
 
 /*
  * #%L
@@ -28,11 +28,12 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  */
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.hotelbeds.hotelapimodel.auto.messages.HotelbedsError;
-import com.hotelbeds.hotelapimodel.auto.model.AuditData;
+import com.hotelbeds.hotelapimodel.auto.model.Pax;
+import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import lombok.ToString;
@@ -40,17 +41,18 @@ import lombok.NoArgsConstructor;
 import lombok.Data;
 
 @JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
 @NoArgsConstructor
 @Data
-public class GenericResponse {
+public class BookingChangeRoom {
 
-    private String echoToken;
     @NotNull
-    private AuditData auditData;
-    private HotelbedsError error;
-    private String lsection;
+    private Integer id;
+    @Min(value = 1)
+    private Integer numRooms;
+    private String boardCode;
+    @Valid
+    private List<Pax> paxes;
 
 
 }

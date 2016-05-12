@@ -3,7 +3,7 @@
  * Do not edit. Any modification on this file will be removed automatically after project build
  *
  */
-package com.hotelbeds.hotelapimodel.auto.messages;
+package com.hotelbeds.hotelapimodel.auto.annotation.validators;
 
 /*
  * #%L
@@ -28,29 +28,25 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  */
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.hotelbeds.hotelapimodel.auto.messages.HotelbedsError;
-import com.hotelbeds.hotelapimodel.auto.model.AuditData;
-import javax.validation.constraints.NotNull;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import lombok.ToString;
-import lombok.NoArgsConstructor;
-import lombok.Data;
+import javax.validation.Constraint;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@ToString
-@NoArgsConstructor
-@Data
-public class GenericResponse {
 
-    private String echoToken;
-    @NotNull
-    private AuditData auditData;
-    private HotelbedsError error;
-    private String lsection;
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Constraint(validatedBy = ValidBookingChangeValidator.class)
+public @interface ValidBookingChange {
 
+    String message() default "";
+
+    Class<?>[] groups() default {};
+
+    Class<?>[] payload() default {};
 
 }

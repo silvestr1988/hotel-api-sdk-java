@@ -24,7 +24,9 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.ConfirmRoom.ConfirmRoomBuilder;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
@@ -32,6 +34,7 @@ import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.HotelbedsCustomerType
 import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ;
 import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
 import com.hotelbeds.hotelapimodel.auto.model.Pax;
+import com.hotelbeds.hotelapimodel.auto.model.RequestModifiers;
 
 import lombok.Builder;
 import lombok.Singular;
@@ -46,10 +49,13 @@ public class BookingCheck {
     @Singular
     private List<ConfirmRoom> rooms;
 
+    Properties properties;
+
     public void validate() {
 
     }
 
+    @SuppressWarnings("unchecked")
     public CheckRateRQ toCheckRateRQ() {
         validate();
         CheckRateRQ checkRateRQ = new CheckRateRQ();
@@ -69,10 +75,27 @@ public class BookingCheck {
             }
             checkRateRQ.getRooms().add(bookingRoom);
         }
+        //
+        if (properties != null) {
+            RequestModifiers requestModifiers = new RequestModifiers();
+            requestModifiers.setModifiers(new HashMap<>());
+            for (String name : properties.stringPropertyNames()) {
+                requestModifiers.getModifiers().put(name, properties.getProperty(name));
+            }
+            checkRateRQ.setModifiers(requestModifiers);
+        }
         return checkRateRQ;
     }
 
     public static class BookingCheckBuilder {
+
+        public BookingCheckBuilder withProperty(String name, String value) {
+            if (properties == null) {
+                properties = new Properties();
+            }
+            properties.setProperty(name, value);
+            return this;
+        }
 
         public BookingCheckBuilder addRoom(String ratekey, ConfirmRoomBuilder roomBuilder) {
             room(roomBuilder.ratekey(ratekey).build());

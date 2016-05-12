@@ -23,7 +23,9 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,6 +42,7 @@ import com.hotelbeds.hotelapimodel.auto.model.Pax;
 import com.hotelbeds.hotelapimodel.auto.model.PaymentCard;
 import com.hotelbeds.hotelapimodel.auto.model.PaymentContactData;
 import com.hotelbeds.hotelapimodel.auto.model.PaymentData;
+import com.hotelbeds.hotelapimodel.auto.model.RequestModifiers;
 
 import lombok.Builder;
 import lombok.Singular;
@@ -72,10 +75,13 @@ public class Booking {
     @Singular
     private List<ConfirmRoom> rooms;
 
+    Properties properties;
+
     public void validate() {
 
     }
 
+    @SuppressWarnings("unchecked")
     public BookingRQ toBookingRQ() {
         validate();
         BookingRQ bookingRQ = new BookingRQ();
@@ -113,6 +119,15 @@ public class Booking {
             }
             bookingRQ.getRooms().add(bookingRoom);
         }
+        //
+        if (properties != null) {
+            RequestModifiers requestModifiers = new RequestModifiers();
+            requestModifiers.setModifiers(new HashMap<>());
+            for (String name : properties.stringPropertyNames()) {
+                requestModifiers.getModifiers().put(name, properties.getProperty(name));
+            }
+            bookingRQ.setModifiers(requestModifiers);
+        }
         return bookingRQ;
     }
 
@@ -123,6 +138,14 @@ public class Booking {
             holder.setName(name);
             holder.setSurname(surname);
             holder(holder);
+            return this;
+        }
+
+        public BookingBuilder withProperty(String name, String value) {
+            if (properties == null) {
+                properties = new Properties();
+            }
+            properties.setProperty(name, value);
             return this;
         }
 

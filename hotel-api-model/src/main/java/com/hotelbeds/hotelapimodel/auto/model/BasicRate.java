@@ -34,6 +34,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.RateType;
 import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
+import com.hotelbeds.hotelapimodel.auto.model.Cost;
 import java.math.BigDecimal;
 import javax.validation.Valid;
 
@@ -73,6 +74,7 @@ public class BasicRate {
     private BigDecimal commissionVAT;
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal commissionPCT;
+    private Cost cost;
 
 
 }

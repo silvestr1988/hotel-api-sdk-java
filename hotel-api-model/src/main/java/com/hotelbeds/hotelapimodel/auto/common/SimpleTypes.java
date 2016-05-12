@@ -144,10 +144,11 @@ public final class SimpleTypes {
     }
     public enum ShowDirectPayment {
         //liberate
-        AT_HOTEL("S", "YES"),
-        AT_WEB("N", "NO"),
-        BOTH("A", "BOTH");
+        AT_HOTEL("S", "Y", "YES"),
+        AT_WEB("N", "N", "NO"),
+        BOTH("A", "A", "BOTH");
         private String aceLabel;
+        private String ynaLabel;
         private String genericLabel;
         private static Map<String, ShowDirectPayment> showDirectPaymentByAceValue = new HashMap<>();
 
@@ -157,8 +158,9 @@ public final class SimpleTypes {
             }
         }
 
-        ShowDirectPayment(final String aceLabel, final String genericLabel) {
+        ShowDirectPayment(final String aceLabel, final String ynaLabel, final String genericLabel) {
             this.aceLabel = aceLabel;
+            this.ynaLabel = ynaLabel;
             this.genericLabel = genericLabel;
         }
 
@@ -168,6 +170,10 @@ public final class SimpleTypes {
 
         public String getGenericLabel() {
             return genericLabel;
+        }
+
+        public String getYNALabel() {
+            return ynaLabel;
         }
 
         /**
@@ -447,6 +453,23 @@ public final class SimpleTypes {
             }
         }
     }
+
+    public enum BookingListFilterStatus {
+        CONFIRMED("N"),
+        CANCELED("Y"),
+        ALL("A");
+
+        private final String atlasCode;
+
+        private BookingListFilterStatus(String atlasCode) {
+            this.atlasCode = atlasCode;
+        }
+
+        public String getAtlasCode() {
+            return atlasCode;
+        }
+    }
+
     public enum Accommodation {
         HOTEL("HOTEL"),
         APARTMENT("APART"),
@@ -592,6 +615,21 @@ public final class SimpleTypes {
             for (ShoppingCartStatus shoppingCartStatus : ShoppingCartStatus.values()) {
                 statusByCode.put(shoppingCartStatus.getCode(), shoppingCartStatus);
             }
+        }
+    }
+
+    public enum PriceFilterType {
+        TOTAL("Total"),
+        PRICE_PER_NIGHT("Night");
+
+        private String label;
+
+        PriceFilterType(String label) {
+            this.label = label;
+        }
+
+        public String getLabel() {
+            return label;
         }
     }
 

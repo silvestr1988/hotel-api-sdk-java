@@ -3,7 +3,7 @@
  * Do not edit. Any modification on this file will be removed automatically after project build
  *
  */
-package com.hotelbeds.hotelapimodel.auto.messages;
+package com.hotelbeds.hotelapimodel.auto.model;
 
 /*
  * #%L
@@ -28,29 +28,25 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  */
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.hotelbeds.hotelapimodel.auto.messages.HotelbedsError;
-import com.hotelbeds.hotelapimodel.auto.model.AuditData;
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
+import java.math.BigDecimal;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
 @JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
 @NoArgsConstructor
 @Data
-public class GenericResponse {
+public class Cost {
 
-    private String echoToken;
-    @NotNull
-    private AuditData auditData;
-    private HotelbedsError error;
-    private String lsection;
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal amount;
+    private String currency;
 
 
 }

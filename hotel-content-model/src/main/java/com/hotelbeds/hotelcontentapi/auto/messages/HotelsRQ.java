@@ -30,6 +30,7 @@ package com.hotelbeds.hotelcontentapi.auto.messages;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.hotelbeds.hotelcontentapi.auto.messages.LiberateType;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -70,6 +71,9 @@ public class HotelsRQ extends AbstractGenericContentRequest {
     private Integer minImages;
     private Boolean allIncluded;
     private LocalDate creationTime;
+    private List<String> rooms;
+    @Min(value = 0)
+    private Integer roomCapacity;
     @Min(value = 0)
     private Integer maxPax;
     @Min(value = 0)
@@ -80,6 +84,7 @@ public class HotelsRQ extends AbstractGenericContentRequest {
     private Integer minAdults;
     @Min(value = 0)
     private Integer maxChildren;
+    private LiberateType liberate;
 
 
 }

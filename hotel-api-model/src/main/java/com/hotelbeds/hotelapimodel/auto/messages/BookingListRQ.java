@@ -32,9 +32,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterStatus;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterType;
 import com.hotelbeds.hotelapimodel.auto.convert.json.DateSerializer;
 import java.time.LocalDate;
+import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import lombok.ToString;
@@ -62,9 +64,12 @@ public class BookingListRQ extends AbstractGenericRequest {
     @NotNull
     private Integer to;
     @NotNull
-    private Boolean includeCancelled;
-    @NotNull
     private BookingListFilterType filterType;
+    private List<String> country;
+    private List<String> destination;
+    private String agencyReference;
+    private BookingListFilterStatus status;
+    private List<Integer> hotel;
 
 
 }

@@ -3,11 +3,11 @@
  * Do not edit. Any modification on this file will be removed automatically after project build
  *
  */
-package com.hotelbeds.hotelapimodel.auto.model;
+package com.hotelbeds.hotelcontentapi.auto.messages;
 
 /*
  * #%L
- * HotelAPI Model
+ * Hotel Content Model
  * %%
  * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
@@ -28,23 +28,21 @@ package com.hotelbeds.hotelapimodel.auto.model;
  */
 
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import javax.validation.constraints.Min;
 
-import lombok.ToString;
-import lombok.NoArgsConstructor;
-import lombok.Data;
+public enum LiberateType {
+    //S,Y -> LIBERATE
+    Y("S"),
+    //N -> NO LIBERATE (MERCHAND)
+    N("N"),
+    //A,B -> AMBOS (LIBERATE Y MERCHAND)
+    B("A");
+    private String atlasType;
 
-@JsonInclude(Include.NON_NULL)
-@ToString
-@NoArgsConstructor
-@Data
-public class RoomSpec {
+    LiberateType(final String type) {
+        atlasType = type;
+    }
 
-    private int id;
-    @Min(value = 1)
-    private int rooms;
-
-
+    public String getAtlasType() {
+        return atlasType;
+    }
 }

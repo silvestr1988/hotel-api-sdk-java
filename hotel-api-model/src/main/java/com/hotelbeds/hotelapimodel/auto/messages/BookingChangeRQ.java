@@ -32,9 +32,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidStay;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.ChangeMode;
+import com.hotelbeds.hotelapimodel.auto.model.BookingChangeRoom;
 import com.hotelbeds.hotelapimodel.auto.model.Holder;
-import com.hotelbeds.hotelapimodel.auto.model.Pax;
-import com.hotelbeds.hotelapimodel.auto.model.RoomSpec;
 import com.hotelbeds.hotelapimodel.auto.model.Stay;
 import java.util.List;
 import javax.validation.Valid;
@@ -58,19 +57,16 @@ public class BookingChangeRQ extends AbstractGenericRequest {
     @Valid
     @NotNull
     private ChangeMode mode;
-    private String boardCode;
     @Valid
     private Holder holder;
     @Valid
     @ValidStay(maxDaysRange = 30)
     private Stay stay;
     @Valid
-    private List<Pax> paxes;
-    @Valid
-    private List<RoomSpec> roomSpecifications;
-    @Valid
     @Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}")
     private String clientReference;
+    @Valid
+    private List<BookingChangeRoom> rooms;
 
 
 }
