@@ -25,7 +25,9 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.validation.constraints.Digits;
@@ -51,6 +53,7 @@ import com.hotelbeds.hotelapimodel.auto.model.HotelsFilter;
 import com.hotelbeds.hotelapimodel.auto.model.KeywordsFilter;
 import com.hotelbeds.hotelapimodel.auto.model.Occupancy;
 import com.hotelbeds.hotelapimodel.auto.model.Pax;
+import com.hotelbeds.hotelapimodel.auto.model.RequestModifiers;
 import com.hotelbeds.hotelapimodel.auto.model.ReviewFilter;
 import com.hotelbeds.hotelapimodel.auto.model.Rooms;
 import com.hotelbeds.hotelapimodel.auto.model.Stay;
@@ -113,7 +116,7 @@ public class Availability {
     private Integer shiftDays;
 
     private String destination;
-    private Integer zone;
+    private Short zone;
 
     @Singular
     private Set<Integer> matchingKeywords;
@@ -188,10 +191,13 @@ public class Availability {
 
     Pay payed;
 
+    Properties properties;
+
     public void validate() {
 
     }
 
+    @SuppressWarnings("unchecked")
     public AvailabilityRQ toAvailabilityRQ() {
         AvailabilityRQ availabilityRQ = new AvailabilityRQ();
         validate();
@@ -374,7 +380,15 @@ public class Availability {
             availabilityRQ.setFilter(filter);
         }
         //
-
+        if (properties != null) {
+            RequestModifiers requestModifiers = new RequestModifiers();
+            requestModifiers.setModifiers(new HashMap<>());
+            for (String name : properties.stringPropertyNames()) {
+                requestModifiers.getModifiers().put(name, properties.getProperty(name));
+            }
+            availabilityRQ.setModifiers(requestModifiers);
+        }
+        //
         return availabilityRQ;
     }
 
@@ -382,6 +396,14 @@ public class Availability {
 
         public AvailabilityBuilder addRoom(AvailRoomBuilder roomBuilder) {
             room(roomBuilder.build());
+            return this;
+        }
+
+        public AvailabilityBuilder withProperty(String name, String value) {
+            if (properties == null) {
+                properties = new Properties();
+            }
+            properties.setProperty(name, value);
             return this;
         }
 

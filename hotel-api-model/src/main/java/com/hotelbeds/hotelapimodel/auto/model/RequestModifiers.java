@@ -3,7 +3,7 @@
  * Do not edit. Any modification on this file will be removed automatically after project build
  *
  */
-package com.hotelbeds.hotelapimodel.auto.messages;
+package com.hotelbeds.hotelapimodel.auto.model;
 
 /*
  * #%L
@@ -30,8 +30,7 @@ package com.hotelbeds.hotelapimodel.auto.messages;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hotelbeds.hotelapimodel.auto.model.RequestModifiers;
+import java.util.Map;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
@@ -41,12 +40,9 @@ import lombok.Data;
 @ToString
 @NoArgsConstructor
 @Data
-public abstract class AbstractGenericRequest {
+public class RequestModifiers {
 
-    @JsonProperty("echo")
-    private String echoToken;
-    private String language;
-    private RequestModifiers modifiers;
+    private Map modifiers;
 
 
 }
