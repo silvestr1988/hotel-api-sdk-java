@@ -55,9 +55,7 @@ public class ValidBookingChangeValidator implements ConstraintValidator<ValidBoo
         if (!AssignUtils.isEmpty(bookingChangeRQ.getRooms())) {
             for (BookingChangeRoom room : bookingChangeRQ.getRooms()) {
                 if (!AssignUtils.isEmpty(room.getPaxes())) {
-                    valid = !(room.getPaxes().stream().anyMatch(pax -> {
-                        return pax.getRoomId() == null;
-                    }));
+                    valid = !(room.getPaxes().stream().anyMatch(pax -> pax.getRoomId() == null));
                     if (!valid) {
                         context.buildConstraintViolationWithTemplate("{com.hotelbeds.BookingChangeFilter.allPaxesMustContainRoomId.message}")
                             .addConstraintViolation();
