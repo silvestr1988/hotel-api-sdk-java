@@ -41,7 +41,7 @@ import lombok.Data;
 public class FreeTextSearchElement {
 
     private String code;
-    private Map descriptions;
+    private Map<String, String> descriptions;
     private Integer weight;
     private Location location;
 

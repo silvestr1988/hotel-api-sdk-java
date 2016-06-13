@@ -63,6 +63,14 @@ public class ValidBookingChangeValidator implements ConstraintValidator<ValidBoo
                 }
             }
         }
+        if (valid && bookingChangeRQ.getCancelRoomId() != null) {
+            //ids of the rooms starts on 1
+            if (bookingChangeRQ.getCancelRoomId() <= 0) {
+                valid = false;
+                context.buildConstraintViolationWithTemplate("{com.hotelbeds.BookingChangeFilter.cantMakePartialCancellation.message}")
+                    .addConstraintViolation();
+            }
+        }
         return valid;
     }
 }

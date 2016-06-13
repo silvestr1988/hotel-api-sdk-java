@@ -31,6 +31,8 @@ package com.hotelbeds.hotelcontentapi.auto.messages;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hotelbeds.hotelcontentapi.auto.messages.Content;
+import com.hotelbeds.hotelcontentapi.auto.messages.GroupZone;
+import com.hotelbeds.hotelcontentapi.auto.messages.Zone;
 import java.util.Set;
 
 import lombok.ToString;
@@ -47,8 +49,8 @@ public class Destination {
     private Content name;
     private String countryCode;
     private String isoCode;
-    private Set zones;
-    private Set groupZones;
+    private Set<Zone> zones;
+    private Set<GroupZone> groupZones;
 
 
 }

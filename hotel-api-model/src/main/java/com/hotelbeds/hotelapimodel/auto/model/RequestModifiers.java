@@ -30,6 +30,7 @@ package com.hotelbeds.hotelapimodel.auto.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.lang.Object;
 import java.util.Map;
 
 import lombok.ToString;
@@ -42,7 +43,7 @@ import lombok.Data;
 @Data
 public class RequestModifiers {
 
-    private Map modifiers;
+    private Map<String, Object> modifiers;
 
 
 }

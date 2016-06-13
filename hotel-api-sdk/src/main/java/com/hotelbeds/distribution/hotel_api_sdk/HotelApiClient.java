@@ -41,6 +41,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -197,6 +200,12 @@ public class HotelApiClient implements AutoCloseable {
         .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
         .readTimeout(readTimeout, TimeUnit.MILLISECONDS)
         .addInterceptor(new LoggingRequestInterceptor())
+        .hostnameVerifier(new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, SSLSession session) {
+              return true;
+            }
+          })
         .build();
         // @formatter:on
         initialised = true;

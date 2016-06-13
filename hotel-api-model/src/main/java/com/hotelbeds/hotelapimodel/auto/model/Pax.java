@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.HotelbedsCustomerType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
@@ -50,7 +51,9 @@ public class Pax {
     private HotelbedsCustomerType type;
     @Min(value = 0)
     private Integer age;
+    @Size(min = 1, max = 50, message = "{javax.validation.constraints.Size.message}")
     private String name;
+    @Size(min = 1, max = 50, message = "{javax.validation.constraints.Size.message}")
     private String surname;
 
 

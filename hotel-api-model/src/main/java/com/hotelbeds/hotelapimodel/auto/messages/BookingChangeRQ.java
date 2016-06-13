@@ -67,6 +67,7 @@ public class BookingChangeRQ extends AbstractGenericRequest {
     private String clientReference;
     @Valid
     private List<BookingChangeRoom> rooms;
+    private Integer cancelRoomId;
 
 
 }

@@ -62,6 +62,7 @@ public final class SimpleTypes {
     private static final int INTERNAL_STATUS_NEW = 200;
     private static final int INTERNAL_STATUS_TO_BE_UPDATED = 300;
     private static final int INTERNAL_STATUS_PRECONFIRMED = 500;
+    private static final int INTERNAL_STATUS_CANCELLED = 400;
     private static final String SI = "Si";
 
     private SimpleTypes() {
@@ -84,7 +85,7 @@ public final class SimpleTypes {
         }
 
         public String getBDDValue() {
-            return internal.getBDDValue();
+            return internal.getInternal().toString();
         }
     }
 
@@ -206,7 +207,7 @@ public final class SimpleTypes {
             if (SiNo.S.name().equalsIgnoreCase(value)) {
                 return SiNo.S;
             } else {
-                return SiNo.valueOf(value);
+                return SiNo.N;
             }
         }
 
@@ -593,8 +594,8 @@ public final class SimpleTypes {
         PRECONFIRMED(INTERNAL_STATUS_PRECONFIRMED),
         CONFIRMED(STATUS_CONFIRMED),
         TO_BE_UPDATED(INTERNAL_STATUS_TO_BE_UPDATED),
-        CANCELLED(STATUS_CANCELLED);
-
+        CANCELLED(STATUS_CANCELLED),
+        TO_BE_CANCELLED(INTERNAL_STATUS_CANCELLED);
         private final int code;
 
         ShoppingCartStatus(final int code) {

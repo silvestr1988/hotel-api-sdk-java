@@ -40,7 +40,7 @@ import lombok.Data;
 public class LocationElement {
 
     private String code;
-    private Map descriptions;
+    private Map<String, String> descriptions;
 
 
 }
