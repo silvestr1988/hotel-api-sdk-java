@@ -1,0 +1,7 @@
+com.hotelbeds.hotelapimodel.auto.annotation.validators
+com.hotelbeds.hotelapimodel.auto.common
+com.hotelbeds.hotelapimodel.auto.convert.json
+com.hotelbeds.hotelapimodel.auto.messages
+com.hotelbeds.hotelapimodel.auto.model
+com.hotelbeds.hotelapimodel.auto.util
+com.hotelbeds.hotelapimodel.util
