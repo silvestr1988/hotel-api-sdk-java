@@ -46,24 +46,13 @@ public class ValidBookingChangeValidator implements ConstraintValidator<ValidBoo
     public boolean isValid(BookingChangeRQ value, ConstraintValidatorContext context) {
         boolean result = true;
         context.disableDefaultConstraintViolation();
-        result = validRoomIdOnThePaxes(value, context);
+        result = validRoomIdOnTheCancellation(value, context);
         return result;
     }
 
-    private boolean validRoomIdOnThePaxes(final BookingChangeRQ bookingChangeRQ, final ConstraintValidatorContext context) {
+    private boolean validRoomIdOnTheCancellation(final BookingChangeRQ bookingChangeRQ, final ConstraintValidatorContext context) {
         boolean valid = true;
-        if (!AssignUtils.isEmpty(bookingChangeRQ.getRooms())) {
-            for (BookingChangeRoom room : bookingChangeRQ.getRooms()) {
-                if (!AssignUtils.isEmpty(room.getPaxes())) {
-                    valid = !(room.getPaxes().stream().anyMatch(pax -> pax.getRoomId() == null));
-                    if (!valid) {
-                        context.buildConstraintViolationWithTemplate("{com.hotelbeds.BookingChangeFilter.allPaxesMustContainRoomId.message}")
-                            .addConstraintViolation();
-                    }
-                }
-            }
-        }
-        if (valid && bookingChangeRQ.getCancelRoomId() != null) {
+        if (bookingChangeRQ.getCancelRoomId() != null) {
             //ids of the rooms starts on 1
             if (bookingChangeRQ.getCancelRoomId() <= 0) {
                 valid = false;

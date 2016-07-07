@@ -36,6 +36,9 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
+/**
+ * The Class TimeSerializer.
+ */
 public class TimeSerializer extends JsonSerializer<LocalTime> {
 
     public static final DateTimeFormatter REST_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");

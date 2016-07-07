@@ -3,11 +3,11 @@
  * Do not edit. Any modification on this file will be removed automatically after project build
  *
  */
-package com.hotelbeds.hotelcontentapi.auto.messages;
+package com.hotelbeds.hotelapimodel.auto.model;
 
 /*
  * #%L
- * Hotel Content Model
+ * HotelAPI Model
  * %%
  * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
  * %%
@@ -28,24 +28,21 @@ package com.hotelbeds.hotelcontentapi.auto.messages;
  */
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-/**
- * The Enum LiberateType.
- */
-public enum LiberateType {
-    //S,Y -> LIBERATE
-    Y("S"),
-    //N -> NO LIBERATE (MERCHAND)
-    N("N"),
-    //A,B -> AMBOS (LIBERATE Y MERCHAND)
-    B("A");
-    private String atlasType;
+import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
-    LiberateType(final String type) {
-        atlasType = type;
-    }
+@JsonInclude(Include.NON_NULL)
+@ToString
+@NoArgsConstructor
+@Data
+public class VoucherComment {
 
-    public String getAtlasType() {
-        return atlasType;
-    }
+    private String type;
+    private String text;
+
+
 }

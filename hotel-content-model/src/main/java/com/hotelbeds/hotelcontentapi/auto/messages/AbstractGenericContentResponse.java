@@ -42,7 +42,7 @@ import lombok.Data;
 @ToString
 @NoArgsConstructor
 @Data
-public abstract class AbstractGenericContentResponse {
+public class AbstractGenericContentResponse {
 
     private Integer from;
     private Integer to;

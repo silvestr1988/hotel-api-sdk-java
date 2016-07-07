@@ -67,7 +67,7 @@ public class BookingListRQ extends AbstractGenericRequest {
     private BookingListFilterType filterType;
     private List<String> country;
     private List<String> destination;
-    private String agencyReference;
+    private String clientReference;
     private BookingListFilterStatus status;
     private List<Integer> hotel;
 

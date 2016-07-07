@@ -39,6 +39,7 @@ import com.hotelbeds.hotelapimodel.auto.model.Offer;
 import com.hotelbeds.hotelapimodel.auto.model.Promotion;
 import com.hotelbeds.hotelapimodel.auto.model.ShiftRate;
 import com.hotelbeds.hotelapimodel.auto.model.Taxes;
+import com.hotelbeds.hotelapimodel.auto.model.VoucherComment;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
@@ -57,6 +58,7 @@ public class Rate extends BasicRate {
 
     private String rateCommentsId;
     private String rateComments;
+    private List<VoucherComment> voucherComments;
     private PaymentType paymentType;
     private Boolean packaging;
     private String boardCode;

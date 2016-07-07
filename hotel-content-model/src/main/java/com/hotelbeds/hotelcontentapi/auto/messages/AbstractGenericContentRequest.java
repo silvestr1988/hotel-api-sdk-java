@@ -44,6 +44,7 @@ import lombok.Data;
 @Data
 public abstract class AbstractGenericContentRequest {
 
+    private String version;
     @NotNull
     private String language;
     @NotNull
