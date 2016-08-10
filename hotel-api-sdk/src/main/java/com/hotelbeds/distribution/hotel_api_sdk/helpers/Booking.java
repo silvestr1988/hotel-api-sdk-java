@@ -107,15 +107,17 @@ public class Booking {
         for (ConfirmRoom room : rooms) {
             BookingRoom bookingRoom = new BookingRoom();
             bookingRoom.setRateKey(room.getRatekey());
-            bookingRoom.setPaxes(new ArrayList<>());
-            for (RoomDetail detail : room.getDetails()) {
-                Pax pax = new Pax();
-                pax.setType(detail.getType() == GuestType.ADULT ? HotelbedsCustomerType.AD : HotelbedsCustomerType.CH);
-                pax.setAge(detail.getAge());
-                pax.setName(detail.getName());
-                pax.setSurname(detail.getSurname());
-                pax.setRoomId(detail.getRoomId());
-                bookingRoom.getPaxes().add(pax);
+            if (room.getDetails() != null && !room.getDetails().isEmpty()) {
+                bookingRoom.setPaxes(new ArrayList<>());
+                for (RoomDetail detail : room.getDetails()) {
+                    Pax pax = new Pax();
+                    pax.setType(detail.getType() == GuestType.ADULT ? HotelbedsCustomerType.AD : HotelbedsCustomerType.CH);
+                    pax.setAge(detail.getAge());
+                    pax.setName(detail.getName());
+                    pax.setSurname(detail.getSurname());
+                    pax.setRoomId(detail.getRoomId());
+                    bookingRoom.getPaxes().add(pax);
+                }
             }
             bookingRQ.getRooms().add(bookingRoom);
         }
