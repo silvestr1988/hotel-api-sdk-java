@@ -104,6 +104,7 @@ import com.hotelbeds.hotelcontentapi.auto.messages.Room;
 import com.hotelbeds.hotelcontentapi.auto.messages.Segment;
 import com.hotelbeds.hotelcontentapi.auto.messages.Terminal;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -212,6 +213,7 @@ public class HotelApiClient implements AutoCloseable {
         executorService = Executors.newFixedThreadPool(8);
         mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public void setReadTimeout(int readTimeout) {
