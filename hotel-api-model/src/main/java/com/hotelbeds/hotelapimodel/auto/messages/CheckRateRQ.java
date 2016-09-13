@@ -5,6 +5,14 @@
  */
 package com.hotelbeds.hotelapimodel.auto.messages;
 
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
+
 /*
  * #%L
  * HotelAPI Model
@@ -27,19 +35,12 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  * #L%
  */
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import lombok.ToString;
-import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
@@ -53,6 +54,7 @@ public class CheckRateRQ extends AbstractGenericRequest {
     @Size(min = 1, max = 2147483647, message = "{javax.validation.constraints.Size.message}")
     @Valid
     private List<BookingRoom> rooms;
+    private String platform;
 
 
 }

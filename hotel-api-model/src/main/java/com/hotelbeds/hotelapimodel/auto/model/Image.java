@@ -3,18 +3,7 @@
  * Do not edit. Any modification on this file will be removed automatically after project build
  *
  */
-package com.hotelbeds.hotelapimodel.auto.messages;
-
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
-import com.hotelbeds.hotelapimodel.auto.model.Holder;
-import com.hotelbeds.hotelapimodel.auto.model.PaymentData;
-import com.hotelbeds.hotelapimodel.auto.model.Voucher;
+package com.hotelbeds.hotelapimodel.auto.model;
 
 /*
  * #%L
@@ -38,35 +27,23 @@ import com.hotelbeds.hotelapimodel.auto.model.Voucher;
  * #L%
  */
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+
 import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Data;
+import lombok.AllArgsConstructor;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class BookingRQ extends AbstractGenericRequest {
+@AllArgsConstructor
+public class Image {
 
-    @NotNull
-    @Valid
-    private Holder holder;
-    @NotNull
-    @Size(min = 1, max = 2147483647, message = "{javax.validation.constraints.Size.message}")
-    @Valid
-    private List<BookingRoom> rooms;
-    private PaymentData paymentData;
-    @NotNull
-    @Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}")
-    private String clientReference;
-    @Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}")
-    private String remark;
-    private Voucher voucher;
-    private String platform;
+    private String path;
 
 
 }

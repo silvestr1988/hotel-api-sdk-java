@@ -43,6 +43,7 @@ import com.hotelbeds.hotelapimodel.auto.model.PaymentCard;
 import com.hotelbeds.hotelapimodel.auto.model.PaymentContactData;
 import com.hotelbeds.hotelapimodel.auto.model.PaymentData;
 import com.hotelbeds.hotelapimodel.auto.model.RequestModifiers;
+import com.hotelbeds.hotelapimodel.auto.model.VoucherEmail;
 
 import lombok.Builder;
 import lombok.Singular;
@@ -71,6 +72,9 @@ public class Booking {
     private String cardCVC;
     private String email;
     private String phoneNumber;
+    private String platform;
+    private VoucherEmail voucherEmail;
+    private String voucherLanguage;
 
     @Singular
     private List<ConfirmRoom> rooms;
@@ -85,6 +89,8 @@ public class Booking {
     public BookingRQ toBookingRQ() {
         validate();
         BookingRQ bookingRQ = new BookingRQ();
+        //
+        bookingRQ.setPlatform(platform);
         //
         bookingRQ.setHolder(holder);
         //
@@ -122,6 +128,13 @@ public class Booking {
             bookingRQ.getRooms().add(bookingRoom);
         }
         //
+        if (getVoucherEmail() != null) {
+            com.hotelbeds.hotelapimodel.auto.model.Voucher voucher = new com.hotelbeds.hotelapimodel.auto.model.Voucher();
+            voucher.setEmail(getVoucherEmail());
+            voucher.setLanguage(getVoucherLanguage());
+            bookingRQ.setVoucher(voucher);
+        }
+        //
         if (properties != null) {
             RequestModifiers requestModifiers = new RequestModifiers();
             requestModifiers.setModifiers(new HashMap<>());
@@ -148,6 +161,18 @@ public class Booking {
                 properties = new Properties();
             }
             properties.setProperty(name, value);
+            return this;
+        }
+
+
+        public BookingBuilder withVoucher(String language, String to, String from, String title, String body) {
+            voucherLanguage(language);
+            VoucherEmail email = new VoucherEmail();
+            email.setTo(to);
+            email.setFrom(from);
+            email.setTitle(title);
+            email.setBody(body);
+            voucherEmail(email);
             return this;
         }
 

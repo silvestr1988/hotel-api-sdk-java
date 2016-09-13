@@ -35,6 +35,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hotelbeds.hotelapimodel.auto.convert.json.DateSerializer;
 import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
 import com.hotelbeds.hotelapimodel.auto.model.CreditCard;
+import com.hotelbeds.hotelapimodel.auto.model.Image;
 import com.hotelbeds.hotelapimodel.auto.model.Keyword;
 import com.hotelbeds.hotelapimodel.auto.model.Review;
 import com.hotelbeds.hotelapimodel.auto.model.Room;
@@ -63,6 +64,8 @@ public class Hotel {
     private LocalDate checkOut;
     private Integer code;
     private String name;
+    private String description;
+    private List<Image> images;
     private String categoryCode;
     private String categoryName;
     private String destinationCode;

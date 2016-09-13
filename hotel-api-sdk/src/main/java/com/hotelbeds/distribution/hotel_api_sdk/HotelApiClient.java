@@ -52,6 +52,7 @@ import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingList;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
+import com.hotelbeds.distribution.hotel_api_sdk.helpers.Voucher;
 import com.hotelbeds.distribution.hotel_api_sdk.types.AllowedMethod;
 import com.hotelbeds.distribution.hotel_api_sdk.types.CancellationFlags;
 import com.hotelbeds.distribution.hotel_api_sdk.types.ContentType;
@@ -70,6 +71,8 @@ import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingListRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingRQ;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingVoucherRQ;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingVoucherRS;
 import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ;
 import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
 import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
@@ -385,6 +388,20 @@ public class HotelApiClient implements AutoCloseable {
     //TODO Documentation pending
     public BookingRS doBookingConfirm(BookingRQ request) throws HotelApiSDKException {
         return (BookingRS) callRemoteAPI(request, HotelApiPaths.BOOKING_CONFIRM);
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingVoucherRS voucher(Voucher voucher) throws HotelApiSDKException {
+        return doBookingVoucher(voucher.getBookingId(), voucher.toBookingVoucherRQ());
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingVoucherRS doBookingVoucher(String bookingId, BookingVoucherRQ request) throws HotelApiSDKException {
+        final Map<String, String> params = new HashMap<>();
+        params.put("bookingId", bookingId);
+        return (BookingVoucherRS) callRemoteAPI(request, params, HotelApiPaths.BOOKING_VOUCHER);
     }
 
     public BookingCancellationRS cancel(String bookingId) throws HotelApiSDKException {
@@ -864,13 +881,12 @@ public class HotelApiClient implements AutoCloseable {
         // Hash the Api Key + Shared Secret + Current timestamp in seconds
         headersBuilder.add(SIGNATURE_HEADER_NAME, DigestUtils.sha256Hex(apiKey + sharedSecret + System.currentTimeMillis() / 1000));
         switch (httpMethod) {
-            case GET:
-            case DELETE:
-                headersBuilder.add("Accept", APPLICATION_JSON_HEADER);
-                break;
             case POST:
                 // case PUT:
                 headersBuilder.add("Content-Type", APPLICATION_JSON_HEADER);
+            case GET:
+            case DELETE:
+                headersBuilder.add("Accept", APPLICATION_JSON_HEADER);
                 break;
             default:
                 break;

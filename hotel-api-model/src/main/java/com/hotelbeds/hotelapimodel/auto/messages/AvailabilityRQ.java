@@ -5,6 +5,28 @@
  */
 package com.hotelbeds.hotelapimodel.auto.messages;
 
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidLimitFilter;
+import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidOccupancies;
+import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidReviewFilter;
+import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidStay;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.Accommodation;
+import com.hotelbeds.hotelapimodel.auto.model.Boards;
+import com.hotelbeds.hotelapimodel.auto.model.Destination;
+import com.hotelbeds.hotelapimodel.auto.model.Filter;
+import com.hotelbeds.hotelapimodel.auto.model.GeoLocation;
+import com.hotelbeds.hotelapimodel.auto.model.HotelsFilter;
+import com.hotelbeds.hotelapimodel.auto.model.KeywordsFilter;
+import com.hotelbeds.hotelapimodel.auto.model.Occupancy;
+import com.hotelbeds.hotelapimodel.auto.model.ReviewFilter;
+import com.hotelbeds.hotelapimodel.auto.model.Rooms;
+import com.hotelbeds.hotelapimodel.auto.model.Source;
+import com.hotelbeds.hotelapimodel.auto.model.Stay;
+
 /*
  * #%L
  * HotelAPI Model
@@ -27,34 +49,13 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  * #L%
  */
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidLimitFilter;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidOccupancies;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidReviewFilter;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidStay;
-import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.Accommodation;
-import com.hotelbeds.hotelapimodel.auto.model.Boards;
-import com.hotelbeds.hotelapimodel.auto.model.Destination;
-import com.hotelbeds.hotelapimodel.auto.model.Filter;
-import com.hotelbeds.hotelapimodel.auto.model.GeoLocation;
-import com.hotelbeds.hotelapimodel.auto.model.HotelsFilter;
-import com.hotelbeds.hotelapimodel.auto.model.KeywordsFilter;
-import com.hotelbeds.hotelapimodel.auto.model.Occupancy;
-import com.hotelbeds.hotelapimodel.auto.model.ReviewFilter;
-import com.hotelbeds.hotelapimodel.auto.model.Rooms;
-import com.hotelbeds.hotelapimodel.auto.model.Source;
-import com.hotelbeds.hotelapimodel.auto.model.Stay;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import lombok.ToString;
-import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
@@ -68,7 +69,7 @@ public class AvailabilityRQ extends AbstractGenericRequest {
     @ValidStay(maxDaysRange = 30)
     private Stay stay;
     @Valid
-    @ValidOccupancies(maxRooms = 5)
+    @ValidOccupancies(maxRooms = 10)
     private List<Occupancy> occupancies;
     @Valid
     private GeoLocation geolocation;
@@ -97,6 +98,7 @@ public class AvailabilityRQ extends AbstractGenericRequest {
     private List<Accommodation> accommodations;
     @Valid
     private Source source;
+    private String platform;
 
 
 }
