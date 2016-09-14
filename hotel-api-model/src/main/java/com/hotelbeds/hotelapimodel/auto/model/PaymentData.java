@@ -42,7 +42,9 @@ public class PaymentData {
 
     private PaymentCard paymentCard;
     private PaymentContactData contactData;
-    private ForensicData forensicData;
+    private BillingAddress billingAddress;
+    private String webPartner;
+    private Device device;
 
 
 }
