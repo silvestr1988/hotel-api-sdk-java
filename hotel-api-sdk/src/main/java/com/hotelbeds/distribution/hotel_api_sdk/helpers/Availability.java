@@ -189,15 +189,14 @@ public class Availability {
     @Singular
     private List<AvailRoom> rooms;
 
-    Pay payed;
+    private Pay payed;
 
-    Properties properties;
+    private Properties properties;
 
     public void validate() {
 
     }
 
-    @SuppressWarnings("unchecked")
     public AvailabilityRQ toAvailabilityRQ() {
         AvailabilityRQ availabilityRQ = new AvailabilityRQ();
         validate();

@@ -28,7 +28,7 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
  */
 public enum HotelApiService {
 
-    DEVELOPMENT("http://localhost:8181", "http://localhost:8080"),
+    DEVELOPMENT("http://localhost:8383", "http://localhost:8080"),
     LIVE("https://api.hotelbeds.com/hotel-api", "https://api.hotelbeds.com/hotel-content-api"),
     TEST("https://api.test.hotelbeds.com/hotel-api", "https://api.test.hotelbeds.com/hotel-content-api");
 

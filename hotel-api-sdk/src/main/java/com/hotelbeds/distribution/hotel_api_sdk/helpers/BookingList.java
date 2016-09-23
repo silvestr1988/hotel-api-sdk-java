@@ -24,6 +24,7 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
 
 
 import java.time.LocalDate;
+import java.util.Properties;
 
 import javax.validation.constraints.NotNull;
 
@@ -49,9 +50,22 @@ public class BookingList {
 
     private FilterType usingDate;
 
+    private Properties properties;
+
     public void validate() {
         // 0 < From < to
         // now < fromDate < toDate
         // usingDate mandatory or default?!?
+    }
+
+    public static class BookingListBuilder {
+
+        public BookingListBuilder withProperty(String name, String value) {
+            if (properties == null) {
+                properties = new Properties();
+            }
+            properties.setProperty(name, value);
+            return this;
+        }
     }
 }
