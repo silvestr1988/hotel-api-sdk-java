@@ -353,6 +353,14 @@ public class HotelApiClient implements AutoCloseable {
 
     // TODO Fix so it does return an object of the proper type, else throw an error if failed
     // TODO Documentation pending
+    public BookingListRS list(LocalDate start, LocalDate end, int from, int to, boolean includeCancelled, FilterType filterType)
+        throws HotelApiSDKException {
+        return list(start, end, from, to, includeCancelled, filterType, null);
+    }
+
+
+    // TODO Fix so it does return an object of the proper type, else throw an error if failed
+    // TODO Documentation pending
     public BookingListRS list(LocalDate start, LocalDate end, int from, int to, boolean includeCancelled, FilterType filterType, Properties properties)
         throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
