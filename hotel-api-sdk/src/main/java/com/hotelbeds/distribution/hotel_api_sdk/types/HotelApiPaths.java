@@ -32,6 +32,7 @@ import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingListRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingRS;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingVoucherRS;
 import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
 import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
 import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
@@ -50,7 +51,8 @@ public enum HotelApiPaths {
     BOOKING_CONFIRM("${path}/${version}/bookings", AllowedMethod.POST, BookingRS.class),
     BOOKING_CANCEL("${path}/${version}/bookings/${bookingId}?cancellationFlag=${flag}", AllowedMethod.DELETE, BookingCancellationRS.class),
     CHECK_AVAIL("${path}/${version}/checkrates", AllowedMethod.POST, CheckRateRS.class),
-    STATUS("${path}/${version}/status", AllowedMethod.GET, StatusRS.class), ;
+    STATUS("${path}/${version}/status", AllowedMethod.GET, StatusRS.class),
+    BOOKING_VOUCHER("${path}/${version}/vouchers/${bookingId}", AllowedMethod.POST, BookingVoucherRS.class);
 
     private final String urlTemplate;
     private final AllowedMethod allowedMethod;

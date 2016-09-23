@@ -109,7 +109,7 @@ public class HotelAPIClientDemo {
                     //.limitHotelsTo(10)
                     //.numberOfTrypReviewsHigherThan(2)
                     //.trypScoreHigherThan(new BigDecimal(2))
-                    .destination("PMI")//.zone(10)
+                    //.destination("PMI")//.zone(10)
                     //.payed(Pay.AT_HOTEL)
                     //.payed(Pay.THROUGH_WEB)
                     //.payed(Pay.INDIFFERENT);
@@ -120,10 +120,10 @@ public class HotelAPIClientDemo {
                     //.ofType(Accommodation.HOTEL)
                     //.ofType(Accommodation.APARTMENT)
                     //
-                    //.includeHotel(111637)
-                    //.includeHotel(2818)
-                    //.includeHotel(138465)
-                    //.includeHotel(164471)
+                    .includeHotel(111637)
+                    .includeHotel(2818)
+                    .includeHotel(138465)
+                    .includeHotel(164471)
                     // or
                     //.excludeHotel(187013)
                     //.excludeHotel(188330)
@@ -225,9 +225,14 @@ public class HotelAPIClientDemo {
                                 log.error("Interrupted while waiting to confirm", e);
                             }
                             log.info("Confirming reservation with rate {}", rateKey);
-                            BookingRS bookingRS =
-                                apiClient.confirm(Booking.builder().withHolder("Rosetta", "Pruebas").clientReference("SDK Test")
-                                    .remark("***SDK***TESTING").addRoom(rateKey, confirmRoom).build());
+                            Booking booking =
+                                Booking.builder().withHolder("Rosetta", "Pruebas").clientReference("SDK Test").remark("***SDK***TESTING")
+                                    .addRoom(rateKey, confirmRoom).withVoucher("ENG", "xxxxx@xxxxxxx.com", "xxxxx@xxxxxxx.com", "Test", "Test")
+                                    .build();
+                            if (booking != null) {
+                                log.debug("BookingRQ: {}", LoggingRequestInterceptor.writeJSON(booking.toBookingRQ()));
+                            }
+                            BookingRS bookingRS = apiClient.confirm(booking);
                             if (bookingRS != null) {
                                 log.debug("BookingRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
                             }
