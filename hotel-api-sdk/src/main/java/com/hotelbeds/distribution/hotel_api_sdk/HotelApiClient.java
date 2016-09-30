@@ -370,12 +370,7 @@ public class HotelApiClient implements AutoCloseable {
         params.put("to", Integer.toString(to));
         params.put("includeCancelled", Boolean.toString(includeCancelled));
         params.put("filterType", filterType.name());
-        if (properties != null) {
-            for (Object name : properties.keySet()) {
-                String propertyName = (String) name;
-                params.put(EXTRA_PARAM_PREFIX + propertyName, properties.getProperty(propertyName));
-            }
-        }
+        addPropertiesAsParams(properties, params);
         return (BookingListRS) callRemoteAPI(params, HotelApiPaths.BOOKING_LIST);
     }
 
@@ -391,13 +386,17 @@ public class HotelApiClient implements AutoCloseable {
     public BookingDetailRS detail(String bookingId, Properties properties) throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
+        addPropertiesAsParams(properties, params);
+        return (BookingDetailRS) callRemoteAPI(params, HotelApiPaths.BOOKING_DETAIL);
+    }
+
+    public void addPropertiesAsParams(Properties properties, final Map<String, String> params) {
         if (properties != null) {
             for (Object name : properties.keySet()) {
                 String propertyName = (String) name;
                 params.put(EXTRA_PARAM_PREFIX + propertyName, properties.getProperty(propertyName));
             }
         }
-        return (BookingDetailRS) callRemoteAPI(params, HotelApiPaths.BOOKING_DETAIL);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -436,12 +435,17 @@ public class HotelApiClient implements AutoCloseable {
         return cancel(bookingId, false);
     }
 
+    public BookingCancellationRS cancel(String bookingId, boolean isSimulation) throws HotelApiSDKException {
+        return cancel(bookingId, isSimulation, null);
+    }
+
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
-    public BookingCancellationRS cancel(String bookingId, boolean isSimulation) throws HotelApiSDKException {
+    public BookingCancellationRS cancel(String bookingId, boolean isSimulation, Properties properties) throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
         params.put("flag", isSimulation ? CancellationFlags.SIMULATION.name() : CancellationFlags.CANCELLATION.name());
+        addPropertiesAsParams(properties, params);
         return (BookingCancellationRS) callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL);
     }
 
@@ -767,7 +771,7 @@ public class HotelApiClient implements AutoCloseable {
         if (isInitialised()) {
             final AllowedMethod allowedMethod = path.getAllowedMethod();
             final String url;
-            if (AllowedMethod.GET == allowedMethod) {
+            if (AllowedMethod.GET == allowedMethod || AllowedMethod.DELETE == allowedMethod) {
                 HttpUrl.Builder urlBuilder =
                     HttpUrl.parse(path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelApiPath)).newBuilder();
                 for (String param : params.keySet()) {
