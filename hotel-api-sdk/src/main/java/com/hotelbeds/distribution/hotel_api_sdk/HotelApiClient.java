@@ -844,9 +844,9 @@ public class HotelApiClient implements AutoCloseable {
                 throw e;
             } catch (IOException e) {
                 if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
-                    throw new HotelApiSDKException(new HotelbedsError("Timeout", e.getCause().getMessage()));
+                    throw new HotelApiSDKException(new HotelbedsError("Timeout", e.getMessage()), e);
                 } else {
-                    throw new HotelApiSDKException(new HotelbedsError("Error accessing API", e.getMessage()));
+                    throw new HotelApiSDKException(new HotelbedsError("Error accessing API", e.getMessage()), e);
                 }
             } catch (Exception e) {
                 throw new HotelApiSDKException(new HotelbedsError(e.getClass().getName(), e.getMessage()), e);
