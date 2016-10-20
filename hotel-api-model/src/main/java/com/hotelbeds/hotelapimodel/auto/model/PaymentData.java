@@ -30,9 +30,14 @@ package com.hotelbeds.hotelapimodel.auto.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.hotelbeds.hotelapimodel.auto.model.BillingAddress;
+import com.hotelbeds.hotelapimodel.auto.model.BookingDevice;
+import com.hotelbeds.hotelapimodel.auto.model.PaymentCard;
+import com.hotelbeds.hotelapimodel.auto.model.PaymentContactData;
+
 import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
@@ -43,8 +48,8 @@ public class PaymentData {
     private PaymentCard paymentCard;
     private PaymentContactData contactData;
     private BillingAddress billingAddress;
-    private String webPartner;
-    private Device device;
+    private Integer webPartner;
+    private BookingDevice device;
 
 
 }

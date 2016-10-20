@@ -44,8 +44,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -158,14 +156,6 @@ public final class AssignUtils {
 
     public static String getString(final LocalDate time) {
         return getString(time, DEFAULT_DATE_FORMATTER);
-    }
-
-    public static String getSortedString(final String separator, final List<String> stringList) {
-        String result = null;
-        if (isNotEmpty(stringList)) {
-            result = stringList.stream().sorted().collect(Collectors.joining(separator));
-        }
-        return result;
     }
 
     public static ZoneOffset getZoneOffset(final BigDecimal hourDifference) {

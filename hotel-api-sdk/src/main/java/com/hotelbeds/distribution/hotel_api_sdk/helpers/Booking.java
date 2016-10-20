@@ -72,7 +72,7 @@ public class Booking {
     private String cardCVC;
     private String email;
     private String phoneNumber;
-    private String platform;
+    private Integer platform;
     private VoucherEmail voucherEmail;
     private String voucherLanguage;
 

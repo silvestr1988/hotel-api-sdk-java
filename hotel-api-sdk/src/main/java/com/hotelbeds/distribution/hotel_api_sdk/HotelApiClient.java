@@ -10,12 +10,12 @@ package com.hotelbeds.distribution.hotel_api_sdk;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -300,8 +300,7 @@ public class HotelApiClient implements AutoCloseable {
                 result = HotelApiVersion.valueOf(fromProperties.trim());
             } catch (Exception e) {
                 log.error("Incorrect value provided for HotelAPI version: {}, it has to be one of {}. Using {}", new Object[] {
-                    fromProperties, HotelApiVersion.values(), providedDefault
-                });
+                    fromProperties, HotelApiVersion.values(), providedDefault});
                 result = providedDefault;
             }
         }
@@ -316,8 +315,7 @@ public class HotelApiClient implements AutoCloseable {
                 result = HotelApiService.valueOf(fromProperties.trim());
             } catch (Exception e) {
                 log.error("Incorrect value provided for HotelAPI service: {}, it has to be one of {}. Using {}", new Object[] {
-                    fromProperties, HotelApiService.values(), providedDefault
-                });
+                    fromProperties, HotelApiService.values(), providedDefault});
                 result = providedDefault;
             }
         }
@@ -363,14 +361,7 @@ public class HotelApiClient implements AutoCloseable {
 
     // TODO Fix so it does return an object of the proper type, else throw an error if failed
     // TODO Documentation pending
-    public BookingListRS list(
-        LocalDate start,
-        LocalDate end,
-        int from,
-        int to,
-        boolean includeCancelled,
-        FilterType filterType,
-        Properties properties)
+    public BookingListRS list(LocalDate start, LocalDate end, int from, int to, boolean includeCancelled, FilterType filterType, Properties properties)
         throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("start", start.toString());
@@ -510,9 +501,7 @@ public class HotelApiClient implements AutoCloseable {
         HotelDetailsRQ request = new HotelDetailsRQ();
         request.setLanguage(language);
         request.setUseSecondaryLanguage(useSecondaryLanguage);
-        request.setFields(new String[] {
-            "all"
-        });
+        request.setFields(new String[] {"all"});
         final Map<String, String> params = new HashMap<>();
         ContentType.HOTEL_DETAIL.addCommonParameters(request, params);
         params.put("code", Integer.toString(code));
@@ -731,7 +720,7 @@ public class HotelApiClient implements AutoCloseable {
         try {
             return StreamSupport.stream(
                 new ContentElementSpliterator<T>(this, type, generateDefaultFullRequest(language, useSecondaryLanguage, type)), false).collect(
-                    Collectors.toList());
+                Collectors.toList());
         } catch (InstantiationException | IllegalAccessException e) {
             throw new HotelApiSDKException(new HotelbedsError("SDK Configuration error", e.getCause().getMessage()));
         }
@@ -747,16 +736,13 @@ public class HotelApiClient implements AutoCloseable {
     }
 
     private AbstractGenericContentRequest generateDefaultFullRequest(final String language, final boolean useSecondaryLanguage, ContentType type)
-        throws InstantiationException,
-        IllegalAccessException {
+        throws InstantiationException, IllegalAccessException {
         final AbstractGenericContentRequest abstractGenericContentRequest;
         final Map<String, String> params = new HashMap<>();
         abstractGenericContentRequest = type.getRequestClass().newInstance();
         abstractGenericContentRequest.setLanguage(language);
         abstractGenericContentRequest.setUseSecondaryLanguage(useSecondaryLanguage);
-        abstractGenericContentRequest.setFields(new String[] {
-            "all"
-        });
+        abstractGenericContentRequest.setFields(new String[] {"all"});
         type.addCommonParameters(abstractGenericContentRequest, params);
         return abstractGenericContentRequest;
     }
@@ -866,10 +852,8 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
-    AbstractGenericContentResponse callRemoteContentAPI(
-        final AbstractGenericContentRequest abstractGenericContentResponse,
-        final Map<String, String> params,
-        ContentType type) throws HotelApiSDKException {
+    AbstractGenericContentResponse callRemoteContentAPI(final AbstractGenericContentRequest abstractGenericContentResponse,
+        final Map<String, String> params, ContentType type) throws HotelApiSDKException {
         HotelContentPaths path = type.getPath();
         if (isInitialised()) {
             final AllowedMethod allowedMethod = AllowedMethod.GET;
@@ -920,8 +904,7 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
-    private AbstractGenericContentResponse transformToGenericContentResponse(
-        String content,
+    private AbstractGenericContentResponse transformToGenericContentResponse(String content,
         Class<? extends AbstractGenericContentResponse> responseClass) throws HotelApiSDKException {
         try {
             return mapper.readValue(content, responseClass);

@@ -5,17 +5,6 @@
  */
 package com.hotelbeds.hotelapimodel.auto.messages;
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
-import com.hotelbeds.hotelapimodel.auto.model.Holder;
-import com.hotelbeds.hotelapimodel.auto.model.PaymentData;
-import com.hotelbeds.hotelapimodel.auto.model.Voucher;
-
 /*
  * #%L
  * HotelAPI Model
@@ -38,12 +27,22 @@ import com.hotelbeds.hotelapimodel.auto.model.Voucher;
  * #L%
  */
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
+import com.hotelbeds.hotelapimodel.auto.model.Holder;
+import com.hotelbeds.hotelapimodel.auto.model.PaymentData;
+import com.hotelbeds.hotelapimodel.auto.model.Voucher;
+import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import lombok.ToString;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
@@ -66,7 +65,7 @@ public class BookingRQ extends AbstractGenericRequest {
     @Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}")
     private String remark;
     private Voucher voucher;
-    private String platform;
+    private Integer platform;
 
 
 }

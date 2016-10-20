@@ -28,22 +28,24 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  */
 
 
+import javax.validation.constraints.NotNull;
+
+import com.hotelbeds.hotelapimodel.auto.model.AuditData;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.hotelbeds.hotelapimodel.auto.messages.HotelbedsError;
-import com.hotelbeds.hotelapimodel.auto.model.AuditData;
-import javax.validation.constraints.NotNull;
-
-import lombok.ToString;
-import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class GenericResponse {
 
     private String echoToken;

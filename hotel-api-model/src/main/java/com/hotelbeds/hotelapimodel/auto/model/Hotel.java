@@ -5,6 +5,13 @@
  */
 package com.hotelbeds.hotelapimodel.auto.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+import com.hotelbeds.hotelapimodel.auto.convert.json.DateSerializer;
+import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
+
 /*
  * #%L
  * HotelAPI Model
@@ -27,28 +34,13 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * #L%
  */
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.hotelbeds.hotelapimodel.auto.convert.json.DateSerializer;
-import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
-import com.hotelbeds.hotelapimodel.auto.model.CreditCard;
-import com.hotelbeds.hotelapimodel.auto.model.Image;
-import com.hotelbeds.hotelapimodel.auto.model.Keyword;
-import com.hotelbeds.hotelapimodel.auto.model.Review;
-import com.hotelbeds.hotelapimodel.auto.model.Room;
-import com.hotelbeds.hotelapimodel.auto.model.Supplier;
-import com.hotelbeds.hotelapimodel.auto.model.Upselling;
-import java.lang.Short;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
-import lombok.ToString;
-import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @JsonInclude(Include.NON_NULL)
 @ToString
@@ -65,7 +57,7 @@ public class Hotel {
     private Integer code;
     private String name;
     private String description;
-    private List<Image> images;
+    private String image;
     private String categoryCode;
     private String categoryName;
     private String destinationCode;
