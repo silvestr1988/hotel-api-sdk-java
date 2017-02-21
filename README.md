@@ -33,7 +33,7 @@ Include the dependency in your pom.xml with the last released version
     <dependency>
       <groupId>com.hotelbeds.hotel-api-sdk-java</groupId>
       <artifactId>hotel-api-sdk</artifactId>
-      <version>0.8-SNAPSHOT</version>
+      <version>0.12-SNAPSHOT</version>
     </dependency>
 
 Include also the Sonatype repository to your repositories:
@@ -65,7 +65,7 @@ Here you have a complete pom.xml file with the optional dependencies for logging
     		<dependency>
     			<groupId>com.hotelbeds.hotel-api-sdk-java</groupId>
     			<artifactId>hotel-api-sdk</artifactId>
-    			<version>0.8-SNAPSHOT</version>
+    			<version>0.12-SNAPSHOT</version>
     		</dependency>
     		<!-- Optionally adding logging dependencies -->
     		<dependency>
