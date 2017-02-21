@@ -181,9 +181,9 @@ public enum ContentType {
         params.put("language", request.getLanguage() != null ? request.getLanguage() : "ENG");
         params.put("from", request.getFrom() != null ? request.getFrom().toString() : "1");
         params.put("to", request.getTo() != null ? request.getTo().toString() : "100");
-        params.put("fields", request.getFields() != null ? String.join(",", request.getFields()) : "");
+        params.put("fields", request.getFields() != null ? String.join(",", request.getFields()) : null);
         params.put("useSecondaryLanguage", Boolean.toString(request.isUseSecondaryLanguage()));
-        params.put("lastUpdateTime", request.getLastUpdateTime() != null ? DateSerializer.REST_FORMATTER.format(request.getLastUpdateTime()) : "");
+        params.put("lastUpdateTime", request.getLastUpdateTime() != null ? DateSerializer.REST_FORMATTER.format(request.getLastUpdateTime()) : null);
     }
 
 

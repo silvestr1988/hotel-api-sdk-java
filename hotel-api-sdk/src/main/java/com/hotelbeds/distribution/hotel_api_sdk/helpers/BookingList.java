@@ -24,13 +24,16 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
 
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Properties;
 
 import javax.validation.constraints.NotNull;
 
-import com.hotelbeds.distribution.hotel_api_sdk.types.FilterType;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterStatus;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterType;
 
 import lombok.Builder;
+import lombok.Singular;
 import lombok.ToString;
 import lombok.Value;
 
@@ -39,16 +42,23 @@ import lombok.Value;
 @ToString
 public class BookingList {
     @NotNull
+    private BookingListFilterType filterType;
+    @Singular
+    private List<String> countries;
+    @Singular
+    private List<String> destinations;
+    private String clientReference;
+    @Singular
+    private List<Integer> hotels;
+    private BookingListFilterStatus status;
+    @NotNull
     private LocalDate fromDate;
     @NotNull
     private LocalDate toDate;
-
+    @NotNull
     private Integer from;
+    @NotNull
     private Integer to;
-
-    private boolean excludeCancelled;
-
-    private FilterType usingDate;
 
     private Properties properties;
 

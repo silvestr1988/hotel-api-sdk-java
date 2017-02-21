@@ -50,6 +50,7 @@ public class ContentElementSpliterator<T> extends AbstractSpliterator<T> {
     private final HotelApiClient hotelApiClient;
     private final ContentType contentType;
     private long currentElement = 1;
+    private long currentPageElement = 1;
     private long size;
     private final AbstractGenericContentRequest abstractGenericContentRequest;
     private final Queue<T> elements = new LinkedList<>();
@@ -61,6 +62,7 @@ public class ContentElementSpliterator<T> extends AbstractSpliterator<T> {
         this.contentType = contentType;
         this.abstractGenericContentRequest = abstractGenericContentRequest;
         this.currentElement = currentElement;
+        this.currentPageElement = currentElement;
         this.size = size;
     }
 
@@ -87,6 +89,7 @@ public class ContentElementSpliterator<T> extends AbstractSpliterator<T> {
             if (contentType.getResultsFunction() != null) {
                 elements.addAll((Collection<? extends T>) contentType.getResultsFunction().apply(response));
                 total = response.getTotal();
+                currentPageElement = to;
             } else {
                 throw new HotelApiSDKException(new HotelbedsError("SDK Configuration error",
                     "Extracting results from a type that has no extractor configured: " + contentType.name()));
@@ -105,7 +108,7 @@ public class ContentElementSpliterator<T> extends AbstractSpliterator<T> {
             currentElement++;
             return true;
         } else if (currentElement < size) {
-            long newTotal = getElementBlock(currentElement);
+            long newTotal = getElementBlock(currentPageElement + 1);
             if (!elements.isEmpty()) {
                 action.accept(elements.poll());
                 currentElement++;

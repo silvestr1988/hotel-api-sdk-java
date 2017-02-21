@@ -56,13 +56,14 @@ import com.hotelbeds.distribution.hotel_api_sdk.helpers.Voucher;
 import com.hotelbeds.distribution.hotel_api_sdk.types.AllowedMethod;
 import com.hotelbeds.distribution.hotel_api_sdk.types.CancellationFlags;
 import com.hotelbeds.distribution.hotel_api_sdk.types.ContentType;
-import com.hotelbeds.distribution.hotel_api_sdk.types.FilterType;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiPaths;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiService;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiVersion;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelContentPaths;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelbedsError;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterStatus;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterType;
 import com.hotelbeds.hotelapimodel.auto.messages.AbstractGenericRequest;
 import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRQ;
 import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
@@ -353,23 +354,40 @@ public class HotelApiClient implements AutoCloseable {
 
     // TODO Fix so it does return an object of the proper type, else throw an error if failed
     // TODO Documentation pending
-    public BookingListRS list(LocalDate start, LocalDate end, int from, int to, boolean includeCancelled, FilterType filterType)
+    public BookingListRS list(LocalDate start, LocalDate end, int from, int to, BookingListFilterStatus status, BookingListFilterType filterType)
         throws HotelApiSDKException {
-        return list(start, end, from, to, includeCancelled, filterType, null);
+        return list(start, end, from, to, status, filterType, null, null, null, null, null);
     }
 
 
     // TODO Fix so it does return an object of the proper type, else throw an error if failed
     // TODO Documentation pending
-    public BookingListRS list(LocalDate start, LocalDate end, int from, int to, boolean includeCancelled, FilterType filterType, Properties properties)
+    public BookingListRS list(LocalDate start, LocalDate end, int from, int to, BookingListFilterStatus status, BookingListFilterType filterType,
+        Properties properties, List<String> countries, List<String> destinations, String clientReference, List<Integer> hotels)
         throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("start", start.toString());
         params.put("end", end.toString());
         params.put("from", Integer.toString(from));
         params.put("to", Integer.toString(to));
-        params.put("includeCancelled", Boolean.toString(includeCancelled));
-        params.put("filterType", filterType.name());
+        if (status != null) {
+            params.put("status", status.name());
+        }
+        if (filterType != null) {
+            params.put("filterType", filterType.name());
+        }
+        if (countries != null && !countries.isEmpty()) {
+            params.put("country", String.join(",", countries));
+        }
+        if (destinations != null && !destinations.isEmpty()) {
+            params.put("destination", String.join(",", destinations));
+        }
+        if (hotels != null && !hotels.isEmpty()) {
+            params.put("hotel", hotels.stream().map(hotelCode -> hotelCode.toString()).collect(Collectors.joining(",")));
+        }
+        if (clientReference != null) {
+            params.put("clientReference", clientReference);
+        }
         addPropertiesAsParams(properties, params);
         return (BookingListRS) callRemoteAPI(params, HotelApiPaths.BOOKING_LIST);
     }
@@ -377,8 +395,9 @@ public class HotelApiClient implements AutoCloseable {
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingListRS list(BookingList bookingList) throws HotelApiSDKException {
-        return list(bookingList.getFromDate(), bookingList.getToDate(), bookingList.getFrom(), bookingList.getTo(),
-            !bookingList.isExcludeCancelled(), bookingList.getUsingDate(), bookingList.getProperties());
+        return list(bookingList.getFromDate(), bookingList.getToDate(), bookingList.getFrom(), bookingList.getTo(), bookingList.getStatus(),
+            bookingList.getFilterType(), bookingList.getProperties(), bookingList.getCountries(), bookingList.getDestinations(),
+            bookingList.getClientReference(), bookingList.getHotels());
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -444,7 +463,7 @@ public class HotelApiClient implements AutoCloseable {
     public BookingCancellationRS cancel(String bookingId, boolean isSimulation, Properties properties) throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
-        params.put("flag", isSimulation ? CancellationFlags.SIMULATION.name() : CancellationFlags.CANCELLATION.name());
+        params.put("cancellationFlag", isSimulation ? CancellationFlags.SIMULATION.name() : CancellationFlags.CANCELLATION.name());
         addPropertiesAsParams(properties, params);
         return (BookingCancellationRS) callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL);
     }
@@ -766,40 +785,45 @@ public class HotelApiClient implements AutoCloseable {
     }
 
 
+    private String obtainUrlFromPath(final Map<String, String> params, HotelApiPaths path) {
+        final String url;
+        if ((AllowedMethod.GET == path.getAllowedMethod() || AllowedMethod.DELETE == path.getAllowedMethod()) && !path.getAllowedParams().isEmpty()) {
+            HttpUrl.Builder urlBuilder = HttpUrl.parse(path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelApiPath)).newBuilder();
+            for (String param : path.getAllowedParams()) {
+                String value = params.get(param);
+                if (value != null) {
+                    urlBuilder.addQueryParameter(param, value);
+                }
+            }
+            url = urlBuilder.build().toString();
+        } else {
+            url = path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelApiPath);
+        }
+        return url;
+    }
+
+    private Request.Builder generateRequestBuilder(final AbstractGenericRequest abstractGenericRequest, final AllowedMethod allowedMethod,
+        final String url) throws HotelApiSDKException {
+        Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod)).url(url);
+        switch (allowedMethod) {
+            case DELETE:
+                requestBuilder.delete(transformToRequestBody(abstractGenericRequest));
+                break;
+            case POST:
+                requestBuilder.post(transformToRequestBody(abstractGenericRequest));
+                break;
+            default:
+                break;
+        }
+        return requestBuilder;
+    }
+
     private GenericResponse callRemoteAPI(final AbstractGenericRequest abstractGenericRequest, final Map<String, String> params, HotelApiPaths path)
         throws HotelApiSDKException {
         if (isInitialised()) {
-            final AllowedMethod allowedMethod = path.getAllowedMethod();
-            final String url;
-            if (AllowedMethod.GET == allowedMethod || AllowedMethod.DELETE == allowedMethod) {
-                HttpUrl.Builder urlBuilder =
-                    HttpUrl.parse(path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelApiPath)).newBuilder();
-                if (params != null) {
-                    for (String param : params.keySet()) {
-                        if (param.startsWith(EXTRA_PARAM_PREFIX)) {
-                            String value = params.get(param);
-                            if (value != null) {
-                                urlBuilder.addQueryParameter(param.substring(EXTRA_PARAM_PREFIX.length()), value);
-                            }
-                        }
-                    }
-                }
-                url = urlBuilder.build().toString();
-            } else {
-                url = path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelApiPath);
-            }
+            final String url = obtainUrlFromPath(params, path);
             try {
-                Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod)).url(url);
-                switch (allowedMethod) {
-                    case DELETE:
-                        requestBuilder.delete(transformToRequestBody(abstractGenericRequest));
-                        break;
-                    case POST:
-                        requestBuilder.post(transformToRequestBody(abstractGenericRequest));
-                        break;
-                    default:
-                        break;
-                }
+                Request.Builder requestBuilder = generateRequestBuilder(abstractGenericRequest, path.getAllowedMethod(), url);
 
                 Response response = restTemplate.newCall(requestBuilder.build()).execute();
                 try (ResponseBody body = response.body()) {
@@ -852,12 +876,30 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
+    private String obtainUrlFromContentPath(final Map<String, String> params, HotelContentPaths path) {
+        final String url;
+        if (!path.getAllowedParams().isEmpty()) {
+            HttpUrl.Builder urlBuilder =
+                HttpUrl.parse(path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelContentPath)).newBuilder();
+            for (String param : path.getAllowedParams()) {
+                String value = params.get(param);
+                if (value != null) {
+                    urlBuilder.addQueryParameter(param, value);
+                }
+            }
+            url = urlBuilder.build().toString();
+        } else {
+            url = path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelContentPath);
+        }
+        return url;
+    }
+
     AbstractGenericContentResponse callRemoteContentAPI(final AbstractGenericContentRequest abstractGenericContentResponse,
         final Map<String, String> params, ContentType type) throws HotelApiSDKException {
         HotelContentPaths path = type.getPath();
         if (isInitialised()) {
             final AllowedMethod allowedMethod = AllowedMethod.GET;
-            final String url = path.getUrl(hotelApiService, hotelApiversion, params, alternativeHotelContentPath);
+            final String url = obtainUrlFromContentPath(params, path);
             try {
                 Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod)).url(url);
                 Response response = restTemplate.newCall(requestBuilder.build()).execute();
