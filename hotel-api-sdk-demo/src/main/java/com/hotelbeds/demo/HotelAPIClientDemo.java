@@ -40,6 +40,8 @@ import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestIntercepto
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
 import com.hotelbeds.distribution.hotel_api_sdk.types.FilterType;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterStatus;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterType;
 import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
@@ -264,7 +266,7 @@ public class HotelAPIClientDemo {
             if (doBookingList) {
                 log.info("Requesting booking list...");
                 BookingListRS bookingListRS =
-                    apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, true, FilterType.CREATION);
+                    apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, BookingListFilterStatus.ALL, BookingListFilterType.CREATION);
                 if (bookingListRS != null) {
                     log.info("BookingListRS: {}", LoggingRequestInterceptor.writeJSON(bookingListRS));
                 }
