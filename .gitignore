@@ -9,3 +9,4 @@ hotel-api-sdk-demo/target/
 /.project
 release.properties
 build-tools/target/
+*.versionsBackup

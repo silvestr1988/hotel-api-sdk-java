@@ -94,7 +94,9 @@ public enum HotelApiPaths {
             params = new HashMap<>();
         }
         params.put("path", service.getHotelApiPath(alternativeHotelApiPath));
-        params.put("version", version.getVersion());
+        if (!params.containsKey("version")) {
+            params.put("version", version.getVersion());
+        }
         StrSubstitutor strSubstitutor = new StrSubstitutor(params);
         return strSubstitutor.replace(urlTemplate);
     }

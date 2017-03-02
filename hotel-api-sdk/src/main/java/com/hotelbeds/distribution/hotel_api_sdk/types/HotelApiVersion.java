@@ -28,7 +28,10 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
  */
 public enum HotelApiVersion {
 
-    V1("1.0");
+    V1("1.0"),
+
+    //Default version
+    V1_1("1.1");//Version for confirmations with payment
 
     private String version;
 
@@ -41,4 +44,5 @@ public enum HotelApiVersion {
     }
 
     public static HotelApiVersion DEFAULT = V1;
+    public static HotelApiVersion DEFAULT_PAYMENT = V1_1;
 }
