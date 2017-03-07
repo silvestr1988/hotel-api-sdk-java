@@ -33,12 +33,12 @@ import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom.AvailRoomBuilder;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking;
+import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking.BookingBuilder;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.ConfirmRoom;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.ConfirmRoom.ConfirmRoomBuilder;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
-import com.hotelbeds.distribution.hotel_api_sdk.types.FilterType;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterStatus;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterType;
@@ -63,8 +63,8 @@ public class HotelAPIClientDemo {
             boolean doAvailability = true;
             boolean isRandom = true;
             boolean doCheckRate = doAvailability && false;
-            boolean doConfirmation = doAvailability && false;
-            boolean doBookingList = true;
+            boolean doConfirmation = doAvailability && true;
+            boolean doBookingList = false;
             boolean doBookingDetail = doBookingList && true;
             int bookingDetails = 1;
             //
@@ -227,10 +227,12 @@ public class HotelAPIClientDemo {
                                 log.error("Interrupted while waiting to confirm", e);
                             }
                             log.info("Confirming reservation with rate {}", rateKey);
-                            Booking booking =
+                            BookingBuilder bookingBuilder =
                                 Booking.builder().withHolder("Rosetta", "Pruebas").clientReference("SDK Test").remark("***SDK***TESTING")
-                                    .addRoom(rateKey, confirmRoom).withVoucher("ENG", "xxxxx@xxxxxxx.com", "xxxxx@xxxxxxx.com", "Test", "Test")
-                                    .build();
+                                    .addRoom(rateKey, confirmRoom).withVoucher("ENG", "xxxxx@xxxxxxx.com", "xxxxx@xxxxxxx.com", "Test", "Test");
+                            //                            bookingBuilder.cardHolderName("AUTHORISED").cardNumber("4444333322221111").cardCVC("597").cardType("VI")
+                            //                                    .expiryDate("0718").email("xxxxx@xxxxxx.com").phoneNumber("666666666");
+                            Booking booking = bookingBuilder.build();
                             if (booking != null) {
                                 log.debug("BookingRQ: {}", LoggingRequestInterceptor.writeJSON(booking.toBookingRQ()));
                             }
@@ -266,7 +268,8 @@ public class HotelAPIClientDemo {
             if (doBookingList) {
                 log.info("Requesting booking list...");
                 BookingListRS bookingListRS =
-                    apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, BookingListFilterStatus.ALL, BookingListFilterType.CREATION);
+                    apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, BookingListFilterStatus.ALL,
+                        BookingListFilterType.CREATION);
                 if (bookingListRS != null) {
                     log.info("BookingListRS: {}", LoggingRequestInterceptor.writeJSON(bookingListRS));
                 }

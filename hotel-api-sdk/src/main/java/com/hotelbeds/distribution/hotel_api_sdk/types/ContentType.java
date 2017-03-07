@@ -85,12 +85,12 @@ import lombok.Data;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -100,7 +100,7 @@ import lombok.Data;
 
 public enum ContentType {
     // @formatter:off
-    RATECOMMENT_DETAIL("ratecommentdetail", HotelContentPaths.RATECOMMENT_DETAIL_URL, RateCommentDetailsRQ.class, RateCommentDetailsRS.class, null),
+    RATECOMMENT_DETAIL("ratecommentdetails", HotelContentPaths.RATECOMMENT_DETAIL_URL, RateCommentDetailsRQ.class, RateCommentDetailsRS.class, null),
     //
     HOTEL_DETAIL("hotels", HotelContentPaths.HOTEL_DETAIL_URL, HotelDetailsRQ.class, HotelDetailsRS.class, null),
     //
@@ -136,9 +136,13 @@ public enum ContentType {
     private final Function<AbstractGenericContentResponse, Collection<?>> resultsFunction;
     private final String[] defaultParameters;
 
-    private ContentType(String urlTag, HotelContentPaths path, final Class<? extends AbstractGenericContentRequest> requestClass,
-        final Class<? extends AbstractGenericContentResponse> responseClass,
-        final Function<AbstractGenericContentResponse, Collection<?>> resultsFunction, final String... defaultParameters) {
+    private ContentType(
+            String urlTag,
+            HotelContentPaths path,
+            final Class<? extends AbstractGenericContentRequest> requestClass,
+            final Class<? extends AbstractGenericContentResponse> responseClass,
+            final Function<AbstractGenericContentResponse, Collection<?>> resultsFunction,
+            final String... defaultParameters) {
         this.urlTag = urlTag;
         this.path = path;
         this.requestClass = requestClass;
@@ -219,13 +223,13 @@ public enum ContentType {
             return response.getCountries();
         };
         private static final Extractor<CountriesRS, Country> COUNTRIES_EXTRACTOR = new Extractor<CountriesRS, Country>(CountriesRS.class,
-            COUNTRIES_RS_EXTRACTOR);
+                COUNTRIES_RS_EXTRACTOR);
         //
         private static final Function<DestinationsRS, Collection<Destination>> DESTINATIONS_RS_EXTRACTOR = response -> {
             return response.getDestinations();
         };
         private static final Extractor<DestinationsRS, Destination> DESTINATIONS_EXTRACTOR = new Extractor<DestinationsRS, Destination>(
-            DestinationsRS.class, DESTINATIONS_RS_EXTRACTOR);
+                DestinationsRS.class, DESTINATIONS_RS_EXTRACTOR);
         //
         private static final Function<BoardsRS, Collection<Board>> BOARD_RS_EXTRACTOR = response -> {
             return response.getBoards();
@@ -241,45 +245,45 @@ public enum ContentType {
             return response.getAccommodations();
         };
         private static final Extractor<AccommodationsRS, Accommodation> ACCOMMODATION_EXTRACTOR = new Extractor<AccommodationsRS, Accommodation>(
-            AccommodationsRS.class, ACCOMMODATION_RS_EXTRACTOR);
+                AccommodationsRS.class, ACCOMMODATION_RS_EXTRACTOR);
         //
         private static final Function<CategoriesRS, Collection<Category>> CATEGORY_RS_EXTRACTOR = response -> {
             return response.getCategories();
         };
         private static final Extractor<CategoriesRS, Category> CATEGORY_EXTRACTOR = new Extractor<CategoriesRS, Category>(CategoriesRS.class,
-            CATEGORY_RS_EXTRACTOR);
+                CATEGORY_RS_EXTRACTOR);
         //
         private static final Function<RateCommentsRS, Collection<RateComments>> RATECOMMENT_RS_EXTRACTOR = response -> {
             return response.getRateComments();
         };
         private static final Extractor<RateCommentsRS, RateComments> RATECOMMENT_EXTRACTOR = new Extractor<RateCommentsRS, RateComments>(
-            RateCommentsRS.class, RATECOMMENT_RS_EXTRACTOR);
+                RateCommentsRS.class, RATECOMMENT_RS_EXTRACTOR);
 
         //
         private static final Function<CurrenciesRS, Collection<Currency>> CURRENCY_RS_EXTRACTOR = response -> {
             return response.getCurrencies();
         };
         private static final Extractor<CurrenciesRS, Currency> CURRENCY_EXTRACTOR = new Extractor<CurrenciesRS, Currency>(CurrenciesRS.class,
-            CURRENCY_RS_EXTRACTOR);
+                CURRENCY_RS_EXTRACTOR);
         //
         private static final Function<FacilitiesRS, Collection<Facility>> FACILITY_RS_EXTRACTOR = response -> {
             return response.getFacilities();
         };
         private static final Extractor<FacilitiesRS, Facility> FACILITY_EXTRACTOR = new Extractor<FacilitiesRS, Facility>(FacilitiesRS.class,
-            FACILITY_RS_EXTRACTOR);
+                FACILITY_RS_EXTRACTOR);
         //
         private static final Function<FacilityGroupsRS, Collection<FacilityGroup>> FACILITY_GROUP_RS_EXTRACTOR = response -> {
             return response.getFacilityGroups();
         };
         private static final Extractor<FacilityGroupsRS, FacilityGroup> FACILITY_GROUP_EXTRACTOR = new Extractor<FacilityGroupsRS, FacilityGroup>(
-            FacilityGroupsRS.class, FACILITY_GROUP_RS_EXTRACTOR);
+                FacilityGroupsRS.class, FACILITY_GROUP_RS_EXTRACTOR);
 
         //
         private static final Function<FacilityTypologiesRS, Collection<FacilityType>> FACILITY_TYPE_RS_EXTRACTOR = response -> {
             return response.getFacilityTypologies();
         };
         private static final Extractor<FacilityTypologiesRS, FacilityType> FACILITY_TYPE_EXTRACTOR =
-            new Extractor<FacilityTypologiesRS, FacilityType>(FacilityTypologiesRS.class, FACILITY_TYPE_RS_EXTRACTOR);
+                new Extractor<FacilityTypologiesRS, FacilityType>(FacilityTypologiesRS.class, FACILITY_TYPE_RS_EXTRACTOR);
 
         //
         private static final Function<IssuesRS, Collection<Issue>> ISSUE_RS_EXTRACTOR = response -> {
@@ -292,13 +296,13 @@ public enum ContentType {
             return response.getLanguages();
         };
         private static final Extractor<LanguagesRS, Language> LANGUAGE_EXTRACTOR = new Extractor<LanguagesRS, Language>(LanguagesRS.class,
-            LANGUAGE_RS_EXTRACTOR);
+                LANGUAGE_RS_EXTRACTOR);
         //
         private static final Function<PromotionsRS, Collection<Promotion>> PROMOTION_RS_EXTRACTOR = response -> {
             return response.getPromotions();
         };
         private static final Extractor<PromotionsRS, Promotion> PROMOTION_EXTRACTOR = new Extractor<PromotionsRS, Promotion>(PromotionsRS.class,
-            PROMOTION_RS_EXTRACTOR);
+                PROMOTION_RS_EXTRACTOR);
         //
         private static final Function<RoomsRS, Collection<Room>> ROOM_RS_EXTRACTOR = response -> {
             return response.getRooms();
@@ -310,25 +314,25 @@ public enum ContentType {
             return response.getSegments();
         };
         private static final Extractor<SegmentsRS, Segment> SEGMENT_EXTRACTOR = new Extractor<SegmentsRS, Segment>(SegmentsRS.class,
-            SEGMENT_RS_EXTRACTOR);
+                SEGMENT_RS_EXTRACTOR);
         //
         private static final Function<TerminalsRS, Collection<Terminal>> TERMINAL_RS_EXTRACTOR = response -> {
             return response.getTerminals();
         };
         private static final Extractor<TerminalsRS, Terminal> TERMINAL_EXTRACTOR = new Extractor<TerminalsRS, Terminal>(TerminalsRS.class,
-            TERMINAL_RS_EXTRACTOR);
+                TERMINAL_RS_EXTRACTOR);
         //
         private static final Function<ImageTypesRS, Collection<ImageType>> IMAGE_TYPE_RS_EXTRACTOR = response -> {
             return response.getImageTypes();
         };
         private static final Extractor<ImageTypesRS, ImageType> IMAGE_TYPE_EXTRACTOR = new Extractor<ImageTypesRS, ImageType>(ImageTypesRS.class,
-            IMAGE_TYPE_RS_EXTRACTOR);
+                IMAGE_TYPE_RS_EXTRACTOR);
         //
         private static final Function<GroupCategoriesRS, Collection<GroupCategory>> GROUP_CATEGORY_RS_EXTRACTOR = response -> {
             return response.getGroupCategories();
         };
         private static final Extractor<GroupCategoriesRS, GroupCategory> GROUP_CATEGORY_EXTRACTOR = new Extractor<GroupCategoriesRS, GroupCategory>(
-            GroupCategoriesRS.class, GROUP_CATEGORY_RS_EXTRACTOR);
+                GroupCategoriesRS.class, GROUP_CATEGORY_RS_EXTRACTOR);
 
         //
     }
