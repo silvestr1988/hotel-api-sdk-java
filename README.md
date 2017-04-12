@@ -1,22 +1,22 @@
 # Hotelbeds - hotel-api SDK for Java
-##Introduction
+## Introduction
 ------------
 Hotelbeds - hotel-api SDK for Java is a set of utilities whose main goal is to help
 in the development of Java applications that use [APItude Booking](https://developer.hotelbeds.com), the Hotelbeds API.
 
-##Release notes
+## Release notes
 ------------------------------------------
 See [Release notes.md](https://github.com/hotelbeds-sdk/hotel-api-sdk-java/blob/master/RELEASE_NOTES.md)
 
-##JavaDocs
+## JavaDocs
 * [HotelAPI Model 0.8-SNAPSHOT Javadocs](http://hotelbeds-sdk.github.io/hotel-api-sdk-java/hotel-api-model/0.8-SNAPSHOT/)
 * [HotelAPI SDK 0.8-SNAPSHOT Javadocs](http://hotelbeds-sdk.github.io/hotel-api-sdk-java/hotel-api-sdk/0.8-SNAPSHOT/)
 
-##License
+## License
 -------
 This softwared is licensed under the LGPL v2.1 license. Please refer to the file LICENSE for specific details and more license and copyright information.
 
-##Modules
+## Modules
 -------------------
 The SDK for Java is composed of various modules:
 
@@ -24,9 +24,9 @@ The SDK for Java is composed of various modules:
 * **Hotel API SDK**: The SDK itself, with the classes required to connect to the remote API and return the results as model objects. 
 * **Hotel API Demo**: A sample application that makes use of the SDK, to be used as starting point.
 
-##Using the SDK
+## Using the SDK
 -------------------
-###Getting the SDK
+### Getting the SDK
 
 Include the dependency in your pom.xml with the last released version
 
@@ -94,7 +94,7 @@ Here you have a complete pom.xml file with the optional dependencies for logging
     	</dependencies>
     </project>
 
-###Calling the SDK
+### Calling the SDK
 Here you can find an example calling the /status resource.
 
     public class Demo {
@@ -110,7 +110,7 @@ Here you can find an example calling the /status resource.
 
 You can find several examples in the [hotel-api-sdk-demo](https://github.com/hotelbeds-sdk/hotel-api-sdk-java/blob/master/hotel-api-sdk-demo/src/main/java/tst/HotelAPIClientDemo.java) module
 
-##Building the SDK
+## Building the SDK
 ----------------------
 In order to build the SDK you must have permission.
 
