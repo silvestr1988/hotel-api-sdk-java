@@ -28,15 +28,29 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
  */
 public enum HotelApiService {
 
-    DEVELOPMENT("http://localhost:8383", "http://localhost:8080"),
-    LIVE("https://api.hotelbeds.com/hotel-api", "https://api.hotelbeds.com/hotel-content-api"),
-    TEST("https://api.test.hotelbeds.com/hotel-api", "https://api.test.hotelbeds.com/hotel-content-api");
+    DEVELOPMENT(
+        "http://localhost:8383",
+        "http://localhost:8080"),
+    LIVE(
+        "https://api.hotelbeds.com/hotel-api",
+        "https://api.hotelbeds.com/hotel-content-api",
+        "https://api-secure.hotelbeds.com/hotel-api"),
+    TEST(
+        "https://api.test.hotelbeds.com/hotel-api",
+        "https://api.test.hotelbeds.com/hotel-content-api",
+        "https://api-secure.test.hotelbeds.com/hotel-api");
 
     private String hotelApiPath;
+    private String hotelApiSecurePath;
     private String hotelContentPath;
 
     HotelApiService(final String hotelApiPath, final String hotelContentPath) {
+        this(hotelApiPath, hotelContentPath, hotelApiPath);
+    }
+
+    HotelApiService(final String hotelApiPath, final String hotelContentPath, final String hotelApiSecurePath) {
         this.hotelApiPath = hotelApiPath;
+        this.hotelApiSecurePath = hotelApiSecurePath;
         this.hotelContentPath = hotelContentPath;
     }
 
@@ -46,6 +60,10 @@ public enum HotelApiService {
 
     public String getHotelContentPath(String alternativePath) {
         return alternativePath != null ? alternativePath : hotelContentPath;
+    }
+
+    public String getHotelApiSecurePath(String alternativePath) {
+        return alternativePath != null ? alternativePath : hotelApiSecurePath;
     }
 
 }

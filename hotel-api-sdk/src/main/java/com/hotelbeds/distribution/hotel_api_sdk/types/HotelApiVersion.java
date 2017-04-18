@@ -27,11 +27,8 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
  * Copyright (c) Hotelbeds Technology S.L.U. All rights reserved.
  */
 public enum HotelApiVersion {
-
-    V1("1.0"),
-
-    //Default version
-    V1_1("1.1");//Version for confirmations with payment
+    DEFAULT("1.0"),
+    V1("1.0");
 
     private String version;
 
@@ -43,6 +40,4 @@ public enum HotelApiVersion {
         return version;
     }
 
-    public static HotelApiVersion DEFAULT = V1;
-    public static HotelApiVersion DEFAULT_PAYMENT = V1_1;
 }

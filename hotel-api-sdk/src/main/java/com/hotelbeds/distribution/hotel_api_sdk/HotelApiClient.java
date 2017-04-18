@@ -146,6 +146,7 @@ public class HotelApiClient implements AutoCloseable {
     private static final int REST_TEMPLATE_READ_TIME_OUT = 5000;
 
     private static final String HOTEL_API_URL_PROPERTY = "hotel-api.url";
+    private static final String HOTEL_API_SECURE_URL_PROPERTY = "hotel-api-secure.url";
     private static final String HOTEL_CONTENT_URL_PROPERTY = "hotel-content.url";
     private static final String API_KEY_HEADER_NAME = "Api-Key";
     private static final String SIGNATURE_HEADER_NAME = "X-Signature";
@@ -153,7 +154,6 @@ public class HotelApiClient implements AutoCloseable {
     private final String apiKey;
     private final String sharedSecret;
     private final HotelApiVersion hotelApiVersion;
-    private final HotelApiVersion hotelApiPaymentVersion;
     private final HotelApiService hotelApiService;
     private String defaultLanguage;
     private boolean defaultUseSecondaryLanguage;
@@ -166,47 +166,28 @@ public class HotelApiClient implements AutoCloseable {
     private ExecutorService executorService = null;
     private ObjectMapper mapper = null;
     private final String alternativeHotelApiPath;
+    private final String alternativeHotelApiSecurePath;
     private final String alternativeHotelContentPath;
 
     public HotelApiClient() {
         this((String) null, null);
     }
 
-    public HotelApiClient(HotelApiService service) {
-        this(service, null, null);
-    }
-
-    public HotelApiClient(HotelApiVersion version, HotelApiService service) {
-        this(version, HotelApiVersion.DEFAULT_PAYMENT, service, null, null);
-    }
-
-    public HotelApiClient(HotelApiVersion version, HotelApiVersion paymentVersion, HotelApiService service) {
-        this(version, paymentVersion, service, null, null);
-    }
-
     public HotelApiClient(String apiKey, String sharedSecret) {
-        this(HotelApiVersion.DEFAULT, HotelApiVersion.DEFAULT_PAYMENT, HotelApiService.TEST, apiKey, sharedSecret);
-    }
-
-    public HotelApiClient(HotelApiService service, String apiKey, String sharedSecret) {
-        this(HotelApiVersion.DEFAULT, HotelApiVersion.DEFAULT_PAYMENT, service, apiKey, sharedSecret);
+        this(HotelApiVersion.DEFAULT, HotelApiService.TEST, apiKey, sharedSecret);
     }
 
     public HotelApiClient(HotelApiVersion version, HotelApiService service, String apiKey, String sharedSecret) {
-        this(version, HotelApiVersion.DEFAULT_PAYMENT, service, apiKey, sharedSecret);
-    }
-
-    public HotelApiClient(HotelApiVersion version, HotelApiVersion paymentVersion, HotelApiService service, String apiKey, String sharedSecret) {
         this.apiKey = getHotelApiKey(apiKey);
         this.sharedSecret = getHotelApiSharedSecret(sharedSecret);
         hotelApiVersion = getHotelApiVersion(version);
-        hotelApiPaymentVersion = getHotelApiPaymentVersion(paymentVersion);
         hotelApiService = getHotelApiService(service);
         if (StringUtils.isBlank(this.apiKey) || hotelApiVersion == null || hotelApiService == null || StringUtils.isBlank(this.sharedSecret)) {
             throw new IllegalArgumentException(
                 "HotelApiClient cannot be created without specifying an API key, Shared Secret, the Hotel API version and the service you are connecting to.");
         }
         alternativeHotelApiPath = getHotelApiUrl();
+        alternativeHotelApiSecurePath = getHotelApiSecureUrl();
         alternativeHotelContentPath = getHotelContentUrl();
         properties = new Properties();
     }
@@ -277,6 +258,15 @@ public class HotelApiClient implements AutoCloseable {
         return result;
     }
 
+    private String getHotelApiSecureUrl() {
+        String result = null;
+        String alternativeUrl = getValueFromProperties("Alternative Hotel Api Secure Url", HOTEL_API_SECURE_URL_PROPERTY);
+        if (alternativeUrl != null) {
+            result = alternativeUrl;
+        }
+        return result;
+    }
+
     private String getHotelContentUrl() {
         String result = null;
         String alternativeUrl = getValueFromProperties("Alternative Hotel Content Url", HOTEL_CONTENT_URL_PROPERTY);
@@ -312,21 +302,6 @@ public class HotelApiClient implements AutoCloseable {
                 result = HotelApiVersion.valueOf(fromProperties.trim());
             } catch (Exception e) {
                 log.error("Incorrect value provided for HotelAPI version: {}, it has to be one of {}. Using {}", new Object[] {
-                    fromProperties, HotelApiVersion.values(), providedDefault});
-                result = providedDefault;
-            }
-        }
-        return result;
-    }
-
-    private HotelApiVersion getHotelApiPaymentVersion(HotelApiVersion providedDefault) {
-        HotelApiVersion result = providedDefault;
-        String fromProperties = getValueFromProperties("HotelAPI payment version", VERSION_PAYMENT_PROPERTY_NAME);
-        if (fromProperties != null) {
-            try {
-                result = HotelApiVersion.valueOf(fromProperties.trim());
-            } catch (Exception e) {
-                log.error("Incorrect value provided for HotelAPI payment version: {}, it has to be one of {}. Using {}", new Object[] {
                     fromProperties, HotelApiVersion.values(), providedDefault});
                 result = providedDefault;
             }
@@ -461,7 +436,7 @@ public class HotelApiClient implements AutoCloseable {
     public BookingRS doBookingConfirm(BookingRQ request) throws HotelApiSDKException {
         if (request.getPaymentData() != null && request.getPaymentData().getPaymentCard() != null) {
             final Map<String, String> params = new HashMap<>();
-            params.put("version", hotelApiPaymentVersion.getVersion());
+            params.put("path", hotelApiService.getHotelApiSecurePath(alternativeHotelApiSecurePath));
             return (BookingRS) callRemoteAPI(request, params, HotelApiPaths.BOOKING_CONFIRM);
         } else {
             return (BookingRS) callRemoteAPI(request, HotelApiPaths.BOOKING_CONFIRM);
