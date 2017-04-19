@@ -173,8 +173,20 @@ public class HotelApiClient implements AutoCloseable {
         this((String) null, null);
     }
 
+    public HotelApiClient(HotelApiService service) {
+        this(service, null, null);
+    }
+
+    public HotelApiClient(HotelApiVersion version, HotelApiService service) {
+        this(version, service, null, null);
+    }
+
     public HotelApiClient(String apiKey, String sharedSecret) {
         this(HotelApiVersion.DEFAULT, HotelApiService.TEST, apiKey, sharedSecret);
+    }
+
+    public HotelApiClient(HotelApiService service, String apiKey, String sharedSecret) {
+        this(HotelApiVersion.DEFAULT, service, apiKey, sharedSecret);
     }
 
     public HotelApiClient(HotelApiVersion version, HotelApiService service, String apiKey, String sharedSecret) {
