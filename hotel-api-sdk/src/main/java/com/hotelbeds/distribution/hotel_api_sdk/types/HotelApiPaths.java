@@ -93,7 +93,9 @@ public enum HotelApiPaths {
         if (params == null) {
             params = new HashMap<>();
         }
-        params.put("path", service.getHotelApiPath(alternativeHotelApiPath));
+        if (!params.containsKey("path")) {
+            params.put("path", service.getHotelApiPath(alternativeHotelApiPath));
+        }
         if (!params.containsKey("version")) {
             params.put("version", version.getVersion());
         }
