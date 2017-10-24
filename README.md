@@ -11,7 +11,7 @@ See [Release notes.md](https://github.com/hotelbeds-sdk/hotel-api-sdk-java/blob/
 ## JavaDocs
 * [HotelAPI Model 0.13 Javadocs](http://hotelbeds-sdk.github.io/hotel-api-sdk-java/hotel-api-model/0.13/)
 * [HotelAPI SDK 0.13 Javadocs](http://hotelbeds-sdk.github.io/hotel-api-sdk-java/hotel-api-sdk/0.13/)
-* [HotelContent Model 0.13 Javadocs](http://hotelbeds-sdk.github.io/hotel-content-sdk-java/hotel-content-model/0.13/)
+* [HotelContent Model 0.13 Javadocs](http://hotelbeds-sdk.github.io/hotel-api-sdk-java/hotel-content-model/0.13/)
 
 
 ## License
@@ -35,7 +35,7 @@ Include the dependency in your pom.xml with the last released version
     <dependency>
       <groupId>com.hotelbeds.hotel-api-sdk-java</groupId>
       <artifactId>hotel-api-sdk</artifactId>
-      <version>0.12-SNAPSHOT</version>
+      <version>0.13-SNAPSHOT</version>
     </dependency>
 
 Include also the Sonatype repository to your repositories:
@@ -67,7 +67,7 @@ Here you have a complete pom.xml file with the optional dependencies for logging
     		<dependency>
     			<groupId>com.hotelbeds.hotel-api-sdk-java</groupId>
     			<artifactId>hotel-api-sdk</artifactId>
-    			<version>0.12-SNAPSHOT</version>
+    			<version>0.13-SNAPSHOT</version>
     		</dependency>
     		<!-- Optionally adding logging dependencies -->
     		<dependency>
