@@ -117,7 +117,7 @@ public enum ContentType {
     CURRENCY("currencies", HotelContentPaths.TYPES_URL, CurrenciesRQ.class, CurrenciesRS.class, FunctionHolder.CURRENCY_EXTRACTOR),
     FACILITY("facilities", HotelContentPaths.TYPES_URL, FacilitiesRQ.class, FacilitiesRS.class, FunctionHolder.FACILITY_EXTRACTOR),
     FACILITY_GROUP("facilitygroups", HotelContentPaths.TYPES_URL, FacilityGroupsRQ.class, FacilityGroupsRS.class, FunctionHolder.FACILITY_GROUP_EXTRACTOR),
-    FACILITY_TYPE("facilitytypologies", HotelContentPaths.TYPES_URL, FacilitiesRQ.class, FacilitiesRS.class, FunctionHolder.FACILITY_TYPE_EXTRACTOR),
+    FACILITY_TYPE("facilitytypologies", HotelContentPaths.TYPES_URL, FacilityTypesRQ.class, FacilityTypologiesRS.class, FunctionHolder.FACILITY_TYPE_EXTRACTOR),
     ISSUE("issues", HotelContentPaths.TYPES_URL, IssuesRQ.class, IssuesRS.class, FunctionHolder.ISSUE_EXTRACTOR),
     LANGUAGE("languages", HotelContentPaths.TYPES_URL, LanguagesRQ.class, LanguagesRS.class, FunctionHolder.LANGUAGE_EXTRACTOR),
     PROMOTION("promotions", HotelContentPaths.TYPES_URL, PromotionsRQ.class, PromotionsRS.class, FunctionHolder.PROMOTION_EXTRACTOR),
