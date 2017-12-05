@@ -110,7 +110,7 @@ Here you can find an example calling the /status resource.
         }
     }
 
-You can find several examples in the [hotel-api-sdk-demo](/hotelbeds-sdk/hotel-api-sdk-java/blob/master/hotel-api-sdk-demo/src/main/java/com/hotelbeds/demo/HotelAPIClientDemo.java) module
+You can find several examples in the [hotel-api-sdk-demo](https://github.com/hotelbeds-sdk/hotel-api-sdk-java/blob/master/hotel-api-sdk-demo/src/main/java/com/hotelbeds/demo/HotelAPIClientDemo.java) module
 
 ## Building the SDK
 ----------------------
