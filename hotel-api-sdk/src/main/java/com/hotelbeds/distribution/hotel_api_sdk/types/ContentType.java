@@ -37,6 +37,7 @@ import com.hotelbeds.hotelcontentapi.auto.messages.FacilityGroup;
 import com.hotelbeds.hotelcontentapi.auto.messages.FacilityGroupsRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.FacilityGroupsRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.FacilityType;
+import com.hotelbeds.hotelcontentapi.auto.messages.FacilityTypesRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.FacilityTypologiesRS;
 import com.hotelbeds.hotelcontentapi.auto.messages.GroupCategoriesRQ;
 import com.hotelbeds.hotelcontentapi.auto.messages.GroupCategoriesRS;
