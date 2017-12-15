@@ -28,25 +28,25 @@ package com.hotelbeds.hotelapimodel.auto.annotation.validators;
  */
 
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import javax.validation.Constraint;
-
-
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Constraint(validatedBy = ValidBookingChangeValidator.class)
-public @interface ValidBookingChange {
-
-    String message() default "";
-
-    Class<?>[] groups() default {};
-
-    Class<?>[] payload() default {};
-
-}
+//import java.lang.annotation.Documented;
+//import java.lang.annotation.ElementType;
+//import java.lang.annotation.Retention;
+//import java.lang.annotation.RetentionPolicy;
+//import java.lang.annotation.Target;
+//
+//import javax.validation.Constraint;
+//
+//
+//@Documented
+//@Retention(RetentionPolicy.RUNTIME)
+//@Target(ElementType.TYPE)
+//@Constraint(validatedBy = ValidBookingChangeValidator.class)
+//public @interface ValidBookingChange {
+//
+//    String message() default "";
+//
+//    Class<?>[] groups() default {};
+//
+//    Class<?>[] payload() default {};
+//
+//}

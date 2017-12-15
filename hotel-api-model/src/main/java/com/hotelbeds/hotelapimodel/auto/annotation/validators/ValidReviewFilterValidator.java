@@ -5,29 +5,6 @@
  */
 package com.hotelbeds.hotelapimodel.auto.annotation.validators;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import java.util.List;
 
 import javax.validation.ConstraintValidator;
@@ -37,9 +14,11 @@ import com.hotelbeds.hotelapimodel.auto.model.ReviewFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class ValidReviewFilterValidator.
+ */
 @Slf4j
 public class ValidReviewFilterValidator implements ConstraintValidator<ValidReviewFilter, List<ReviewFilter>> {
-    private static final String MIN_RATE = " , minRate: ";
 
     @Override
     public void initialize(ValidReviewFilter constraintAnnotation) {
@@ -52,25 +31,38 @@ public class ValidReviewFilterValidator implements ConstraintValidator<ValidRevi
         boolean result = true;
         if (value != null) {
             for (ReviewFilter review : value) {
-                if (review.getMaxRate() == null && review.getMinRate() == null) {
+                if (isNotNullRateRange(review)) {
                     context.buildConstraintViolationWithTemplate("{com.hotelbeds.ReviewFilter.rates.null.message}").addConstraintViolation();
                     result = false;
-                    log.info("MaxRate and MinRate can not be null at same time, maxRate: " + review.getMaxRate() + MIN_RATE + review.getMinRate());
-                } else if (result && review.getMaxRate() != null && review.getMinRate() != null
-                    && (review.getMaxRate().compareTo(review.getMinRate()) < 0)) {
+                    log.debug("MaxRate and MinRate can not be null at same time, maxRate: {} , minRate: {}", review.getMaxRate(),
+                            review.getMinRate());
+                } else if (isMaxRateBiggerOrEqualsMinRate(result, review)) {
                     context.buildConstraintViolationWithTemplate("{com.hotelbeds.ReviewFilter.rates.value.message}").addConstraintViolation();
                     result = false;
-                    log.info("Wrong Rates value. MaxRate should be bigger or equals than MinRate, maxRate: " + review.getMaxRate() + MIN_RATE
-                        + review.getMinRate());
+                    log.debug("Wrong Rates value. MaxRate should be bigger or equals than MinRate, maxRate: {} , minRate: {}", review.getMaxRate(),
+                            review.getMinRate());
                 }
-                if (review.getMinReviewCount() != null && review.getMinReviewCount() == 0) {
+                if (isReviewCountNotEmpty(review)) {
                     context.buildConstraintViolationWithTemplate("{com.hotelbeds.ReviewFilter.reviewCounts.zero.message}").addConstraintViolation();
                     result = false;
-                    log.info("Wrong ReviewCounts value. MaxReviewCount and MinReviewCount can not have value 0 or empty, maxRate: "
-                        + review.getMaxRate() + MIN_RATE + review.getMinRate());
+                    log.debug("Wrong ReviewCounts value. MaxReviewCount and MinReviewCount can not have value 0 or empty, maxRate: {} , minRate: {}",
+                            review.getMaxRate(), review.getMinRate());
                 }
             }
         }
         return result;
+    }
+
+    private boolean isNotNullRateRange(ReviewFilter review) {
+        return review.getMaxRate() == null && review.getMinRate() == null;
+    }
+
+    private boolean isReviewCountNotEmpty(ReviewFilter review) {
+        return review.getMinReviewCount() != null && review.getMinReviewCount() == 0;
+    }
+
+    private boolean isMaxRateBiggerOrEqualsMinRate(boolean result, ReviewFilter review) {
+        return result && review.getMaxRate() != null && review.getMinRate() != null
+                && (review.getMaxRate().compareTo(review.getMinRate()) < 0);
     }
 }

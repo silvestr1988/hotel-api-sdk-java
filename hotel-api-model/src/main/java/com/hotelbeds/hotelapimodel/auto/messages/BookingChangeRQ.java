@@ -5,69 +5,43 @@
  */
 package com.hotelbeds.hotelapimodel.auto.messages;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidStay;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.ChangeMode;
-import com.hotelbeds.hotelapimodel.auto.model.BookingChangeRoom;
-import com.hotelbeds.hotelapimodel.auto.model.Holder;
-import com.hotelbeds.hotelapimodel.auto.model.Stay;
-import java.util.List;
+import com.hotelbeds.hotelapimodel.auto.model.Booking;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "bookingChangeRQ", namespace = "http://www.hotelbeds.com/schemas/messages")
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper=false)
 public class BookingChangeRQ extends AbstractGenericRequest {
 
-    @NotNull
-    private String bookingId;
-    @Valid
-    @NotNull
-    private ChangeMode mode;
-    @Valid
-    private Holder holder;
-    @Valid
-    @ValidStay(maxDaysRange = 30)
-    private Stay stay;
-    @Valid
-    @Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}")
-    private String clientReference;
-    @Valid
-    private List<BookingChangeRoom> rooms;
-    private Integer cancelRoomId;
+	@XmlAttribute
+	@NotNull
+	private String bookingId;
+	@XmlElement
+	@Valid
+	@NotNull
+	private ChangeMode mode;
+	@XmlElement(name = "booking")
+	@Valid
+	@NotNull
+	private Booking booking;
 
 
 }

@@ -34,32 +34,32 @@ import javax.validation.ConstraintValidatorContext;
 import com.hotelbeds.hotelapimodel.auto.messages.BookingChangeRQ;
 import com.hotelbeds.hotelapimodel.auto.model.BookingChangeRoom;
 import com.hotelbeds.hotelapimodel.auto.util.AssignUtils;
+//
+//public class ValidBookingChangeValidator implements ConstraintValidator<ValidBookingChange, BookingChangeRQ> {
+//    @Override
+//    public void initialize(ValidBookingChange constraintAnnotation) {
+//        // empty method
+//
+//    }
 
-public class ValidBookingChangeValidator implements ConstraintValidator<ValidBookingChange, BookingChangeRQ> {
-    @Override
-    public void initialize(ValidBookingChange constraintAnnotation) {
-        // empty method
+//    @Override
+//    public boolean isValid(BookingChangeRQ value, ConstraintValidatorContext context) {
+//        boolean result = true;
+//        context.disableDefaultConstraintViolation();
+//        result = validRoomIdOnTheCancellation(value, context);
+//        return result;
+//    }
 
-    }
-
-    @Override
-    public boolean isValid(BookingChangeRQ value, ConstraintValidatorContext context) {
-        boolean result = true;
-        context.disableDefaultConstraintViolation();
-        result = validRoomIdOnTheCancellation(value, context);
-        return result;
-    }
-
-    private boolean validRoomIdOnTheCancellation(final BookingChangeRQ bookingChangeRQ, final ConstraintValidatorContext context) {
-        boolean valid = true;
-        if (bookingChangeRQ.getCancelRoomId() != null) {
-            //ids of the rooms starts on 1
-            if (bookingChangeRQ.getCancelRoomId() <= 0) {
-                valid = false;
-                context.buildConstraintViolationWithTemplate("{com.hotelbeds.BookingChangeFilter.cantMakePartialCancellation.message}")
-                    .addConstraintViolation();
-            }
-        }
-        return valid;
-    }
-}
+//    private boolean validRoomIdOnTheCancellation(final BookingChangeRQ bookingChangeRQ, final ConstraintValidatorContext context) {
+//        boolean valid = true;
+//        if (bookingChangeRQ.getCancelRoomId() != null) {
+//            //ids of the rooms starts on 1
+//            if (bookingChangeRQ.getCancelRoomId() <= 0) {
+//                valid = false;
+//                context.buildConstraintViolationWithTemplate("{com.hotelbeds.BookingChangeFilter.cantMakePartialCancellation.message}")
+//                    .addConstraintViolation();
+//            }
+//        }
+//        return valid;
+//    }
+//}

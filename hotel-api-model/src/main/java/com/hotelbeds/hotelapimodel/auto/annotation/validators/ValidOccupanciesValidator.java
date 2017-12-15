@@ -5,29 +5,6 @@
  */
 package com.hotelbeds.hotelapimodel.auto.annotation.validators;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import java.util.List;
 
 import javax.validation.ConstraintValidator;
@@ -39,6 +16,9 @@ import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.HotelbedsCustomerType
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class ValidOccupanciesValidator.
+ */
 @Slf4j
 public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccupancies, List<Occupancy>> {
     private int maxRooms;
@@ -49,6 +29,9 @@ public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccup
     }
 
     @Override
+    @SuppressWarnings({
+            "squid:S134", "squid:MethodCyclomaticComplexity"
+    })
     public boolean isValid(final List<Occupancy> value, final ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         boolean result = true;
@@ -67,7 +50,7 @@ public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccup
                                     context.buildConstraintViolationWithTemplate("{com.hotelbeds.Occupancy.children.ages.message}")
                                         .addConstraintViolation();
                                     result = false;
-                                    log.info("The age of children is mandatory. Pax: " + pax.toString());
+                                    log.debug("The age of children is mandatory. Pax: " + pax.toString());
                                     break;
                                 }
                             } else if (HotelbedsCustomerType.AD.equals(pax.getType())) {
@@ -85,7 +68,7 @@ public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccup
             if (result && (rooms > maxRooms)) {
                 // [API-1329]
                 context.buildConstraintViolationWithTemplate("{com.hotelbeds.Occupancy.rooms.number.message}").addConstraintViolation();
-                log.info("The number of rooms must be less than or equal to " + maxRooms + " , rooms: " + rooms);
+                log.debug("The number of rooms must be less than or equal to " + maxRooms + " , rooms: " + rooms);
                 result = false;
             }
         }
@@ -96,7 +79,7 @@ public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccup
         if (occupancy.getChildren() != null
             && ((occupancy.getChildren() == 0 && childrenByPax > 0) || occupancyHasChildrenAndNotEqualsToChildrenByPax(occupancy, childrenByPax))) {
             context.buildConstraintViolationWithTemplate("{com.hotelbeds.Occupancy.children.number.message}").addConstraintViolation();
-            log.info("The number of children is wrong, occupancy children: " + occupancy.getChildren() + " , childrenByPax: " + childrenByPax);
+            log.debug("The number of children is wrong, occupancy children: " + occupancy.getChildren() + " , childrenByPax: " + childrenByPax);
             return false;
         }
         return true;
@@ -109,7 +92,7 @@ public class ValidOccupanciesValidator implements ConstraintValidator<ValidOccup
     private boolean checkNumberOfAdultsInOccupancy(Occupancy occupancy, int adultsByPax, ConstraintValidatorContext context) {
         if (occupancy.getAdults() != null && adultsByPax > occupancy.getAdults()) {
             context.buildConstraintViolationWithTemplate("{com.hotelbeds.Occupancy.adults.number.message}").addConstraintViolation();
-            log.info("The number of adults is wrong, occupancy adults: " + occupancy.getAdults() + " , adultsByPax: " + adultsByPax);
+            log.debug("The number of adults is wrong, occupancy adults: " + occupancy.getAdults() + " , adultsByPax: " + adultsByPax);
             return false;
         }
         return true;

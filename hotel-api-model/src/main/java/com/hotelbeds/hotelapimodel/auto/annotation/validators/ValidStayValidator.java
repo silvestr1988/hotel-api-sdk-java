@@ -5,29 +5,6 @@
  */
 package com.hotelbeds.hotelapimodel.auto.annotation.validators;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -38,15 +15,28 @@ import com.hotelbeds.hotelapimodel.auto.model.Stay;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class ValidStayValidator.
+ */
 @Slf4j
 public class ValidStayValidator implements ConstraintValidator<ValidStay, Stay> {
     private long maxDaysRange;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
+     */
     @Override
     public void initialize(final ValidStay constraintAnnotation) {
         maxDaysRange = constraintAnnotation.maxDaysRange();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.validation.ConstraintValidator#isValid(java.lang.Object, javax.validation.ConstraintValidatorContext)
+     */
     @Override
     public boolean isValid(final Stay stay, final ConstraintValidatorContext context) {
         boolean result = true;
@@ -55,22 +45,19 @@ public class ValidStayValidator implements ConstraintValidator<ValidStay, Stay> 
             if (stay.getCheckIn().isBefore(LocalDate.now().minusDays(2))) {
                 context.buildConstraintViolationWithTemplate("{com.hotelbeds.Stay.dates.checkin.future.message}").addConstraintViolation();
                 result = false;
-                if (log.isDebugEnabled()) {
-                    log.debug("property must be in the future " + stay.getCheckIn());
-                }
+                log.debug("property must be in the future {}", stay.getCheckIn());
             } else if (stay.getCheckIn().isEqual(stay.getCheckOut()) || stay.getCheckIn().isAfter(stay.getCheckOut())) {
                 context.buildConstraintViolationWithTemplate("{com.hotelbeds.Stay.dates.before.message}").addConstraintViolation();
                 result = false;
-                if (log.isDebugEnabled()) {
-                    log.debug("CheckIn must be prior to checkOut date, checkin: " + stay.getCheckIn() + " , checkout: " + stay.getCheckOut());
-                }
+                log.debug("CheckIn must be prior to checkOut date, checkin: {} , checkout: {}", stay.getCheckIn(), stay.getCheckOut());
             } else if (!isValidDateRange(stay.getCheckIn(), stay.getCheckOut())) {
                 context.buildConstraintViolationWithTemplate("{com.hotelbeds.Stay.dates.range.message}").addConstraintViolation();
                 result = false;
-                if (log.isDebugEnabled()) {
-                    log.debug("The number of nights must be less than or equal to " + maxDaysRange + ", checkin: " + stay.getCheckIn()
-                        + " , checkout: " + stay.getCheckOut());
-                }
+                log.debug("The number of nights must be less than or equal to {}, checkin: {} , checkout: {}", new Object[] {
+                        maxDaysRange,
+                        stay.getCheckIn(),
+                        stay.getCheckOut()
+                });
             }
         }
         return result;

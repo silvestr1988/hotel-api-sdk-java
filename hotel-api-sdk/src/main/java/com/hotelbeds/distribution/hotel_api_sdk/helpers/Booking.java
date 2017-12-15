@@ -72,7 +72,7 @@ public class Booking {
     private String cardCVC;
     private String email;
     private String phoneNumber;
-    private Integer platform;
+    //private Integer platform; deprecated field
     private VoucherEmail voucherEmail;
     private String voucherLanguage;
 
@@ -90,7 +90,7 @@ public class Booking {
         validate();
         BookingRQ bookingRQ = new BookingRQ();
         //
-        bookingRQ.setPlatform(platform);
+        //bookingRQ.setPlatform(platform); deprecated field
         //
         bookingRQ.setHolder(holder);
         //

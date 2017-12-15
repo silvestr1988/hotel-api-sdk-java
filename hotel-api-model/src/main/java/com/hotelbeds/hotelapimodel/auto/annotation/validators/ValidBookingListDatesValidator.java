@@ -5,29 +5,6 @@
  */
 package com.hotelbeds.hotelapimodel.auto.annotation.validators;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -38,6 +15,9 @@ import com.hotelbeds.hotelapimodel.auto.messages.BookingListRQ;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class ValidBookingListDatesValidator.
+ */
 @Slf4j
 public class ValidBookingListDatesValidator implements ConstraintValidator<ValidBookingListDates, Object> {
     private long maxDaysRange;
@@ -49,26 +29,28 @@ public class ValidBookingListDatesValidator implements ConstraintValidator<Valid
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        if (!(value instanceof BookingListRQ)) {
-            throw new IllegalArgumentException("Expected a parameter of type XMLBookingListRQ or JSONBookingListRQ");
-        }
         boolean result = true;
-        if (value instanceof BookingListRQ) {
-            LocalDate start = ((BookingListRQ) value).getStart();
-            LocalDate end = ((BookingListRQ) value).getEnd();
-            context.disableDefaultConstraintViolation();
-            if (start.isAfter(end)) {
-                context.buildConstraintViolationWithTemplate("{com.hotelbeds.BookingListRQ.dates.before.message}").addConstraintViolation();
-                result = false;
-                log.info("Start date must be prior to End date, start: " + start.toString() + " , end: " + end.toString());
-            } else if (!isValidDateRange(start, end)) {
-                context.buildConstraintViolationWithTemplate("{com.hotelbeds.BookingListRQ.dates.range.message}").addConstraintViolation();
-                result = false;
-                log.info("Days between Start and End parameters must be less than or equal to " + maxDaysRange + ", start: " + start.toString()
-                    + " , end: " + end.toString());
+        if (value != null) {
+            if (!(value instanceof BookingListRQ)) {
+                throw new IllegalArgumentException("Expected a parameter of type XMLBookingListRQ or JSONBookingListRQ");
             }
-        } else {
-            result = false;
+            if (value instanceof BookingListRQ) {
+                LocalDate start = ((BookingListRQ) value).getStart();
+                LocalDate end = ((BookingListRQ) value).getEnd();
+                context.disableDefaultConstraintViolation();
+                if (start.isAfter(end)) {
+                    context.buildConstraintViolationWithTemplate("{com.hotelbeds.BookingListRQ.dates.before.message}").addConstraintViolation();
+                    result = false;
+                    log.info("Start date must be prior to End date, start: " + start.toString() + " , end: " + end.toString());
+                } else if (!isValidDateRange(start, end)) {
+                    context.buildConstraintViolationWithTemplate("{com.hotelbeds.BookingListRQ.dates.range.message}").addConstraintViolation();
+                    result = false;
+                    log.info("Days between Start and End parameters must be less than or equal to " + maxDaysRange + ", start: " + start.toString()
+                        + " , end: " + end.toString());
+                }
+            } else {
+                result = false;
+            }
         }
         return result;
     }
