@@ -226,24 +226,24 @@ public class HotelAPIClientXMLDemo {
                             //                                    .expiryDate("0718").email("xxxxx@xxxxxx.com").phoneNumber("666666666");
                             Booking booking = bookingBuilder.build();
                             if (booking != null) {
-                                log.debug("BookingRQ: {}", LoggingRequestInterceptor.writeJSON(booking.toBookingRQ()));
+                                log.info("BookingRQ: {}", LoggingRequestInterceptor.writeJSON(booking.toBookingRQ()));
                             }
                             BookingRS bookingRS = apiClient.confirm(booking, RequestType.XML);
                             if (bookingRS != null) {
                                 //log.debug("BookingRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
-                                log.debug("BookingRS: {}", LoggingRequestInterceptor.write(bookingRS, RequestType.XML));
+                                log.info("BookingRS: {}", LoggingRequestInterceptor.write(bookingRS, RequestType.XML));
                             }
                             if (bookingRS.getBooking() != null) {
                                 log.info("Confirmation succedded. Canceling reservation with id {}", bookingRS.getBooking().getReference());
                                 BookingCancellationRS bookingCancellationRS = apiClient.cancel(bookingRS.getBooking().getReference());
                                 if (bookingCancellationRS != null) {
-                                    log.debug("BookingCancellationRS: {}", LoggingRequestInterceptor.writeJSON(bookingCancellationRS));
+                                    log.info("BookingCancellationRS: {}", LoggingRequestInterceptor.write(bookingCancellationRS, RequestType.XML));
                                 }
                                 //
                                 log.info("Getting detail after cancelation of id {}", bookingRS.getBooking().getReference());
                                 BookingDetailRS bookingDetailRS = apiClient.detail(bookingRS.getBooking().getReference());
                                 if (bookingDetailRS != null) {
-                                    log.debug("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS));
+                                    log.info("BookingDetailRS: {}", LoggingRequestInterceptor.write(bookingDetailRS, RequestType.XML));
                                 }
                                 log.info("Detail obtained!");
                             } else {
@@ -264,13 +264,13 @@ public class HotelAPIClientXMLDemo {
                     apiClient.list(LocalDate.now().minusDays(7), LocalDate.now().minusDays(0), 1, 10, BookingListFilterStatus.ALL,
                         BookingListFilterType.CREATION);
                 if (bookingListRS != null) {
-                    log.info("BookingListRS: {}", LoggingRequestInterceptor.writeJSON(bookingListRS));
+                    log.info("BookingListRS: {}", LoggingRequestInterceptor.write(bookingListRS, RequestType.XML));
                 }
                 if (bookingListRS != null && doBookingDetail) {
                     bookingListRS.getBookings().getBookings().stream().limit(bookingDetails).forEach(Unchecked.consumer(booking -> {
                         BookingDetailRS bookingDetailRS = apiClient.detail(booking.getReference());
                         if (bookingDetailRS != null) {
-                            log.info("BookingDetailRS: {}", LoggingRequestInterceptor.writeJSON(bookingDetailRS));
+                            log.info("BookingDetailRS: {}", LoggingRequestInterceptor.write(bookingDetailRS, RequestType.XML));
                         }
                     }));
                 }

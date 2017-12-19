@@ -262,7 +262,7 @@ public class HotelApiClient implements AutoCloseable {
         return properties.getProperty(propertyName);
     }
 
-    private String getHotelApiUrl() {
+   private String getHotelApiUrl() {
         String result = null;
         String alternativeUrl = getValueFromProperties("Alternative Hotel Api Url", HOTEL_API_URL_PROPERTY);
         if (alternativeUrl != null) {
@@ -430,7 +430,7 @@ public class HotelApiClient implements AutoCloseable {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
         addPropertiesAsParams(properties, params);
-        return (BookingDetailRS) callRemoteAPI(params, HotelApiPaths.BOOKING_DETAIL);
+        return (BookingDetailRS) callRemoteAPI(params, HotelApiPaths.BOOKING_DETAIL, RequestType.JSON);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -455,7 +455,7 @@ public class HotelApiClient implements AutoCloseable {
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingDetailRS detail(String bookingId) throws HotelApiSDKException {
-        return detail(bookingId, null); //FIXME Buscar solucion elegante
+        return detail(bookingId, null, RequestType.JSON);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -503,27 +503,33 @@ public class HotelApiClient implements AutoCloseable {
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingVoucherRS voucher(Voucher voucher) throws HotelApiSDKException {
-        return doBookingVoucher(voucher.getBookingId(), voucher.toBookingVoucherRQ());
+        return doBookingVoucher(voucher.getBookingId(), voucher.toBookingVoucherRQ(), RequestType.JSON);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
-    public BookingVoucherRS doBookingVoucher(String bookingId, BookingVoucherRQ request) throws HotelApiSDKException {
+    public BookingVoucherRS voucher(Voucher voucher, RequestType reqType) throws HotelApiSDKException {
+        return doBookingVoucher(voucher.getBookingId(), voucher.toBookingVoucherRQ(), reqType);
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingVoucherRS doBookingVoucher(String bookingId, BookingVoucherRQ request, RequestType reqtType) throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
-        return (BookingVoucherRS) callRemoteAPI(request, params, HotelApiPaths.BOOKING_VOUCHER);
+        return (BookingVoucherRS) callRemoteAPI(request, params, HotelApiPaths.BOOKING_VOUCHER, reqtType);
     }
 
     public BookingCancellationRS cancel(String bookingId) throws HotelApiSDKException {
-        return cancel(bookingId, false);
+        return cancel(bookingId, false, RequestType.JSON);
     }
 
     public BookingCancellationRS cancel(String bookingId, RequestType reqType) throws HotelApiSDKException {
-        return cancel(bookingId, false);
+        return cancel(bookingId, false, reqType);
     }
 
     public BookingCancellationRS cancel(String bookingId, boolean isSimulation) throws HotelApiSDKException {
-        return cancel(bookingId, isSimulation, null); //FIXME buscar solucion elegante a este problema
+        return cancel(bookingId, isSimulation, null, RequestType.JSON); //FIXME buscar solucion elegante a este problema
     }
 
     public BookingCancellationRS cancel(String bookingId, boolean isSimulation, RequestType reqType) throws HotelApiSDKException {
@@ -537,7 +543,7 @@ public class HotelApiClient implements AutoCloseable {
         params.put("bookingId", bookingId);
         params.put("cancellationFlag", isSimulation ? CancellationFlags.SIMULATION.name() : CancellationFlags.CANCELLATION.name());
         addPropertiesAsParams(properties, params);
-        return (BookingCancellationRS) callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL);
+        return (BookingCancellationRS) callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL, RequestType.JSON);
     }
 
     public BookingCancellationRS cancel(String bookingId, boolean isSimulation, Properties properties, RequestType reqType) throws HotelApiSDKException {
