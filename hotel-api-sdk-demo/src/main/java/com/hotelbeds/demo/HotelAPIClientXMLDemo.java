@@ -44,7 +44,7 @@ import java.util.Random;
 @Slf4j
 public class HotelAPIClientXMLDemo {
     public static void main(String[] args) throws HotelApiSDKException {
-        try (HotelApiClient apiClient = new HotelApiClient("", "");) {
+        try (HotelApiClient apiClient = new HotelApiClient("a7xz5rgdhkaczjttrej57bnc", "YFcVvw9fhX");) {
             apiClient.setReadTimeout(40000);
             apiClient.init();
             boolean doCheckStatus = true;
@@ -99,7 +99,7 @@ public class HotelAPIClientXMLDemo {
                     //.limitHotelsTo(10)
                     //.numberOfTrypReviewsHigherThan(2)
                     //.trypScoreHigherThan(new BigDecimal(2))
-                    //.destination("PMI")//.zone(10)
+                    //.destination("NYC")//.zone(10)
                     //.payed(Pay.AT_HOTEL)
                     //.payed(Pay.THROUGH_WEB)
                     //.payed(Pay.INDIFFERENT);
