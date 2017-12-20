@@ -58,10 +58,8 @@ public class HotelAPIClientXMLDemo {
             //
             if (doCheckStatus) {
                 log.info("Requesting status...");
-                //StatusRS statusRS = apiClient.status();
                 StatusRS statusRS = apiClient.status(RequestType.XML);
-                //log.debug("StatusRS: {}", LoggingRequestInterceptor.writeJSON(statusRS));
-                log.info("StatusRS: {}", LoggingRequestInterceptor.write(statusRS, RequestType.XML));
+                log.debug("StatusRS: {}", LoggingRequestInterceptor.write(statusRS, RequestType.XML));
             }
             if (doAvailability) {
                 log.info("Requesting availability...");
@@ -158,8 +156,7 @@ public class HotelAPIClientXMLDemo {
             // @formatter:on
                 if (availabilityRS != null && availabilityRS.getHotels() != null && availabilityRS.getHotels().getHotels() != null) {
                     log.info("Availability answered with {} hotels!", availabilityRS.getHotels().getHotels().size());
-                    //log.debug("AvailabilityRS: {}", LoggingRequestInterceptor.writeJSON(availabilityRS));
-                    log.info("AvailabilityRS: {}", LoggingRequestInterceptor.write(availabilityRS, RequestType.XML));
+                    log.debug("AvailabilityRS: {}", LoggingRequestInterceptor.write(availabilityRS, RequestType.XML));
                 } else {
                     log.info("No availability!");
                 }
@@ -197,8 +194,7 @@ public class HotelAPIClientXMLDemo {
                                 .build(), RequestType.XML);
                         // @formatter:on
                             if (bookingRS != null) {
-                                //log.debug("CheckRateRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
-                                log.info("CheckRateRS: {}", LoggingRequestInterceptor.write(bookingRS, RequestType.XML));
+                                log.debug("CheckRateRS: {}", LoggingRequestInterceptor.write(bookingRS, RequestType.XML));
                             }
                         } else {
                             log.info("No hotel available");
@@ -226,24 +222,23 @@ public class HotelAPIClientXMLDemo {
                             //                                    .expiryDate("0718").email("xxxxx@xxxxxx.com").phoneNumber("666666666");
                             Booking booking = bookingBuilder.build();
                             if (booking != null) {
-                                log.info("BookingRQ: {}", LoggingRequestInterceptor.writeJSON(booking.toBookingRQ()));
+                                log.debug("BookingRQ: {}", LoggingRequestInterceptor.write(booking.toBookingRQ(), RequestType.XML));
                             }
                             BookingRS bookingRS = apiClient.confirm(booking, RequestType.XML);
                             if (bookingRS != null) {
-                                //log.debug("BookingRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
-                                log.info("BookingRS: {}", LoggingRequestInterceptor.write(bookingRS, RequestType.XML));
+                                log.debug("BookingRS: {}", LoggingRequestInterceptor.write(bookingRS, RequestType.XML));
                             }
                             if (bookingRS.getBooking() != null) {
                                 log.info("Confirmation succedded. Canceling reservation with id {}", bookingRS.getBooking().getReference());
                                 BookingCancellationRS bookingCancellationRS = apiClient.cancel(bookingRS.getBooking().getReference());
                                 if (bookingCancellationRS != null) {
-                                    log.info("BookingCancellationRS: {}", LoggingRequestInterceptor.write(bookingCancellationRS, RequestType.XML));
+                                    log.debug("BookingCancellationRS: {}", LoggingRequestInterceptor.write(bookingCancellationRS, RequestType.XML));
                                 }
                                 //
                                 log.info("Getting detail after cancelation of id {}", bookingRS.getBooking().getReference());
                                 BookingDetailRS bookingDetailRS = apiClient.detail(bookingRS.getBooking().getReference());
                                 if (bookingDetailRS != null) {
-                                    log.info("BookingDetailRS: {}", LoggingRequestInterceptor.write(bookingDetailRS, RequestType.XML));
+                                    log.debug("BookingDetailRS: {}", LoggingRequestInterceptor.write(bookingDetailRS, RequestType.XML));
                                 }
                                 log.info("Detail obtained!");
                             } else {
