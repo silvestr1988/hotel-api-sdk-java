@@ -56,7 +56,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HotelAPIClientDemo {
     public static void main(String[] args) throws HotelApiSDKException {
-        try (HotelApiClient apiClient = new HotelApiClient("a7xz5rgdhkaczjttrej57bnc", "YFcVvw9fhX");) {
+        try (HotelApiClient apiClient = new HotelApiClient("", "");) {
             apiClient.setReadTimeout(40000);
             apiClient.init();
             boolean doCheckStatus = true;
@@ -176,7 +176,7 @@ public class HotelAPIClientDemo {
                 ConfirmRoomBuilder confirmRoom = ConfirmRoom.builder();
                 for (int count = 0; count < numAdults; count++) {
                     int adultAge = 20 + random.nextInt(20);
-                    confirmRoom.detailed(GuestType.ADULT, adultAge, "Perico-" + count, "Palotes", 1);
+                    confirmRoom.detailed(GuestType.ADULT, adultAge, "PaxTestName-" + count, "PaxTestSurname", 1);
                 }
                 if (numChildren > 0) {
                     availRoom.children(numChildren);
