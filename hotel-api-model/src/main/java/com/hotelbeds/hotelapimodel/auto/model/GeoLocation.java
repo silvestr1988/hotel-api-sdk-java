@@ -7,7 +7,6 @@ package com.hotelbeds.hotelapimodel.auto.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidGeoLocation;
 import com.hotelbeds.hotelapimodel.util.UnitMeasure;
 import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
@@ -21,7 +20,6 @@ import lombok.Data;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
-@ValidGeoLocation
 @ToString
 @NoArgsConstructor
 @Data

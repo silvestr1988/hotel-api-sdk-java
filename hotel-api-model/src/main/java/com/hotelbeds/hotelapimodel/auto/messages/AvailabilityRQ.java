@@ -8,10 +8,6 @@ package com.hotelbeds.hotelapimodel.auto.messages;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidLimitFilter;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidOccupancies;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidReviewFilter;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidStay;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.Accommodation;
 import com.hotelbeds.hotelapimodel.auto.model.Boards;
 import com.hotelbeds.hotelapimodel.auto.model.Destination;
@@ -51,12 +47,10 @@ public class AvailabilityRQ extends AbstractGenericRequest {
 	@XmlElement
 	@NotNull
 	@Valid
-	@ValidStay(maxDaysRange = 30)
 	private Stay stay;
 	@XmlElementWrapper(name = "occupancies")
 	@XmlElement(name = "occupancy")
 	@Valid
-	@ValidOccupancies(maxRooms = 10)
 	private List<Occupancy> occupancies;
 	@XmlElement
 	@Valid
@@ -76,11 +70,9 @@ public class AvailabilityRQ extends AbstractGenericRequest {
 	@XmlElement(name = "review")
 	@JsonProperty("reviews")
 	@Valid
-	@ValidReviewFilter
 	private List<ReviewFilter> reviewsFilter;
 	@XmlElement
 	@Valid
-	@ValidLimitFilter
 	private Filter filter;
 	@XmlElement
 	@Valid
