@@ -112,7 +112,7 @@ public class HotelAPIClientDemo {
                     //.numberOfTrypReviewsHigherThan(2)
                     //.trypScoreHigherThan(new BigDecimal(2))
                     //.destination("PMI")//.zone(10)
-                    //.payed(Pay.AT_HOTEL)
+                    //.payed(Availability.Pay.AT_HOTEL)
                     //.payed(Pay.THROUGH_WEB)
                     //.payed(Pay.INDIFFERENT);
                     //.matchingKeyword(34)
