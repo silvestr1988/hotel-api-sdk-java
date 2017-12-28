@@ -11,6 +11,7 @@ release.properties
 build-tools/target/
 *.versionsBackup
 # IntelliJ IDE
+.idea
 *iml
 # Eclipse IDE
 .classpath
