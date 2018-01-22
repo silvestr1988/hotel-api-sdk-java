@@ -24,6 +24,8 @@ package com.hotelbeds.distribution.hotel_api_sdk;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
@@ -41,9 +43,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
+import com.hotelbeds.distribution.hotel_api_sdk.types.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -53,15 +61,6 @@ import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingList;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Voucher;
-import com.hotelbeds.distribution.hotel_api_sdk.types.AllowedMethod;
-import com.hotelbeds.distribution.hotel_api_sdk.types.CancellationFlags;
-import com.hotelbeds.distribution.hotel_api_sdk.types.ContentType;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiPaths;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiService;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiVersion;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelContentPaths;
-import com.hotelbeds.distribution.hotel_api_sdk.types.HotelbedsError;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterStatus;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterType;
 import com.hotelbeds.hotelapimodel.auto.messages.AbstractGenericRequest;
@@ -133,6 +132,8 @@ public class HotelApiClient implements AutoCloseable {
     private static final String EXTRA_PARAM_PREFIX = "extra_";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     public static final String APPLICATION_JSON_HEADER = "application/json";
+    public static final MediaType XML = MediaType.parse("application/xml; charset=utf-8");
+    public static final String APPLICATION_XML_HEADER = "application/xml";
     public static final String APIKEY_PROPERTY_NAME = "hotelapi.apikey";
     public static final String SHAREDSECRET_PROPERTY_NAME = "hotelapi.sharedsecret";
     public static final String VERSION_PROPERTY_NAME = "hotelapi.version";
@@ -143,7 +144,7 @@ public class HotelApiClient implements AutoCloseable {
     public static final String CONTENT_LENGTH_HEADER = "Content-Length";
     public static final String CONTENT_ENCODING_HEADER = "Content-Encoding";
     public static final String DEFAULT_LANGUAGE = "ENG";
-    private static final int REST_TEMPLATE_READ_TIME_OUT = 5000;
+    private static final int REST_TEMPLATE_READ_TIME_OUT = 500000;
 
     private static final String HOTEL_API_URL_PROPERTY = "hotel-api.url";
     private static final String HOTEL_API_SECURE_URL_PROPERTY = "hotel-api-secure.url";
@@ -261,7 +262,7 @@ public class HotelApiClient implements AutoCloseable {
         return properties.getProperty(propertyName);
     }
 
-    private String getHotelApiUrl() {
+   private String getHotelApiUrl() {
         String result = null;
         String alternativeUrl = getValueFromProperties("Alternative Hotel Api Url", HOTEL_API_URL_PROPERTY);
         if (alternativeUrl != null) {
@@ -352,7 +353,6 @@ public class HotelApiClient implements AutoCloseable {
         return apiKey;
     }
 
-
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public AvailabilityRS availability(Availability availability) throws HotelApiSDKException {
@@ -361,8 +361,20 @@ public class HotelApiClient implements AutoCloseable {
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
+    public AvailabilityRS availability(Availability availability, RequestType reqType) throws HotelApiSDKException {
+        return doAvailability(availability.toAvailabilityRQ(), reqType);
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
     public AvailabilityRS doAvailability(final AvailabilityRQ request) throws HotelApiSDKException {
         return (AvailabilityRS) callRemoteAPI(request, HotelApiPaths.AVAILABILITY);
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public AvailabilityRS doAvailability(final AvailabilityRQ request, RequestType reqType) throws HotelApiSDKException {
+        return (AvailabilityRS) callRemoteAPI(request, HotelApiPaths.AVAILABILITY, reqType);
     }
 
     // TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -371,7 +383,6 @@ public class HotelApiClient implements AutoCloseable {
         throws HotelApiSDKException {
         return list(start, end, from, to, status, filterType, null, null, null, null, null);
     }
-
 
     // TODO Fix so it does return an object of the proper type, else throw an error if failed
     // TODO Documentation pending
@@ -419,8 +430,18 @@ public class HotelApiClient implements AutoCloseable {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
         addPropertiesAsParams(properties, params);
-        return (BookingDetailRS) callRemoteAPI(params, HotelApiPaths.BOOKING_DETAIL);
+        return (BookingDetailRS) callRemoteAPI(params, HotelApiPaths.BOOKING_DETAIL, RequestType.JSON);
     }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingDetailRS detail(String bookingId, Properties properties, RequestType reqType) throws HotelApiSDKException {
+        final Map<String, String> params = new HashMap<>();
+        params.put("bookingId", bookingId);
+        addPropertiesAsParams(properties, params);
+        return (BookingDetailRS) callRemoteAPI(params, HotelApiPaths.BOOKING_DETAIL, reqType);
+    }
+
 
     public void addPropertiesAsParams(Properties properties, final Map<String, String> params) {
         if (properties != null) {
@@ -434,13 +455,25 @@ public class HotelApiClient implements AutoCloseable {
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingDetailRS detail(String bookingId) throws HotelApiSDKException {
-        return detail(bookingId, null);
+        return detail(bookingId, null, RequestType.JSON);
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingDetailRS detail(String bookingId, RequestType reqType) throws HotelApiSDKException {
+        return detail(bookingId, null, reqType);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
     public BookingRS confirm(Booking booking) throws HotelApiSDKException {
         return doBookingConfirm(booking.toBookingRQ());
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingRS confirm(Booking booking, RequestType reqType) throws HotelApiSDKException {
+        return doBookingConfirm(booking.toBookingRQ(), reqType);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -457,24 +490,50 @@ public class HotelApiClient implements AutoCloseable {
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
-    public BookingVoucherRS voucher(Voucher voucher) throws HotelApiSDKException {
-        return doBookingVoucher(voucher.getBookingId(), voucher.toBookingVoucherRQ());
+    public BookingRS doBookingConfirm(BookingRQ request, RequestType reqType) throws HotelApiSDKException {
+        if (request.getPaymentData() != null && request.getPaymentData().getPaymentCard() != null) {
+            final Map<String, String> params = new HashMap<>();
+            params.put("path", hotelApiService.getHotelApiSecurePath(alternativeHotelApiSecurePath));
+            return (BookingRS) callRemoteAPI(request, params, HotelApiPaths.BOOKING_CONFIRM, reqType);
+        } else {
+            return (BookingRS) callRemoteAPI(request, HotelApiPaths.BOOKING_CONFIRM, reqType);
+        }
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
-    public BookingVoucherRS doBookingVoucher(String bookingId, BookingVoucherRQ request) throws HotelApiSDKException {
+    public BookingVoucherRS voucher(Voucher voucher) throws HotelApiSDKException {
+        return doBookingVoucher(voucher.getBookingId(), voucher.toBookingVoucherRQ(), RequestType.JSON);
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingVoucherRS voucher(Voucher voucher, RequestType reqType) throws HotelApiSDKException {
+        return doBookingVoucher(voucher.getBookingId(), voucher.toBookingVoucherRQ(), reqType);
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingVoucherRS doBookingVoucher(String bookingId, BookingVoucherRQ request, RequestType reqtType) throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
-        return (BookingVoucherRS) callRemoteAPI(request, params, HotelApiPaths.BOOKING_VOUCHER);
+        return (BookingVoucherRS) callRemoteAPI(request, params, HotelApiPaths.BOOKING_VOUCHER, reqtType);
     }
 
     public BookingCancellationRS cancel(String bookingId) throws HotelApiSDKException {
-        return cancel(bookingId, false);
+        return cancel(bookingId, false, RequestType.JSON);
+    }
+
+    public BookingCancellationRS cancel(String bookingId, RequestType reqType) throws HotelApiSDKException {
+        return cancel(bookingId, false, reqType);
     }
 
     public BookingCancellationRS cancel(String bookingId, boolean isSimulation) throws HotelApiSDKException {
-        return cancel(bookingId, isSimulation, null);
+        return cancel(bookingId, isSimulation, null, RequestType.JSON); //FIXME buscar solucion elegante a este problema
+    }
+
+    public BookingCancellationRS cancel(String bookingId, boolean isSimulation, RequestType reqType) throws HotelApiSDKException {
+        return cancel(bookingId, isSimulation, null, reqType);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -484,7 +543,15 @@ public class HotelApiClient implements AutoCloseable {
         params.put("bookingId", bookingId);
         params.put("cancellationFlag", isSimulation ? CancellationFlags.SIMULATION.name() : CancellationFlags.CANCELLATION.name());
         addPropertiesAsParams(properties, params);
-        return (BookingCancellationRS) callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL);
+        return (BookingCancellationRS) callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL, RequestType.JSON);
+    }
+
+    public BookingCancellationRS cancel(String bookingId, boolean isSimulation, Properties properties, RequestType reqType) throws HotelApiSDKException {
+        final Map<String, String> params = new HashMap<>();
+        params.put("bookingId", bookingId);
+        params.put("cancellationFlag", isSimulation ? CancellationFlags.SIMULATION.name() : CancellationFlags.CANCELLATION.name());
+        addPropertiesAsParams(properties, params);
+        return (BookingCancellationRS) callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL, reqType);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -495,14 +562,30 @@ public class HotelApiClient implements AutoCloseable {
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
+    public CheckRateRS check(BookingCheck bookingCheck, RequestType reqType) throws HotelApiSDKException {
+        return doCheckRate(bookingCheck.toCheckRateRQ(), reqType);
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
     public CheckRateRS doCheckRate(CheckRateRQ request) throws HotelApiSDKException {
         return (CheckRateRS) callRemoteAPI(request, HotelApiPaths.CHECK_AVAIL);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
     //TODO Documentation pending
+    public CheckRateRS doCheckRate(CheckRateRQ request, RequestType reqType) throws HotelApiSDKException {
+        return (CheckRateRS) callRemoteAPI(request, HotelApiPaths.CHECK_AVAIL, reqType);
+    }
+
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
     public StatusRS status() throws HotelApiSDKException {
         return (StatusRS) callRemoteAPI(HotelApiPaths.STATUS);
+    }
+
+    public StatusRS status(RequestType reqType) throws HotelApiSDKException {
+        return (StatusRS) callRemoteAPI(HotelApiPaths.STATUS, reqType);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -803,6 +886,18 @@ public class HotelApiClient implements AutoCloseable {
         return callRemoteAPI(request, null, path);
     }
 
+    private GenericResponse callRemoteAPI(HotelApiPaths path, RequestType requestType) throws HotelApiSDKException {
+        return callRemoteAPI(null, null, path, requestType);
+    }
+
+    private GenericResponse callRemoteAPI(final Map<String, String> params, HotelApiPaths path, RequestType requestType) throws HotelApiSDKException {
+        return callRemoteAPI(null, params, path, requestType);
+    }
+
+    private GenericResponse callRemoteAPI(final AbstractGenericRequest request, HotelApiPaths path, RequestType requestType)
+            throws HotelApiSDKException {
+        return callRemoteAPI(request, null, path, requestType);
+    }
 
     private String obtainUrlFromPath(final Map<String, String> params, HotelApiPaths path) {
         final String url;
@@ -830,6 +925,34 @@ public class HotelApiClient implements AutoCloseable {
                 break;
             case POST:
                 requestBuilder.post(transformToRequestBody(abstractGenericRequest));
+                break;
+            default:
+                break;
+        }
+        return requestBuilder;
+    }
+
+    private Request.Builder generateRequestBuilder(
+            final AbstractGenericRequest abstractGenericRequest,
+            final AllowedMethod allowedMethod,
+            final String url,
+            final RequestType reqType) throws HotelApiSDKException {
+        Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod, reqType)).url(url);
+
+        RequestBody reqBody = null;
+        if (reqType.equals(RequestType.JSON)) {
+            reqBody = transformToJsonRequestBody(abstractGenericRequest);
+        } else if (reqType.equals(RequestType.XML)) {
+            reqBody = transformToXmlRequestBody(abstractGenericRequest);
+        } else {
+            throw new HotelApiSDKException(new HotelbedsError("Invalid request", reqType.toString() + " content type is not supported."));
+        }
+        switch (allowedMethod) {
+            case DELETE:
+                requestBuilder.delete(reqBody);
+                break;
+            case POST:
+                requestBuilder.post(reqBody);
                 break;
             default:
                 break;
@@ -886,6 +1009,72 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
+    private GenericResponse callRemoteAPI(
+            final AbstractGenericRequest abstractGenericRequest,
+            final Map<String, String> params,
+            HotelApiPaths path,
+            RequestType reqType)
+            throws HotelApiSDKException {
+        if (isInitialised()) {
+            final String url = obtainUrlFromPath(params, path);
+            try {
+                Request.Builder requestBuilder = generateRequestBuilder(abstractGenericRequest, path.getAllowedMethod(), url, reqType);
+
+                Response response = restTemplate.newCall(requestBuilder.build()).execute();
+                try (ResponseBody body = response.body()) {
+                    BufferedSource source = body.source();
+                    source.request(Long.MAX_VALUE);
+                    Buffer buffer = source.buffer();
+                    Charset charset = AssignUtils.UTF8;
+                    if (body.contentType() != null) {
+                        try {
+                            charset = body.contentType().charset(AssignUtils.UTF8);
+                        } catch (UnsupportedCharsetException e) {
+                            log.error("Response body could not be decoded {}", e.getMessage());
+                        }
+                    }
+                    String theContent = buffer.readString(charset);
+                    if (response.headers().get(CONTENT_TYPE_HEADER).toLowerCase().startsWith(HotelApiClient.APPLICATION_JSON_HEADER)) {
+                        GenericResponse genericResponse = transformJsonToGenericResponse(theContent, path.getResponseClass());
+                        if (genericResponse.getError() != null) {
+                            throw new HotelApiSDKException(genericResponse.getError());
+                        }
+
+                        return genericResponse;
+
+                    } else if (response.headers().get(CONTENT_TYPE_HEADER).toLowerCase().startsWith(HotelApiClient.APPLICATION_XML_HEADER)) {
+                        GenericResponse genericResponse = transformXmlToGenericResponse(theContent, path.getResponseClass());
+                        if (genericResponse.getError() != null) {
+                            throw new HotelApiSDKException(genericResponse.getError());
+                        }
+
+                        return genericResponse;
+                    }
+
+                    else
+
+                    {
+                        throw new HotelApiSDKException(new HotelbedsError("Invalid response", "Wrong content type"
+                                + response.headers().get(CONTENT_TYPE_HEADER)));
+                    }
+                }
+            } catch (HotelApiSDKException e) {
+                throw e;
+            } catch (IOException e) {
+                if (e.getCause() != null && e.getCause() instanceof SocketTimeoutException) {
+                    throw new HotelApiSDKException(new HotelbedsError("Timeout", e.getMessage()), e);
+                } else {
+                    throw new HotelApiSDKException(new HotelbedsError("Error accessing API", e.getMessage()), e);
+                }
+            } catch (Exception e) {
+                throw new HotelApiSDKException(new HotelbedsError(e.getClass().getName(), e.getMessage()), e);
+            }
+        } else {
+            throw new HotelApiSDKException(new HotelbedsError("HotelAPIClient not initialised",
+                    "You have to call init() first, to be able to use this object."));
+        }
+    }
+
     private GenericResponse transformToGenericResponse(String content, Class<? extends GenericResponse> responseClass) throws HotelApiSDKException {
         try {
             return mapper.readValue(content, responseClass);
@@ -893,6 +1082,31 @@ public class HotelApiClient implements AutoCloseable {
             log.error("Error parsing JSON response: ", e);
             throw new HotelApiSDKException(new HotelbedsError("Error parsing JSON response", e.getMessage()));
         }
+    }
+
+    private GenericResponse transformJsonToGenericResponse(String content, Class<? extends GenericResponse> responseClass)
+            throws HotelApiSDKException {
+        try {
+            return mapper.readValue(content, responseClass);
+        } catch (IOException e) {
+            log.error("Error parsing JSON response: ", e);
+            throw new HotelApiSDKException(new HotelbedsError("Error parsing JSON response", e.getMessage()));
+        }
+    }
+
+    private GenericResponse transformXmlToGenericResponse(String content, Class<? extends GenericResponse> responseClass)
+            throws HotelApiSDKException {
+        GenericResponse genericResponse = null;
+        try {
+            StringReader reader = new StringReader(content);
+            JAXBContext context = JAXBContext.newInstance(responseClass);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            genericResponse = (GenericResponse) unmarshaller.unmarshal(reader);
+        } catch (JAXBException e) {
+            log.error("Error parsing XML response: ", e);
+            throw new HotelApiSDKException(new HotelbedsError("Error parsing XML response", e.getMessage()));
+        }
+        return genericResponse;
     }
 
     private String obtainUrlFromContentPath(final Map<String, String> params, HotelContentPaths path) {
@@ -984,6 +1198,35 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
+    private RequestBody transformToJsonRequestBody(AbstractGenericRequest request) throws HotelApiSDKException {
+        try {
+            return RequestBody.create(JSON, mapper.writeValueAsString(request));
+        } catch (IOException e) {
+            log.error("Error parsing JSON response: ", e);
+            throw new HotelApiSDKException(new HotelbedsError("Error parsing JSON response", e.getMessage()));
+        }
+    }
+
+    private RequestBody transformToXmlRequestBody(AbstractGenericRequest request) throws HotelApiSDKException {
+        try {
+            String xmlString = null;
+            if (request != null) { //TODO quick fix for void body requests
+                JAXBContext context = JAXBContext.newInstance(request.getClass());
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(request, stringWriter);
+                xmlString = stringWriter.toString();
+                return RequestBody.create(XML, xmlString);
+            } else {
+                return RequestBody.create(null, new byte[0]);
+            }//for void requests
+        } catch (JAXBException e) {
+            log.error("Error parsing XML response: ", e);
+            throw new HotelApiSDKException(new HotelbedsError("Error parsing XML response", e.getMessage()));
+        }
+    }
+
     private Headers getHeaders(AllowedMethod httpMethod) {
         Headers.Builder headersBuilder = new Headers.Builder();
         headersBuilder.add(API_KEY_HEADER_NAME, apiKey);
@@ -997,6 +1240,36 @@ public class HotelApiClient implements AutoCloseable {
             case GET:
             case DELETE:
                 headersBuilder.add("Accept", APPLICATION_JSON_HEADER);
+                break;
+            default:
+                break;
+        }
+        return headersBuilder.build();
+    }
+
+    private Headers getHeaders(AllowedMethod httpMethod, RequestType reqType) {
+        Headers.Builder headersBuilder = new Headers.Builder();
+        headersBuilder.add(API_KEY_HEADER_NAME, apiKey);
+        headersBuilder.add("User-Agent", "hotel-api-sdk-java, " + getClass().getPackage().getImplementationVersion());
+        // Hash the Api Key + Shared Secret + Current timestamp in seconds
+        headersBuilder.add(SIGNATURE_HEADER_NAME, DigestUtils.sha256Hex(apiKey + sharedSecret + System.currentTimeMillis() / 1000));
+
+        String contentType = null;
+        if (reqType.equals(RequestType.JSON)) {
+            contentType = APPLICATION_JSON_HEADER;
+        } else if (reqType.equals(RequestType.XML)) {
+            contentType = APPLICATION_XML_HEADER;
+        } else {
+            log.error("Error content type not supported");
+        }
+
+        switch (httpMethod) {
+            case POST:
+                // case PUT:
+                headersBuilder.add("Content-Type", contentType);
+            case GET:
+            case DELETE:
+                headersBuilder.add("Accept", contentType);
                 break;
             default:
                 break;

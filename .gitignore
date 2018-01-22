@@ -10,3 +10,10 @@ hotel-api-sdk-demo/target/
 release.properties
 build-tools/target/
 *.versionsBackup
+# IntelliJ IDE
+.idea
+*iml
+# Eclipse IDE
+.classpath
+.project
+.settings

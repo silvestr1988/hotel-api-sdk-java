@@ -5,15 +5,9 @@
  */
 package com.hotelbeds.hotelapimodel.auto.messages;
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidLimitFilter;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidOccupancies;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidReviewFilter;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidStay;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.Accommodation;
 import com.hotelbeds.hotelapimodel.auto.model.Boards;
 import com.hotelbeds.hotelapimodel.auto.model.Destination;
@@ -26,79 +20,81 @@ import com.hotelbeds.hotelapimodel.auto.model.ReviewFilter;
 import com.hotelbeds.hotelapimodel.auto.model.Rooms;
 import com.hotelbeds.hotelapimodel.auto.model.Source;
 import com.hotelbeds.hotelapimodel.auto.model.Stay;
+import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "availabilityRQ", namespace = "http://www.hotelbeds.com/schemas/messages")
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper=false)
 public class AvailabilityRQ extends AbstractGenericRequest {
 
-    @NotNull
-    @Valid
-    @ValidStay(maxDaysRange = 30)
-    private Stay stay;
-    @Valid
-    @ValidOccupancies(maxRooms = 10)
-    private List<Occupancy> occupancies;
-    @Valid
-    private GeoLocation geolocation;
-    @Valid
-    private Destination destination;
-    @JsonProperty("keywords")
-    @Valid
-    private KeywordsFilter keywordsFilter;
-    @JsonProperty("hotels")
-    @Valid
-    private HotelsFilter hotelsFilter;
-    @JsonProperty("reviews")
-    @Valid
-    @ValidReviewFilter
-    private List<ReviewFilter> reviewsFilter;
-    @Valid
-    @ValidLimitFilter
-    private Filter filter;
-    @Valid
-    private Boards boards;
-    @Valid
-    private Rooms rooms;
-    private Boolean dailyRate;
-    private String sourceMarket;
-    @Valid
-    private List<Accommodation> accommodations;
-    @Valid
-    private Source source;
-    private String platform;
+	@XmlElement
+	@NotNull
+	@Valid
+	private Stay stay;
+	@XmlElementWrapper(name = "occupancies")
+	@XmlElement(name = "occupancy")
+	@Valid
+	private List<Occupancy> occupancies;
+	@XmlElement
+	@Valid
+	private GeoLocation geolocation;
+	@XmlElement
+	@Valid
+	private Destination destination;
+	@XmlElement(name = "keywords")
+	@JsonProperty("keywords")
+	@Valid
+	private KeywordsFilter keywordsFilter;
+	@XmlElement(name = "hotels")
+	@JsonProperty("hotels")
+	@Valid
+	private HotelsFilter hotelsFilter;
+	@XmlElementWrapper(name = "reviews")
+	@XmlElement(name = "review")
+	@JsonProperty("reviews")
+	@Valid
+	private List<ReviewFilter> reviewsFilter;
+	@XmlElement
+	@Valid
+	private Filter filter;
+	@XmlElement
+	@Valid
+	private Boards boards;
+	@XmlElement
+	@Valid
+	private Rooms rooms;
+	@XmlAttribute
+	private Boolean dailyRate;
+	@XmlAttribute
+	private String sourceMarket;
+	@XmlElementWrapper(name = "accommodations")
+	@XmlElement(name = "accommodation")
+	@Valid
+	private List<Accommodation> accommodations;
+	@XmlElement
+	@Valid
+	private Source source;
+	@XmlElement
+	private Boolean aifUse;
+	@XmlAttribute
+	private Integer platform;
 
 
 }

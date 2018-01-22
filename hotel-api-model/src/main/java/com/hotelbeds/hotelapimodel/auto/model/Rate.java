@@ -5,29 +5,6 @@
  */
 package com.hotelbeds.hotelapimodel.auto.model;
 
-/*
- * #%L
- * HotelAPI Model
- * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 2.1 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/lgpl-2.1.html>.
- * #L%
- */
-
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -43,40 +20,71 @@ import com.hotelbeds.hotelapimodel.auto.model.VoucherComment;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper=false)
 public class Rate extends BasicRate {
 
-    private String rateCommentsId;
-    private String rateComments;
-    private List<VoucherComment> voucherComments;
-    private PaymentType paymentType;
-    private Boolean packaging;
-    private String boardCode;
-    private String boardName;
-    private List<CancellationPolicy> cancellationPolicies;
-    private Taxes taxes;
-    private RateBreakDown rateBreakDown;
-    private Integer rooms;
-    private Integer adults;
-    private Integer children;
-    private String childrenAges;
-    private List<Promotion> promotions;
-    private List<Offer> offers;
-    @Valid
-    private List<ShiftRate> shiftRates;
-    @JsonSerialize(using = RateSerializer.class)
-    private BigDecimal rateup;
-    private List<DailyRate> dailyRates;
+	@XmlAttribute
+	private String rateCommentsId;
+	@XmlAttribute
+	private String rateComments;
+	@XmlElementWrapper(name = "voucherComments")
+	@XmlElement(name = "comment")
+	private List<VoucherComment> voucherComments;
+	@XmlAttribute
+	private PaymentType paymentType;
+	@XmlAttribute
+	private Boolean packaging;
+	@XmlAttribute
+	private String boardCode;
+	@XmlAttribute
+	private String boardName;
+	@XmlElementWrapper(name = "cancellationPolicies")
+	@XmlElement(name = "cancellationPolicy")
+	private List<CancellationPolicy> cancellationPolicies;
+	@XmlElement(name = "taxes")
+	private Taxes taxes;
+	@XmlElement
+	private RateBreakDown rateBreakDown;
+	@XmlAttribute
+	private Integer rooms;
+	@XmlAttribute
+	private Integer adults;
+	@XmlAttribute
+	private Integer children;
+	@XmlAttribute
+	private String childrenAges;
+	@XmlElementWrapper(name = "promotions")
+	@XmlElement(name = "promotion")
+	private List<Promotion> promotions;
+	@XmlElementWrapper(name = "offers")
+	@XmlElement(name = "offer")
+	private List<Offer> offers;
+	@XmlElementWrapper(name = "shifts")
+	@XmlElement(name = "shiftRate")
+	@Valid
+	private List<ShiftRate> shiftRates;
+	@XmlAttribute
+	@JsonSerialize(using = RateSerializer.class)
+	private BigDecimal rateup;
+	@XmlElementWrapper(name = "dailyRates")
+	@XmlElement(name = "dailyRate")
+	private List<DailyRate> dailyRates;
 
 
 }

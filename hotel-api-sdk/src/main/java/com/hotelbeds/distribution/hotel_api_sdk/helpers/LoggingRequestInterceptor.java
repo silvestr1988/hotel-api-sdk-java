@@ -24,11 +24,19 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
 
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import com.hotelbeds.distribution.hotel_api_sdk.types.RequestType;
 import org.jooq.lambda.Unchecked;
 
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
@@ -47,7 +55,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.internal.http.HttpEngine;
+import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
 import okio.BufferedSource;
 
@@ -131,7 +139,7 @@ public final class LoggingRequestInterceptor implements Interceptor {
                         logHeader(header, value);
                     }
                 }
-                if (log.isTraceEnabled() && HttpEngine.hasBody(response)) {
+                if (log.isTraceEnabled() && HttpHeaders.hasBody(response)) {
                     MediaType contentType = responseBody.contentType();
                     Supplier<Buffer> responseBufferSupplier = Unchecked.supplier(() -> {
                         BufferedSource source = responseBody.source();
@@ -191,6 +199,47 @@ public final class LoggingRequestInterceptor implements Interceptor {
         } catch (final IOException e) {
             log.warn("Body is not a json object {}", e.getMessage());
         }
+        return result;
+    }
+
+    public static String writeXML(final Object object) {
+        String result = null;
+        try {
+
+            JAXBContext context = JAXBContext.newInstance(object.getClass());
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            if (object instanceof String) {
+                StringReader reader = new StringReader((String) object);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                Object xml = unmarshaller.unmarshal(reader);
+
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(xml, stringWriter);
+                result = stringWriter.toString();
+            } else {
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(object, stringWriter);
+                result = stringWriter.toString();
+            }
+        } catch (final JAXBException e) {
+            log.warn("Body is not a xml object", e);
+        }
+        return result;
+    }
+
+    public static String write (final Object object, RequestType reqType){
+        String result = null;
+
+        if (reqType.equals(RequestType.JSON)) {
+            result = writeJSON(object);
+        }
+
+        if (reqType.equals(RequestType.XML)) {
+            result = writeXML(object);
+        }
+
         return result;
     }
 
