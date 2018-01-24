@@ -4,7 +4,7 @@ package com.hotelbeds.distribution.hotel_api_sdk;
  * #%L
  * hotel-api-sdk
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -413,7 +413,39 @@ public class HotelApiClient implements AutoCloseable {
             params.put("clientReference", clientReference);
         }
         addPropertiesAsParams(properties, params);
-        return (BookingListRS) callRemoteAPI(params, HotelApiPaths.BOOKING_LIST);
+        return (BookingListRS) callRemoteAPI(params, HotelApiPaths.BOOKING_LIST, RequestType.JSON);
+    }
+
+    // TODO Fix so it does return an object of the proper type, else throw an error if failed
+    // TODO Documentation pending
+    public BookingListRS list(LocalDate start, LocalDate end, int from, int to, BookingListFilterStatus status, BookingListFilterType filterType,
+                              Properties properties, List<String> countries, List<String> destinations, String clientReference, List<Integer> hotels, RequestType reqType)
+            throws HotelApiSDKException {
+        final Map<String, String> params = new HashMap<>();
+        params.put("start", start.toString());
+        params.put("end", end.toString());
+        params.put("from", Integer.toString(from));
+        params.put("to", Integer.toString(to));
+        if (status != null) {
+            params.put("status", status.name());
+        }
+        if (filterType != null) {
+            params.put("filterType", filterType.name());
+        }
+        if (countries != null && !countries.isEmpty()) {
+            params.put("country", String.join(",", countries));
+        }
+        if (destinations != null && !destinations.isEmpty()) {
+            params.put("destination", String.join(",", destinations));
+        }
+        if (hotels != null && !hotels.isEmpty()) {
+            params.put("hotel", hotels.stream().map(hotelCode -> hotelCode.toString()).collect(Collectors.joining(",")));
+        }
+        if (clientReference != null) {
+            params.put("clientReference", clientReference);
+        }
+        addPropertiesAsParams(properties, params);
+        return (BookingListRS) callRemoteAPI(params, HotelApiPaths.BOOKING_LIST, reqType);
     }
 
     //TODO Fix so it does return an object of the proper type, else throw an error if failed
