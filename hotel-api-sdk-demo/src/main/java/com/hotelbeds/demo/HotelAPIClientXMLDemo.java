@@ -4,7 +4,7 @@ package com.hotelbeds.demo;
  * #%L
  * HotelAPI SDK Demo
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -230,13 +230,13 @@ public class HotelAPIClientXMLDemo {
                             }
                             if (bookingRS.getBooking() != null) {
                                 log.info("Confirmation succedded. Canceling reservation with id {}", bookingRS.getBooking().getReference());
-                                BookingCancellationRS bookingCancellationRS = apiClient.cancel(bookingRS.getBooking().getReference());
+                                BookingCancellationRS bookingCancellationRS = apiClient.cancel(bookingRS.getBooking().getReference(), RequestType.XML);
                                 if (bookingCancellationRS != null) {
                                     log.debug("BookingCancellationRS: {}", LoggingRequestInterceptor.write(bookingCancellationRS, RequestType.XML));
                                 }
                                 //
                                 log.info("Getting detail after cancelation of id {}", bookingRS.getBooking().getReference());
-                                BookingDetailRS bookingDetailRS = apiClient.detail(bookingRS.getBooking().getReference());
+                                BookingDetailRS bookingDetailRS = apiClient.detail(bookingRS.getBooking().getReference(), RequestType.XML);
                                 if (bookingDetailRS != null) {
                                     log.debug("BookingDetailRS: {}", LoggingRequestInterceptor.write(bookingDetailRS, RequestType.XML));
                                 }
