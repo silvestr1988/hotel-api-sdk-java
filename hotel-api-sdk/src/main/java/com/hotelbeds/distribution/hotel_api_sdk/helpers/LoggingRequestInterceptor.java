@@ -10,12 +10,12 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -26,6 +26,7 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.concurrent.TimeUnit;
@@ -35,8 +36,18 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelbedsError;
 import com.hotelbeds.distribution.hotel_api_sdk.types.RequestType;
+import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
+
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
+
 import org.jooq.lambda.Unchecked;
 
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
@@ -58,6 +69,9 @@ import okhttp3.ResponseBody;
 import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
 import okio.BufferedSource;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 @Data
 @Slf4j
@@ -105,7 +119,7 @@ public final class LoggingRequestInterceptor implements Interceptor {
                 // Log the other headers
                 for (String header : request.headers().names()) {
                     if (!HotelApiClient.CONTENT_TYPE_HEADER.equalsIgnoreCase(header)
-                        && !HotelApiClient.CONTENT_LENGTH_HEADER.equalsIgnoreCase(header)) {
+                            && !HotelApiClient.CONTENT_LENGTH_HEADER.equalsIgnoreCase(header)) {
                         for (String value : request.headers().values(header)) {
                             logHeader(header, value);
                         }
@@ -170,6 +184,17 @@ public final class LoggingRequestInterceptor implements Interceptor {
             String bodyContentType = headers.get(HotelApiClient.CONTENT_TYPE_HEADER);
             if (bodyContentType != null && bodyContentType.toLowerCase().startsWith(HotelApiClient.APPLICATION_JSON_HEADER)) {
                 log.trace("  JSON Body: {}", writeJSON(body));
+
+            } else if(bodyContentType != null && bodyContentType.toLowerCase().startsWith(HotelApiClient.APPLICATION_XML_HEADER)) {
+                try {
+                    log.trace("  XML Body: {}", prettyPrint(body, true, 2) );
+                } catch (IOException e) {
+                    log.error("  Body: Could not be prettyfied {}", e.getMessage());
+                } catch (SAXException e) {
+                    log.error("  Body: Could not be prettyfied {}", e.getMessage());
+                } catch (ParserConfigurationException e) {
+                    log.error("  Body: Could not be prettyfied {}", e.getMessage());
+                }
             } else {
                 log.trace("  Body: {}", body);
             }
@@ -183,6 +208,24 @@ public final class LoggingRequestInterceptor implements Interceptor {
     private boolean bodyEncoded(Headers headers) {
         String contentEncoding = headers.get(HotelApiClient.CONTENT_ENCODING_HEADER);
         return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
+    }
+
+    private static String prettyPrint(String xml, Boolean ommitXmlDeclaration, Integer indent)
+            throws IOException, SAXException, ParserConfigurationException {
+
+        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = db.parse(new InputSource(new StringReader(xml)));
+
+        OutputFormat format = new OutputFormat(doc);
+        format.setIndenting(true);
+        format.setIndent(indent);
+        format.setOmitXMLDeclaration(ommitXmlDeclaration);
+        format.setLineWidth(Integer.MAX_VALUE);
+        Writer outxml = new StringWriter();
+        XMLSerializer serializer = new XMLSerializer(outxml, format);
+        serializer.serialize(doc);
+
+        return outxml.toString();
     }
 
     public static String writeJSON(final Object object) {

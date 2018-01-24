@@ -108,6 +108,7 @@ public class Availability {
     }
 
     private String language;
+    private Integer platform;
 
     @NotNull
     private LocalDate checkIn;
@@ -202,6 +203,8 @@ public class Availability {
         validate();
         //
         availabilityRQ.setLanguage(language);
+        //
+        availabilityRQ.setPlatform(platform);
         //
         availabilityRQ.setStay(new Stay(checkIn, checkOut, shiftDays, true));
         //
