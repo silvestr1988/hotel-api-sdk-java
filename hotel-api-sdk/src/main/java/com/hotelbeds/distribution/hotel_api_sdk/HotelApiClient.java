@@ -51,32 +51,15 @@ import javax.xml.bind.Unmarshaller;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
+import com.hotelbeds.distribution.hotel_api_sdk.helpers.*;
 import com.hotelbeds.distribution.hotel_api_sdk.types.*;
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelbedsError;
+import com.hotelbeds.hotelapimodel.auto.messages.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingList;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.Voucher;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterStatus;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterType;
-import com.hotelbeds.hotelapimodel.auto.messages.AbstractGenericRequest;
-import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRQ;
-import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingListRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingRQ;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingVoucherRQ;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingVoucherRS;
-import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRQ;
-import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
-import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
-import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
 import com.hotelbeds.hotelapimodel.auto.util.AssignUtils;
 import com.hotelbeds.hotelapimodel.auto.util.ObjectJoiner;
 import com.hotelbeds.hotelcontentapi.auto.convert.json.DateSerializer;
@@ -262,7 +245,7 @@ public class HotelApiClient implements AutoCloseable {
         return properties.getProperty(propertyName);
     }
 
-   private String getHotelApiUrl() {
+    private String getHotelApiUrl() {
         String result = null;
         String alternativeUrl = getValueFromProperties("Alternative Hotel Api Url", HOTEL_API_URL_PROPERTY);
         if (alternativeUrl != null) {
@@ -377,6 +360,15 @@ public class HotelApiClient implements AutoCloseable {
         return (AvailabilityRS) callRemoteAPI(request, HotelApiPaths.AVAILABILITY, reqType);
     }
 
+    //TODO Fix so it does return an object of the proper type, else throw an error if failed
+    //TODO Documentation pending
+    public BookingChangeRS change(String bookingId, BookingChangeRQ request, RequestType reqType) throws HotelApiSDKException {
+        final Map<String, String> params = new HashMap<>();
+        params.put("bookingId", bookingId);
+        addPropertiesAsParams(properties, params);
+        return (BookingChangeRS) callRemoteAPI(request,params, HotelApiPaths.BOOKING_CHANGE, reqType);
+    }
+
     // TODO Fix so it does return an object of the proper type, else throw an error if failed
     // TODO Documentation pending
     public BookingListRS list(LocalDate start, LocalDate end, int from, int to, BookingListFilterStatus status, BookingListFilterType filterType)
@@ -419,8 +411,8 @@ public class HotelApiClient implements AutoCloseable {
     // TODO Fix so it does return an object of the proper type, else throw an error if failed
     // TODO Documentation pending
     public BookingListRS list(LocalDate start, LocalDate end, int from, int to, BookingListFilterStatus status, BookingListFilterType filterType,
-                              Properties properties, List<String> countries, List<String> destinations, String clientReference, List<Integer> hotels, RequestType reqType)
-            throws HotelApiSDKException {
+        Properties properties, List<String> countries, List<String> destinations, String clientReference, List<Integer> hotels, RequestType reqType)
+        throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("start", start.toString());
         params.put("end", end.toString());
@@ -578,7 +570,8 @@ public class HotelApiClient implements AutoCloseable {
         return (BookingCancellationRS) callRemoteAPI(params, HotelApiPaths.BOOKING_CANCEL, RequestType.JSON);
     }
 
-    public BookingCancellationRS cancel(String bookingId, boolean isSimulation, Properties properties, RequestType reqType) throws HotelApiSDKException {
+    public BookingCancellationRS cancel(String bookingId, boolean isSimulation, Properties properties, RequestType reqType)
+        throws HotelApiSDKException {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
         params.put("cancellationFlag", isSimulation ? CancellationFlags.SIMULATION.name() : CancellationFlags.CANCELLATION.name());
@@ -919,7 +912,7 @@ public class HotelApiClient implements AutoCloseable {
     }
 
     private GenericResponse callRemoteAPI(HotelApiPaths path, RequestType requestType) throws HotelApiSDKException {
-        return callRemoteAPI(null, null, path, requestType);
+        return callRemoteAPI((AbstractGenericRequest) null, null, path, requestType);
     }
 
     private GenericResponse callRemoteAPI(final Map<String, String> params, HotelApiPaths path, RequestType requestType) throws HotelApiSDKException {
@@ -955,6 +948,9 @@ public class HotelApiClient implements AutoCloseable {
             case DELETE:
                 requestBuilder.delete(transformToRequestBody(abstractGenericRequest));
                 break;
+            case PUT:
+                requestBuilder.put(transformToRequestBody(abstractGenericRequest));
+                break;
             case POST:
                 requestBuilder.post(transformToRequestBody(abstractGenericRequest));
                 break;
@@ -964,11 +960,8 @@ public class HotelApiClient implements AutoCloseable {
         return requestBuilder;
     }
 
-    private Request.Builder generateRequestBuilder(
-            final AbstractGenericRequest abstractGenericRequest,
-            final AllowedMethod allowedMethod,
-            final String url,
-            final RequestType reqType) throws HotelApiSDKException {
+    private Request.Builder generateRequestBuilder(final AbstractGenericRequest abstractGenericRequest, final AllowedMethod allowedMethod,
+        final String url, final RequestType reqType) throws HotelApiSDKException {
         Request.Builder requestBuilder = new Request.Builder().headers(getHeaders(allowedMethod, reqType)).url(url);
 
         RequestBody reqBody = null;
@@ -982,6 +975,9 @@ public class HotelApiClient implements AutoCloseable {
         switch (allowedMethod) {
             case DELETE:
                 requestBuilder.delete(reqBody);
+                break;
+            case PUT:
+                requestBuilder.put(reqBody);
                 break;
             case POST:
                 requestBuilder.post(reqBody);
@@ -1041,12 +1037,8 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
-    private GenericResponse callRemoteAPI(
-            final AbstractGenericRequest abstractGenericRequest,
-            final Map<String, String> params,
-            HotelApiPaths path,
-            RequestType reqType)
-            throws HotelApiSDKException {
+    private GenericResponse callRemoteAPI(final AbstractGenericRequest abstractGenericRequest, final Map<String, String> params, HotelApiPaths path,
+        RequestType reqType) throws HotelApiSDKException {
         if (isInitialised()) {
             final String url = obtainUrlFromPath(params, path);
             try {
@@ -1087,7 +1079,7 @@ public class HotelApiClient implements AutoCloseable {
 
                     {
                         throw new HotelApiSDKException(new HotelbedsError("Invalid response", "Wrong content type"
-                                + response.headers().get(CONTENT_TYPE_HEADER)));
+                            + response.headers().get(CONTENT_TYPE_HEADER)));
                     }
                 }
             } catch (HotelApiSDKException e) {
@@ -1103,7 +1095,7 @@ public class HotelApiClient implements AutoCloseable {
             }
         } else {
             throw new HotelApiSDKException(new HotelbedsError("HotelAPIClient not initialised",
-                    "You have to call init() first, to be able to use this object."));
+                "You have to call init() first, to be able to use this object."));
         }
     }
 
@@ -1117,7 +1109,7 @@ public class HotelApiClient implements AutoCloseable {
     }
 
     private GenericResponse transformJsonToGenericResponse(String content, Class<? extends GenericResponse> responseClass)
-            throws HotelApiSDKException {
+        throws HotelApiSDKException {
         try {
             return mapper.readValue(content, responseClass);
         } catch (IOException e) {
@@ -1126,8 +1118,7 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
-    private GenericResponse transformXmlToGenericResponse(String content, Class<? extends GenericResponse> responseClass)
-            throws HotelApiSDKException {
+    private GenericResponse transformXmlToGenericResponse(String content, Class<? extends GenericResponse> responseClass) throws HotelApiSDKException {
         GenericResponse genericResponse = null;
         try {
             StringReader reader = new StringReader(content);
@@ -1267,7 +1258,7 @@ public class HotelApiClient implements AutoCloseable {
         headersBuilder.add(SIGNATURE_HEADER_NAME, DigestUtils.sha256Hex(apiKey + sharedSecret + System.currentTimeMillis() / 1000));
         switch (httpMethod) {
             case POST:
-                // case PUT:
+            case PUT:
                 headersBuilder.add("Content-Type", APPLICATION_JSON_HEADER);
             case GET:
             case DELETE:
@@ -1297,10 +1288,10 @@ public class HotelApiClient implements AutoCloseable {
 
         switch (httpMethod) {
             case POST:
-                // case PUT:
-                headersBuilder.add("Content-Type", contentType);
+            case PUT:
             case GET:
             case DELETE:
+                headersBuilder.add("Content-Type", contentType);
                 headersBuilder.add("Accept", contentType);
                 break;
             default:

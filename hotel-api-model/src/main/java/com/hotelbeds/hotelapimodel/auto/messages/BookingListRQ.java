@@ -15,12 +15,12 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -55,33 +55,33 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class BookingListRQ extends AbstractGenericRequest {
 
-	@XmlAttribute
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	@NotNull
-	private LocalDate start;
-	@XmlAttribute
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	@NotNull
-	private LocalDate end;
-	@XmlElement
-	@NotNull
-	private Integer from;
-	@XmlElement
-	@NotNull
-	private Integer to;
-	@XmlElement
-	@NotNull
-	private BookingListFilterType filterType;
-	private List<String> country;
-	private List<String> destination;
-	private String clientReference;
-	private BookingListFilterStatus status;
-	private List<Integer> hotel;
+    @XmlAttribute
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @NotNull
+    private LocalDate start;
+    @XmlAttribute
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @NotNull
+    private LocalDate end;
+    @XmlElement
+    @NotNull
+    private Integer from;
+    @XmlElement
+    @NotNull
+    private Integer to;
+    @XmlElement
+    @NotNull
+    private BookingListFilterType filterType;
+    private List<String> country;
+    private List<String> destination;
+    private String clientReference;
+    private BookingListFilterStatus status;
+    private List<Integer> hotel;
 
 
 }

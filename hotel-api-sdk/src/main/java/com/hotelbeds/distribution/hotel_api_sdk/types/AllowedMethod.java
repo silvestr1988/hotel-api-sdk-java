@@ -25,5 +25,6 @@ package com.hotelbeds.distribution.hotel_api_sdk.types;
 public enum AllowedMethod {
     GET,
     POST,
+    PUT,
     DELETE;
 }

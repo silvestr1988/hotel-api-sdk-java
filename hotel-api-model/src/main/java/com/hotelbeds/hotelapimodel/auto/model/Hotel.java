@@ -22,12 +22,12 @@ import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -68,83 +68,83 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Hotel {
 
-	@XmlAttribute
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	@JsonDeserialize(using = DateDeserializer.class)
-	private LocalDate checkOut;
-	@XmlAttribute
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	@JsonDeserialize(using = DateDeserializer.class)
-	private LocalDate checkIn;
-	@XmlAttribute
-	private Integer code;
-	@XmlAttribute
-	private String name;
-	@XmlAttribute
-	private String description;
-	@XmlAttribute
-	private String image;
-	@XmlAttribute
-	private Boolean preferential;
-	@XmlAttribute
-	private String categoryCode;
-	@XmlAttribute
-	private String categoryName;
-	@XmlAttribute
-	private String destinationCode;
-	@XmlAttribute
-	private String destinationName;
-	@XmlAttribute
-	private Short zoneCode;
-	@XmlAttribute
-	private String zoneName;
-	@XmlAttribute
-	private String latitude;
-	@XmlAttribute
-	private String longitude;
-	@XmlAttribute
-	private String giata;
-	@XmlElementWrapper(name = "keywords")
-	@XmlElement(name = "keyword")
-	private List<Keyword> keywords;
-	@XmlElementWrapper(name = "reviews")
-	@XmlElement(name = "review")
-	private List<Review> reviews;
-	@XmlElementWrapper(name = "rooms")
-	@XmlElement(name = "room")
-	private List<Room> rooms;
-	@XmlAttribute
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal minRate;
-	@XmlAttribute
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal maxRate;
-	@XmlAttribute
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal totalSellingRate;
-	@XmlAttribute
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal totalNet;
-	@XmlAttribute
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal pendingAmount;
-	@XmlAttribute
-	private String currency;
-	@XmlElementWrapper(name = "creditCards")
-	@XmlElement(name = "creditCard")
-	private List<CreditCard> creditCards;
-	@XmlElement
-	private Supplier supplier;
-	@XmlElement
-	private String clientComments;
-	@XmlAttribute
-	private BigDecimal cancellationAmount;
-	private Upselling upselling;
+    @XmlAttribute
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializer.class)
+    private LocalDate checkOut;
+    @XmlAttribute
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializer.class)
+    private LocalDate checkIn;
+    @XmlAttribute
+    private Integer code;
+    @XmlAttribute
+    private String name;
+    @XmlAttribute
+    private String description;
+    @XmlAttribute
+    private String image;
+    @XmlAttribute
+    private Boolean preferential;
+    @XmlAttribute
+    private String categoryCode;
+    @XmlAttribute
+    private String categoryName;
+    @XmlAttribute
+    private String destinationCode;
+    @XmlAttribute
+    private String destinationName;
+    @XmlAttribute
+    private Short zoneCode;
+    @XmlAttribute
+    private String zoneName;
+    @XmlAttribute
+    private String latitude;
+    @XmlAttribute
+    private String longitude;
+    @XmlAttribute
+    private String giata;
+    @XmlElementWrapper(name = "keywords")
+    @XmlElement(name = "keyword")
+    private List<Keyword> keywords;
+    @XmlElementWrapper(name = "reviews")
+    @XmlElement(name = "review")
+    private List<Review> reviews;
+    @XmlElementWrapper(name = "rooms")
+    @XmlElement(name = "room")
+    private List<Room> rooms;
+    @XmlAttribute
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal minRate;
+    @XmlAttribute
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal maxRate;
+    @XmlAttribute
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal totalSellingRate;
+    @XmlAttribute
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal totalNet;
+    @XmlAttribute
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal pendingAmount;
+    @XmlAttribute
+    private String currency;
+    @XmlElementWrapper(name = "creditCards")
+    @XmlElement(name = "creditCard")
+    private List<CreditCard> creditCards;
+    @XmlElement
+    private Supplier supplier;
+    @XmlElement
+    private String clientComments;
+    @XmlAttribute
+    private BigDecimal cancellationAmount;
+    private Upselling upselling;
 
 
 }

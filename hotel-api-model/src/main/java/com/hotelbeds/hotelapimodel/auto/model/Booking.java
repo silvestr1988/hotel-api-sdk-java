@@ -15,12 +15,12 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -37,6 +37,7 @@ import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.ShoppingCartStatus;
 import com.hotelbeds.hotelapimodel.auto.convert.json.DateDeserializer;
 import com.hotelbeds.hotelapimodel.auto.convert.json.DateSerializer;
 import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
+import com.hotelbeds.hotelapimodel.auto.messages.BookingRS;
 import com.hotelbeds.hotelapimodel.auto.model.Holder;
 import com.hotelbeds.hotelapimodel.auto.model.Hotel;
 import com.hotelbeds.hotelapimodel.auto.model.ModificationPolicies;
@@ -58,49 +59,49 @@ import lombok.Data;
 @ToString
 @NoArgsConstructor
 @Data
-public class Booking {
+public class Booking extends BookingRS {
 
-	@XmlAttribute
-	private String reference;
-	@XmlAttribute
-	private String cancellationReference;
-	@XmlAttribute
-	@Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}") 
-	private String clientReference;
-	@XmlAttribute
-	@JsonProperty
-	@JsonSerialize(using = DateSerializer.class)
-	@JsonDeserialize(using = DateDeserializer.class)
-	private LocalDate creationDate;
-	@XmlAttribute
-	private ShoppingCartStatus status;
-	@XmlElement
-	private ModificationPolicies modificationPolicies;
-	@XmlAttribute
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal agCommision;
-	@XmlAttribute
-	@JsonSerialize(using = RateSerializer.class)
-	private BigDecimal commisionVAT;
-	@XmlAttribute
-	private String creationUser;
-	@XmlElement
-	@Valid
-	private Holder holder;
-	@XmlElement(name = "hotel")
-	@Valid
-	private Hotel hotel;
-	@XmlElement
-	@Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}") 
-	private String remark;
-	@XmlAttribute
-	private BigDecimal totalSellingRate;
-	@XmlAttribute
-	private BigDecimal totalNet;
-	@XmlAttribute
-	private BigDecimal pendingAmount;
-	@XmlAttribute
-	private String currency;
+    @XmlAttribute
+    private String reference;
+    @XmlAttribute
+    private String cancellationReference;
+    @XmlAttribute
+    @Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}")
+    private String clientReference;
+    @XmlAttribute
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializer.class)
+    private LocalDate creationDate;
+    @XmlAttribute
+    private ShoppingCartStatus status;
+    @XmlElement
+    private ModificationPolicies modificationPolicies;
+    @XmlAttribute
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal agCommision;
+    @XmlAttribute
+    @JsonSerialize(using = RateSerializer.class)
+    private BigDecimal commisionVAT;
+    @XmlAttribute
+    private String creationUser;
+    @XmlElement
+    @Valid
+    private Holder holder;
+    @XmlElement(name = "hotel")
+    @Valid
+    private Hotel hotel;
+    @XmlElement
+    @Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}")
+    private String remark;
+    @XmlAttribute
+    private BigDecimal totalSellingRate;
+    @XmlAttribute
+    private BigDecimal totalNet;
+    @XmlAttribute
+    private BigDecimal pendingAmount;
+    @XmlAttribute
+    private String currency;
 
 
 }

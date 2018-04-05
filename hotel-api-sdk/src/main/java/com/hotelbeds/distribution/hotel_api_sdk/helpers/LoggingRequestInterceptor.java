@@ -10,12 +10,12 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -119,7 +119,7 @@ public final class LoggingRequestInterceptor implements Interceptor {
                 // Log the other headers
                 for (String header : request.headers().names()) {
                     if (!HotelApiClient.CONTENT_TYPE_HEADER.equalsIgnoreCase(header)
-                            && !HotelApiClient.CONTENT_LENGTH_HEADER.equalsIgnoreCase(header)) {
+                        && !HotelApiClient.CONTENT_LENGTH_HEADER.equalsIgnoreCase(header)) {
                         for (String value : request.headers().values(header)) {
                             logHeader(header, value);
                         }
@@ -185,9 +185,9 @@ public final class LoggingRequestInterceptor implements Interceptor {
             if (bodyContentType != null && bodyContentType.toLowerCase().startsWith(HotelApiClient.APPLICATION_JSON_HEADER)) {
                 log.trace("  JSON Body: {}", writeJSON(body));
 
-            } else if(bodyContentType != null && bodyContentType.toLowerCase().startsWith(HotelApiClient.APPLICATION_XML_HEADER)) {
+            } else if (body != "" && bodyContentType != null && bodyContentType.toLowerCase().startsWith(HotelApiClient.APPLICATION_XML_HEADER)) {
                 try {
-                    log.trace("  XML Body: {}", prettyPrint(body, true, 2) );
+                    log.trace("  XML Body: {}", prettyPrint(body, true, 2));
                 } catch (IOException e) {
                     log.error("  Body: Could not be prettyfied {}", e.getMessage());
                 } catch (SAXException e) {
@@ -210,8 +210,8 @@ public final class LoggingRequestInterceptor implements Interceptor {
         return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
     }
 
-    private static String prettyPrint(String xml, Boolean ommitXmlDeclaration, Integer indent)
-            throws IOException, SAXException, ParserConfigurationException {
+    private static String prettyPrint(String xml, Boolean ommitXmlDeclaration, Integer indent) throws IOException, SAXException,
+        ParserConfigurationException {
 
         DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = db.parse(new InputSource(new StringReader(xml)));
@@ -272,7 +272,7 @@ public final class LoggingRequestInterceptor implements Interceptor {
         return result;
     }
 
-    public static String write (final Object object, RequestType reqType){
+    public static String write(final Object object, RequestType reqType) {
         String result = null;
 
         if (reqType.equals(RequestType.JSON)) {

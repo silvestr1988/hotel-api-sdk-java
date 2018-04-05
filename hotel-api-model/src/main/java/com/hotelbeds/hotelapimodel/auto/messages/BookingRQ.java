@@ -15,12 +15,12 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -55,29 +55,29 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class BookingRQ extends AbstractGenericRequest {
 
-	@XmlElement
-	@NotNull
-	@Valid
-	private Holder holder;
-	@XmlElementWrapper(name = "rooms")
-	@XmlElement(name = "room")
-	@NotNull
-	@Size(min = 1, max = 2147483647, message = "{javax.validation.constraints.Size.message}") 
-	@Valid
-	private List<BookingRoom> rooms;
-	@Valid
-	private PaymentData paymentData;
-	@NotNull
-	@Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}") 
-	private String clientReference;
-	@XmlElement
-	@Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}") 
-	private String remark;
-	private Voucher voucher;
-	private Integer platform;
+    @XmlElement
+    @NotNull
+    @Valid
+    private Holder holder;
+    @XmlElementWrapper(name = "rooms")
+    @XmlElement(name = "room")
+    @NotNull
+    @Size(min = 1, max = 2147483647, message = "{javax.validation.constraints.Size.message}")
+    @Valid
+    private List<BookingRoom> rooms;
+    @Valid
+    private PaymentData paymentData;
+    @NotNull
+    @Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}")
+    private String clientReference;
+    @XmlElement
+    @Size(min = 0, max = 2000, message = "{javax.validation.constraints.Size.message}")
+    private String remark;
+    private Voucher voucher;
+    private Integer platform;
 
 
 }

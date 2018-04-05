@@ -15,12 +15,12 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -48,20 +48,20 @@ import lombok.Data;
 @Data
 public class GeoLocation {
 
-	@XmlAttribute
-	@NotNull
-	private BigDecimal longitude;
-	@XmlAttribute
-	@NotNull
-	private BigDecimal latitude;
-	@XmlAttribute
-	private BigDecimal radius;
-	@XmlAttribute
-	private UnitMeasure unit;
-	@XmlAttribute
-	private BigDecimal secondaryLatitude;
-	@XmlAttribute
-	private BigDecimal secondaryLongitude;
+    @XmlAttribute
+    @NotNull
+    private BigDecimal longitude;
+    @XmlAttribute
+    @NotNull
+    private BigDecimal latitude;
+    @XmlAttribute
+    private BigDecimal radius;
+    @XmlAttribute
+    private UnitMeasure unit;
+    @XmlAttribute
+    private BigDecimal secondaryLatitude;
+    @XmlAttribute
+    private BigDecimal secondaryLongitude;
 
 
 }

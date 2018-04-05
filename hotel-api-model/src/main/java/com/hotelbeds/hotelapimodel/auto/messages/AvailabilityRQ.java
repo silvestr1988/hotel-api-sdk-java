@@ -13,12 +13,12 @@
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -62,60 +62,60 @@ import lombok.EqualsAndHashCode;
 @ToString
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class AvailabilityRQ extends AbstractGenericRequest {
 
-	@XmlElement
-	@NotNull
-	@Valid
-	private Stay stay;
-	@XmlElementWrapper(name = "occupancies")
-	@XmlElement(name = "occupancy")
-	@Valid
-	private List<Occupancy> occupancies;
-	@XmlElement
-	@Valid
-	private GeoLocation geolocation;
-	@XmlElement
-	@Valid
-	private Destination destination;
-	@XmlElement(name = "keywords")
-	@JsonProperty("keywords")
-	@Valid
-	private KeywordsFilter keywordsFilter;
-	@XmlElement(name = "hotels")
-	@JsonProperty("hotels")
-	@Valid
-	private HotelsFilter hotelsFilter;
-	@XmlElementWrapper(name = "reviews")
-	@XmlElement(name = "review")
-	@JsonProperty("reviews")
-	@Valid
-	private List<ReviewFilter> reviewsFilter;
-	@XmlElement
-	@Valid
-	private Filter filter;
-	@XmlElement
-	@Valid
-	private Boards boards;
-	@XmlElement
-	@Valid
-	private Rooms rooms;
-	@XmlAttribute
-	private Boolean dailyRate;
-	@XmlAttribute
-	private String sourceMarket;
-	@XmlElementWrapper(name = "accommodations")
-	@XmlElement(name = "accommodation")
-	@Valid
-	private List<Accommodation> accommodations;
-	@XmlElement
-	@Valid
-	private Source source;
-	@XmlElement
-	private Boolean aifUse;
-	@XmlAttribute
-	private Integer platform;
+    @XmlElement
+    @NotNull
+    @Valid
+    private Stay stay;
+    @XmlElementWrapper(name = "occupancies")
+    @XmlElement(name = "occupancy")
+    @Valid
+    private List<Occupancy> occupancies;
+    @XmlElement
+    @Valid
+    private GeoLocation geolocation;
+    @XmlElement
+    @Valid
+    private Destination destination;
+    @XmlElement(name = "keywords")
+    @JsonProperty("keywords")
+    @Valid
+    private KeywordsFilter keywordsFilter;
+    @XmlElement(name = "hotels")
+    @JsonProperty("hotels")
+    @Valid
+    private HotelsFilter hotelsFilter;
+    @XmlElementWrapper(name = "reviews")
+    @XmlElement(name = "review")
+    @JsonProperty("reviews")
+    @Valid
+    private List<ReviewFilter> reviewsFilter;
+    @XmlElement
+    @Valid
+    private Filter filter;
+    @XmlElement
+    @Valid
+    private Boards boards;
+    @XmlElement
+    @Valid
+    private Rooms rooms;
+    @XmlAttribute
+    private Boolean dailyRate;
+    @XmlAttribute
+    private String sourceMarket;
+    @XmlElementWrapper(name = "accommodations")
+    @XmlElement(name = "accommodation")
+    @Valid
+    private List<Accommodation> accommodations;
+    @XmlElement
+    @Valid
+    private Source source;
+    @XmlElement
+    private Boolean aifUse;
+    @XmlAttribute
+    private Integer platform;
 
 
 }

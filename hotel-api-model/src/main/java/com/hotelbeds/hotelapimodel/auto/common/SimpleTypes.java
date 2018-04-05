@@ -15,12 +15,12 @@ package com.hotelbeds.hotelapimodel.auto.common;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
@@ -34,7 +34,6 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
-
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -192,13 +191,13 @@ public final class SimpleTypes {
          * @return the safe value
          */
         public static YesNo getSafeValue(final String value) {
-            if (value!=null) {
+            if (value != null) {
                 if (SimpleTypes.SI_CODE.equalsIgnoreCase(value)) {
                     return YesNo.Y;
                 } else {
                     return YesNo.valueOf(value);
                 }
-            }else{
+            } else {
                 return YesNo.N;
             }
         }
@@ -374,7 +373,8 @@ public final class SimpleTypes {
         /**
          * Used for children.
          */
-        ,CH("1", 8, "C", "N", "NI", "CH");
+        ,
+        CH("1", 8, "C", "N", "NI", "CH");
         private final String paxType;
         private final int defaultAge;
         private final String paxId;
@@ -382,13 +382,8 @@ public final class SimpleTypes {
         private final String atlasCode;
         private final String englishType;
 
-        HotelbedsCustomerType(
-                final String paxType,
-                final int defaultAge,
-                final String paxId,
-                final String paxCode,
-                final String atlasCode,
-                final String englishType) {
+        HotelbedsCustomerType(final String paxType, final int defaultAge, final String paxId, final String paxCode, final String atlasCode,
+            final String englishType) {
             this.paxType = paxType;
             this.defaultAge = defaultAge;
             this.paxId = paxId;
@@ -614,8 +609,8 @@ public final class SimpleTypes {
          */
         public static PaymentType getPaymentType(final String paymentType) {
             if (paymentType != null
-                    && (paymentType.equals(PaymentType.AT_HOTEL.abbreviated) || paymentType.equals(PaymentType.AT_HOTEL.name()) || paymentType
-                            .equals(PaymentType.AT_HOTEL.rateKeyValue))) {
+                && (paymentType.equals(PaymentType.AT_HOTEL.abbreviated) || paymentType.equals(PaymentType.AT_HOTEL.name()) || paymentType
+                    .equals(PaymentType.AT_HOTEL.rateKeyValue))) {
                 return PaymentType.AT_HOTEL;
             } else {
                 return PaymentType.AT_WEB;
@@ -655,10 +650,10 @@ public final class SimpleTypes {
         public static SupplementType getSupplementType(final String supplementType) {
             SupplementType result = null;
             if (supplementType != null
-                    && (supplementType.equals(SupplementType.SUPPLEMENT.abbreviated) || supplementType.equals(SupplementType.SUPPLEMENT.name()))) {
+                && (supplementType.equals(SupplementType.SUPPLEMENT.abbreviated) || supplementType.equals(SupplementType.SUPPLEMENT.name()))) {
                 result = SupplementType.SUPPLEMENT;
             } else if (supplementType != null
-                    && (supplementType.equals(SupplementType.DISCOUNT.abbreviated) || supplementType.equals(SupplementType.DISCOUNT.name()))) {
+                && (supplementType.equals(SupplementType.DISCOUNT.abbreviated) || supplementType.equals(SupplementType.DISCOUNT.name()))) {
                 result = SupplementType.DISCOUNT;
             }
             return result;
