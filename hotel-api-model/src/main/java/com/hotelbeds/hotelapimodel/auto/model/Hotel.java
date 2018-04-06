@@ -16,7 +16,7 @@ import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -37,53 +37,112 @@ import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.hotelbeds.hotelapimodel.auto.convert.json.DateDeserializer;
+import com.hotelbeds.hotelapimodel.auto.convert.json.DateSerializer;
+import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
+import com.hotelbeds.hotelapimodel.auto.model.CreditCard;
+import com.hotelbeds.hotelapimodel.auto.model.Keyword;
+import com.hotelbeds.hotelapimodel.auto.model.Review;
+import com.hotelbeds.hotelapimodel.auto.model.Room;
+import com.hotelbeds.hotelapimodel.auto.model.Supplier;
+import com.hotelbeds.hotelapimodel.auto.model.Upselling;
+import java.lang.Short;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
+import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Hotel {
 
+    @XmlAttribute
     @JsonProperty
     @JsonSerialize(using = DateSerializer.class)
-    private LocalDate checkIn;
-    @JsonProperty
-    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializer.class)
     private LocalDate checkOut;
+    @XmlAttribute
+    @JsonProperty
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializer.class)
+    private LocalDate checkIn;
+    @XmlAttribute
     private Integer code;
+    @XmlAttribute
     private String name;
+    @XmlAttribute
     private String description;
+    @XmlAttribute
     private String image;
+    @XmlAttribute
+    private Boolean preferential;
+    @XmlAttribute
     private String categoryCode;
+    @XmlAttribute
     private String categoryName;
+    @XmlAttribute
     private String destinationCode;
+    @XmlAttribute
     private String destinationName;
+    @XmlAttribute
     private Short zoneCode;
+    @XmlAttribute
     private String zoneName;
+    @XmlAttribute
     private String latitude;
+    @XmlAttribute
     private String longitude;
+    @XmlAttribute
     private String giata;
+    @XmlElementWrapper(name = "keywords")
+    @XmlElement(name = "keyword")
     private List<Keyword> keywords;
+    @XmlElementWrapper(name = "reviews")
+    @XmlElement(name = "review")
     private List<Review> reviews;
+    @XmlElementWrapper(name = "rooms")
+    @XmlElement(name = "room")
     private List<Room> rooms;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal minRate;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal maxRate;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal totalSellingRate;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal totalNet;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal pendingAmount;
+    @XmlAttribute
     private String currency;
+    @XmlElementWrapper(name = "creditCards")
+    @XmlElement(name = "creditCard")
     private List<CreditCard> creditCards;
+    @XmlElement
     private Supplier supplier;
+    @XmlElement
     private String clientComments;
+    @XmlAttribute
     private BigDecimal cancellationAmount;
     private Upselling upselling;
 

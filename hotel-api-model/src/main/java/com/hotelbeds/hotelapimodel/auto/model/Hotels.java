@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -36,26 +36,37 @@ import com.hotelbeds.hotelapimodel.auto.convert.json.DateSerializer;
 import com.hotelbeds.hotelapimodel.auto.model.Hotel;
 import java.time.LocalDate;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Hotels {
 
+    @XmlElement(name = "hotel")
     private List<Hotel> hotels;
+    @XmlAttribute
     @JsonProperty
     @JsonSerialize(using = DateSerializer.class)
     private LocalDate checkIn;
+    @XmlAttribute
+    @JsonProperty
+    private Integer total;
+    @XmlAttribute
     @JsonProperty
     @JsonSerialize(using = DateSerializer.class)
     private LocalDate checkOut;
-    @JsonProperty
-    private Integer total;
 
 
 }

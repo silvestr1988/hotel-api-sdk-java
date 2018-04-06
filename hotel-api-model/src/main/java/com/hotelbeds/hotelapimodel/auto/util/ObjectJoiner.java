@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.util;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -32,11 +32,23 @@ import java.util.Collection;
 import java.util.StringJoiner;
 
 
+/**
+ * The Class ObjectJoiner.
+ *
+ * @author
+ */
 public class ObjectJoiner {
 
     private ObjectJoiner() {
     }
 
+    /**
+     * Join.
+     *
+     * @param separator the separator
+     * @param arguments the arguments
+     * @return the string
+     */
     public static String join(CharSequence separator, Object... arguments) {
         StringJoiner st = new StringJoiner(separator);
         if (arguments != null) {
@@ -51,6 +63,13 @@ public class ObjectJoiner {
         return st.toString();
     }
 
+    /**
+     * Join.
+     *
+     * @param separator the separator
+     * @param arguments the arguments
+     * @return the string
+     */
     public static String join(CharSequence separator, Collection<? extends Object> arguments) {
         StringJoiner st = new StringJoiner(separator);
         if (arguments != null) {
@@ -65,6 +84,12 @@ public class ObjectJoiner {
         return st.toString();
     }
 
+    /**
+     * Simply join.
+     *
+     * @param arguments the arguments
+     * @return the string
+     */
     public static String simplyJoin(Object... arguments) {
         return join("", arguments);
     }

@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.common;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -35,6 +35,7 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -44,16 +45,39 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public final class SimpleTypes {
+
+    /** The Constant AGES_RATEKEY_SEPARATOR. */
     public static final String AGES_RATEKEY_SEPARATOR = "~";
+
+    /** The Constant VALUE_TOKEN. */
     public static final String VALUE_TOKEN = "~";
+
+    /** The Constant INDEX_0. */
     public static final int INDEX_0 = 0;
+
+    /** The Constant INDEX_1. */
     public static final int INDEX_1 = 1;
+
+    /** The Constant INDEX_2. */
     public static final int INDEX_2 = 2;
+
+    /** The Constant RATE_KEY_SEPARATOR. */
     public static final String RATE_KEY_SEPARATOR = "|";
+
+    /** The Constant ROOM_SEPARATOR. */
     public static final String ROOM_SEPARATOR = ".";
+
+    /** The Constant ROOM_ATLAS_SEPARATOR. */
     public static final String ROOM_ATLAS_SEPARATOR = "-";
+
+    /** The Constant OCCUPANCY_SEPARATOR. */
     public static final String OCCUPANCY_SEPARATOR = "~";
+
+    /** The Constant SI_CODE. */
     public static final String SI_CODE = "s";
+
+    public static final String ALL_B2B_CODE = "ALL";
+
     private static final String NO = "No";
     private static final String YES = "Yes";
     private static final String ONLY = "Only";
@@ -68,27 +92,39 @@ public final class SimpleTypes {
     private SimpleTypes() {
     }
 
+    /**
+     * The Enum ChangeMode.
+     *
+     * @author
+     */
     @XmlType(name = "ChangeMode")
     @XmlEnum
     public enum ChangeMode {
-        SIMULATION(YesNo.Y),
-        UPDATE(YesNo.N);
+        SIMULATION(SiNo.S),
+        UPDATE(SiNo.N);
 
-        private YesNo internal;
+        @Getter
+        private SiNo internal;
 
-        private ChangeMode(final YesNo internal) {
+        private ChangeMode(final SiNo internal) {
             this.internal = internal;
         }
 
-        public YesNo getInternal() {
-            return internal;
-        }
-
+        /**
+         * Gets the BDD value.
+         *
+         * @return the BDD value
+         */
         public String getBDDValue() {
-            return internal.getInternal().toString();
+            return internal.toString();
         }
     }
 
+    /**
+     * The Enum YesNo.
+     *
+     * @author
+     */
     @XmlType(name = "YesNo")
     @XmlEnum
     public enum YesNo {
@@ -99,24 +135,45 @@ public final class SimpleTypes {
         private SiNo internal;
         private String bddValue;
 
-        YesNo(final String label, final SiNo internal, final String bddValue) {
+        private YesNo(final String label, final SiNo internal, final String bddValue) {
             this.label = label;
             this.internal = internal;
             this.bddValue = bddValue;
         }
 
+        /**
+         * Gets the label.
+         *
+         * @return the label
+         */
         public String getLabel() {
             return label;
         }
 
+        /**
+         * Gets the internal.
+         *
+         * @return the internal
+         */
         public SiNo getInternal() {
             return internal;
         }
 
+        /**
+         * Gets the BDD value.
+         *
+         * @return the BDD value
+         */
         public String getBDDValue() {
             return bddValue;
         }
 
+        /**
+         * Gets the from boolean.
+         *
+         * @param value the value
+         * @return the from boolean
+         */
         public static YesNo getFromBoolean(final Boolean value) {
             if (value == null) {
                 return null;
@@ -127,22 +184,50 @@ public final class SimpleTypes {
             }
         }
 
+        /**
+         * Gets the safe value.
+         *
+         * @param value the value
+         * @return the safe value
+         */
         public static YesNo getSafeValue(final String value) {
-            if (SimpleTypes.SI_CODE.equalsIgnoreCase(value)) {
-                return YesNo.Y;
+            if (value != null) {
+                if (SimpleTypes.SI_CODE.equalsIgnoreCase(value)) {
+                    return YesNo.Y;
+                } else {
+                    return YesNo.valueOf(value);
+                }
             } else {
-                return YesNo.valueOf(value);
+                return YesNo.N;
             }
         }
 
+        /**
+         * Gets the boolean.
+         *
+         * @param yesNo the yes no
+         * @return the boolean
+         */
         public static boolean getBoolean(YesNo yesNo) {
             return YesNo.Y.equals(yesNo);
         }
 
+        /**
+         * Gets the boolean.
+         *
+         * @param value the value
+         * @return the boolean
+         */
         public static boolean getBoolean(Object value) {
             return "Y".equals(value) || "S".equals(value);
         }
     }
+
+    /**
+     * The Enum ShowDirectPayment.
+     *
+     * @author
+     */
     public enum ShowDirectPayment {
         //liberate
         AT_HOTEL("S", "Y", "YES"),
@@ -159,50 +244,90 @@ public final class SimpleTypes {
             }
         }
 
-        ShowDirectPayment(final String aceLabel, final String ynaLabel, final String genericLabel) {
+        private ShowDirectPayment(final String aceLabel, final String ynaLabel, final String genericLabel) {
             this.aceLabel = aceLabel;
             this.ynaLabel = ynaLabel;
             this.genericLabel = genericLabel;
         }
 
+        /**
+         * Gets the ace label.
+         *
+         * @return the ace label
+         */
         public String getAceLabel() {
             return aceLabel;
         }
 
+        /**
+         * Gets the generic label.
+         *
+         * @return the generic label
+         */
         public String getGenericLabel() {
             return genericLabel;
         }
 
+        /**
+         * Gets the YNA label.
+         *
+         * @return the YNA label
+         */
         public String getYNALabel() {
             return ynaLabel;
         }
 
         /**
-         * Translates DirectPayments values from Ace to the ones used in Hotel-
+         * Translates DirectPayments values from Ace to the ones used in Hotel-.
+         *
+         * @param value the value
+         * @return the direct payment from ace value
          */
         public static ShowDirectPayment getDirectPaymentFromAceValue(final String value) {
             return showDirectPaymentByAceValue.get(value);
         }
     }
+
+    /**
+     * The Enum SiNo.
+     *
+     * @author
+     */
     public enum SiNo {
         S(SI, YesNo.Y),
         N(NO, YesNo.N);
         private String label;
         private YesNo internal;
 
-        SiNo(final String label, final YesNo internal) {
+        private SiNo(final String label, final YesNo internal) {
             this.label = label;
             this.internal = internal;
         }
 
+        /**
+         * Gets the label.
+         *
+         * @return the label
+         */
         public String getLabel() {
             return label;
         }
 
+        /**
+         * Gets the internal.
+         *
+         * @return the internal
+         */
         public YesNo getInternal() {
             return internal;
         }
 
+        /**
+         * Gets the safe value.
+         *
+         * @param value the value
+         * @return the safe value
+         */
         public static SiNo getSafeValue(final String value) {
             if (SiNo.S.name().equalsIgnoreCase(value)) {
                 return SiNo.S;
@@ -211,10 +336,21 @@ public final class SimpleTypes {
             }
         }
 
+        /**
+         * To boolean.
+         *
+         * @return true, if successful
+         */
         public boolean toBoolean() {
             return SiNo.S.equals(this) ? true : false;
         }
 
+        /**
+         * Gets the from boolean.
+         *
+         * @param value the value
+         * @return the from boolean
+         */
         public static SiNo getFromBoolean(Boolean value) {
             if (Boolean.TRUE.equals(value)) {
                 return SiNo.S;
@@ -223,6 +359,12 @@ public final class SimpleTypes {
             }
         }
     }
+
+    /**
+     * The Enum HotelbedsCustomerType.
+     *
+     * @author
+     */
     public enum HotelbedsCustomerType {
         /**
          * Used for adult.
@@ -250,30 +392,66 @@ public final class SimpleTypes {
             this.englishType = englishType;
         }
 
+        /**
+         * Gets the pax type.
+         *
+         * @return the pax type
+         */
         public String getPaxType() {
             return paxType;
         }
 
+        /**
+         * Gets the default age.
+         *
+         * @return the default age
+         */
         public int getDefaultAge() {
             return defaultAge;
         }
 
+        /**
+         * Gets the pax id.
+         *
+         * @return the pax id
+         */
         public String getPaxId() {
             return paxId;
         }
 
+        /**
+         * Gets the pax code.
+         *
+         * @return the pax code
+         */
         public String getPaxCode() {
             return paxCode;
         }
 
+        /**
+         * Gets the atlas code.
+         *
+         * @return the atlas code
+         */
         public String getAtlasCode() {
             return atlasCode;
         }
 
+        /**
+         * Gets the english type.
+         *
+         * @return the english type
+         */
         public String getEnglishType() {
             return englishType;
         }
 
+        /**
+         * Gets the customer type.
+         *
+         * @param customerType the customer type
+         * @return the customer type
+         */
         public static HotelbedsCustomerType getCustomerType(final String customerType) {
             if (customerType != null && isCustomerTypeAdult(customerType)) {
                 return HotelbedsCustomerType.AD;
@@ -292,6 +470,12 @@ public final class SimpleTypes {
             return adultCustomerValues.contains(customerType);
         }
 
+        /**
+         * Gets the customer type from pax id.
+         *
+         * @param paxId the pax id
+         * @return the customer type from pax id
+         */
         public static HotelbedsCustomerType getCustomerTypeFromPaxId(final String paxId) {
             if (HotelbedsCustomerType.AD.getPaxId().equals(paxId)) {
                 return HotelbedsCustomerType.AD;
@@ -300,14 +484,32 @@ public final class SimpleTypes {
             }
         }
     }
+
+    /**
+     * The Enum HotelbedsTicketClass.
+     *
+     * @author
+     */
     public enum HotelbedsTicketClass {
         T,
         E
     }
+
+    /**
+     * The Enum RateType.
+     *
+     * @author
+     */
     public enum RateType {
         BOOKABLE,
         RECHECK
     }
+
+    /**
+     * The Enum CommissionType.
+     *
+     * @author
+     */
     public enum CommissionType {
         LIBERATE_RATE("L"),
         NET_RATE("N"),
@@ -319,10 +521,21 @@ public final class SimpleTypes {
             this.type = type;
         }
 
+        /**
+         * Gets the type.
+         *
+         * @return the type
+         */
         public String getType() {
             return type;
         }
 
+        /**
+         * Gets the commission type.
+         *
+         * @param commissionType the commission type
+         * @return the commission type
+         */
         public static CommissionType getCommissionType(final String commissionType) {
             CommissionType result = null;
             if (CommissionType.LIBERATE_RATE.type.equals(commissionType)) {
@@ -337,6 +550,12 @@ public final class SimpleTypes {
             return result;
         }
     }
+
+    /**
+     * The Enum PaymentType.
+     *
+     * @author
+     */
     public enum PaymentType {
         AT_HOTEL("P", "H"),
         AT_WEB("C", "W");
@@ -348,14 +567,30 @@ public final class SimpleTypes {
             this.rateKeyValue = rateKeyValue;
         }
 
+        /**
+         * Gets the abbreviated.
+         *
+         * @return the abbreviated
+         */
         public String getAbbreviated() {
             return abbreviated;
         }
 
+        /**
+         * Gets the rate key value.
+         *
+         * @return the rate key value
+         */
         public String getRateKeyValue() {
             return rateKeyValue;
         }
 
+        /**
+         * Gets the payment type.
+         *
+         * @param directPayment the direct payment
+         * @return the payment type
+         */
         public static PaymentType getPaymentType(final boolean directPayment) {
             PaymentType result;
             if (directPayment) {
@@ -366,6 +601,12 @@ public final class SimpleTypes {
             return result;
         }
 
+        /**
+         * Gets the payment type.
+         *
+         * @param paymentType the payment type
+         * @return the payment type
+         */
         public static PaymentType getPaymentType(final String paymentType) {
             if (paymentType != null
                 && (paymentType.equals(PaymentType.AT_HOTEL.abbreviated) || paymentType.equals(PaymentType.AT_HOTEL.name()) || paymentType
@@ -376,6 +617,12 @@ public final class SimpleTypes {
             }
         }
     }
+
+    /**
+     * The Enum SupplementType.
+     *
+     * @author
+     */
     public enum SupplementType {
         SUPPLEMENT("S"),
         DISCOUNT("D");
@@ -385,10 +632,21 @@ public final class SimpleTypes {
             this.abbreviated = abbreviated;
         }
 
+        /**
+         * Gets the abbreviated.
+         *
+         * @return the abbreviated
+         */
         public String getAbbreviated() {
             return abbreviated;
         }
 
+        /**
+         * Gets the supplement type.
+         *
+         * @param supplementType the supplement type
+         * @return the supplement type
+         */
         public static SupplementType getSupplementType(final String supplementType) {
             SupplementType result = null;
             if (supplementType != null
@@ -401,27 +659,56 @@ public final class SimpleTypes {
             return result;
         }
     }
+
+    /**
+     * The Enum TypeRequestAvail.
+     *
+     * @author
+     */
     public enum TypeRequestAvail {
         TYPE_REQUEST_VALUATION_AVAIL,
         TYPE_REQUEST_AVAIL
     }
+
+    /**
+     * The Enum ProviderAvail.
+     *
+     * @author
+     */
     public enum ProviderAvail {
         ACE,
         CARONTE
     }
+
+    /**
+     * The Enum CancellationFlags.
+     *
+     * @author
+     */
     public enum CancellationFlags {
         CANCELLATION("C"),
         SIMULATION("S");
         private String flag;
 
-        CancellationFlags(final String flag) {
+        private CancellationFlags(final String flag) {
             this.flag = flag;
         }
 
+        /**
+         * Gets the flag.
+         *
+         * @return the flag
+         */
         public String getFlag() {
             return flag;
         }
 
+        /**
+         * Gets the cancellation flag.
+         *
+         * @param value the value
+         * @return the cancellation flag
+         */
         public static CancellationFlags getCancellationFlag(final String value) {
             if (value != null && value.equalsIgnoreCase(CancellationFlags.SIMULATION.name())) {
                 return CancellationFlags.SIMULATION;
@@ -430,21 +717,41 @@ public final class SimpleTypes {
             }
         }
     }
+
+    /**
+     * The Enum BookingListFilterType.
+     *
+     * @author
+     */
     public enum BookingListFilterType {
         //E: busca por fechas de Entrada (Checking)
         CHECKIN("E"),
         //C: Busca por fechas de creación
-        CREATION("C");
+        CREATION("C"),
+        //M: Busca por fechas de modificacion
+        MODIFIED("M");
         private String type;
 
-        BookingListFilterType(final String type) {
+
+        private BookingListFilterType(final String type) {
             this.type = type;
         }
 
+        /**
+         * Gets the type.
+         *
+         * @return the type
+         */
         public String getType() {
             return type;
         }
 
+        /**
+         * Gets the booking list filter type.
+         *
+         * @param type the type
+         * @return the booking list filter type
+         */
         public static BookingListFilterType getBookingListFilterType(final String type) {
             if (type != null && type.equalsIgnoreCase(BookingListFilterType.CREATION.name())) {
                 return BookingListFilterType.CREATION;
@@ -455,9 +762,15 @@ public final class SimpleTypes {
         }
     }
 
+    /**
+     * The Enum BookingListFilterStatus.
+     *
+     * @author
+     */
     public enum BookingListFilterStatus {
         CONFIRMED("N"),
         CANCELED("Y"),
+        CANCELLED("Y"),
         ALL("A");
 
         private final String atlasCode;
@@ -466,11 +779,30 @@ public final class SimpleTypes {
             this.atlasCode = atlasCode;
         }
 
+        /**
+         * Gets the atlas code.
+         *
+         * @return the atlas code
+         */
         public String getAtlasCode() {
             return atlasCode;
         }
     }
 
+
+    /**
+     * The Enum VoucherStyleAction.
+     */
+    public enum VoucherStyleAction {
+        GET,
+        UPDATE
+    }
+
+
+    /**
+     * The Enum Accommodation.
+     *
+     */
     public enum Accommodation {
         HOTEL("HOTEL"),
         APARTMENT("APART"),
@@ -495,10 +827,21 @@ public final class SimpleTypes {
             this.type = type;
         }
 
+        /**
+         * Gets the type.
+         *
+         * @return the type
+         */
         public String getType() {
             return type;
         }
 
+        /**
+         * Gets the accommodations by type.
+         *
+         * @param type the type
+         * @return the accommodations by type
+         */
         public static Accommodation getAccommodationsByType(final String type) {
             Accommodation result = accommodationsByType.get(type.toUpperCase());
             if (result == null) {
@@ -507,21 +850,45 @@ public final class SimpleTypes {
             return result;
         }
     }
+
+    /**
+     * The Enum HotelCodeType.
+     *
+     * @author
+     */
     public enum HotelCodeType {
         HOTELBEDS,
         GIATA;
     }
+
+    /**
+     * The Enum ChannelType.
+     *
+     * @author
+     */
     public enum ChannelType {
         B2B,
         B2C,
         META,
         NEWSLETTER;
     }
+
+    /**
+     * The Enum DeviceType.
+     *
+     * @author
+     */
     public enum DeviceType {
         MOBILE,
         WEB,
         TABLET;
     }
+
+    /**
+     * The Enum ReviewsType.
+     *
+     * @author
+     */
     public enum ReviewsType {
         TRIPADVISOR("TRIPADVISOR"),
         HOTELBEDS("HOTELBEDS");
@@ -531,10 +898,21 @@ public final class SimpleTypes {
             requestType = type;
         }
 
+        /**
+         * Gets the request type.
+         *
+         * @return the request type
+         */
         public String getRequestType() {
             return requestType;
         }
 
+        /**
+         * Gets the reviews type.
+         *
+         * @param requestType the request type
+         * @return the reviews type
+         */
         public static ReviewsType getReviewsType(final String requestType) {
             ReviewsType result = null;
             if (requestType != null && (requestType.equalsIgnoreCase(ReviewsType.TRIPADVISOR.getRequestType()))) {
@@ -545,6 +923,12 @@ public final class SimpleTypes {
             return result;
         }
     }
+
+    /**
+     * The Enum AvailabilitySorter.
+     *
+     * @author
+     */
     public enum AvailabilitySorter {
         RATE("P"),
         PRIORITY("");
@@ -554,10 +938,21 @@ public final class SimpleTypes {
             this.cachedValue = cachedValue;
         }
 
+        /**
+         * Gets the cached value.
+         *
+         * @return the cached value
+         */
         public String getCachedValue() {
             return cachedValue;
         }
     }
+
+    /**
+     * The Enum TaxType.
+     *
+     * @author
+     */
     public enum TaxType {
         TAX("T"),
         FEE("F");
@@ -567,10 +962,21 @@ public final class SimpleTypes {
             this.internalCode = internalCode;
         }
 
+        /**
+         * Gets the internal code.
+         *
+         * @return the internal code
+         */
         public String getInternalCode() {
             return internalCode;
         }
 
+        /**
+         * Gets the tax type.
+         *
+         * @param internalCode the internal code
+         * @return the tax type
+         */
         public static TaxType getTaxType(String internalCode) {
             TaxType result = null;
             if (TAX.getInternalCode().equals(internalCode)) {
@@ -583,42 +989,70 @@ public final class SimpleTypes {
             return result;
         }
     }
+
+    /**
+     * The Enum HotelPackage.
+     *
+     * @author
+     */
     public enum HotelPackage {
         YES,
         NO,
         BOTH
     }
 
-    public static enum ShoppingCartStatus {
+    /**
+     * The Enum ShoppingCartStatus.
+     *
+     * @author
+     */
+    public enum ShoppingCartStatus {
         NEW(INTERNAL_STATUS_NEW),
         PRECONFIRMED(INTERNAL_STATUS_PRECONFIRMED),
         CONFIRMED(STATUS_CONFIRMED),
         TO_BE_UPDATED(INTERNAL_STATUS_TO_BE_UPDATED),
         CANCELLED(STATUS_CANCELLED),
         TO_BE_CANCELLED(INTERNAL_STATUS_CANCELLED);
+
+        private static final Map<Integer, ShoppingCartStatus> STATUS_BY_CODE = new HashMap<>();
         private final int code;
 
         ShoppingCartStatus(final int code) {
             this.code = code;
         }
 
+        /**
+         * Gets the code.
+         *
+         * @return the code
+         */
         public int getCode() {
             return code;
         }
 
-        private static final Map<Integer, ShoppingCartStatus> statusByCode = new HashMap<>();
 
+        /**
+         * With code.
+         *
+         * @param code the code
+         * @return the shopping cart status
+         */
         public static final ShoppingCartStatus withCode(final int code) {
-            return statusByCode.get(code);
+            return STATUS_BY_CODE.get(code);
         }
 
         static {
             for (ShoppingCartStatus shoppingCartStatus : ShoppingCartStatus.values()) {
-                statusByCode.put(shoppingCartStatus.getCode(), shoppingCartStatus);
+                STATUS_BY_CODE.put(shoppingCartStatus.getCode(), shoppingCartStatus);
             }
         }
     }
 
+    /**
+     * The Enum PriceFilterType.
+     *
+     * @author
+     */
     public enum PriceFilterType {
         TOTAL("Total"),
         PRICE_PER_NIGHT("Night");
@@ -629,6 +1063,11 @@ public final class SimpleTypes {
             this.label = label;
         }
 
+        /**
+         * Gets the label.
+         *
+         * @return the label
+         */
         public String getLabel() {
             return label;
         }

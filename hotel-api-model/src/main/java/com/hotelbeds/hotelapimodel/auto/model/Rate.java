@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -43,12 +43,18 @@ import com.hotelbeds.hotelapimodel.auto.model.VoucherComment;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
@@ -56,26 +62,51 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class Rate extends BasicRate {
 
+    @XmlAttribute
     private String rateCommentsId;
+    @XmlAttribute
     private String rateComments;
+    @XmlElementWrapper(name = "voucherComments")
+    @XmlElement(name = "comment")
     private List<VoucherComment> voucherComments;
+    @XmlAttribute
     private PaymentType paymentType;
+    @XmlAttribute
     private Boolean packaging;
+    @XmlAttribute
     private String boardCode;
+    @XmlAttribute
     private String boardName;
+    @XmlElementWrapper(name = "cancellationPolicies")
+    @XmlElement(name = "cancellationPolicy")
     private List<CancellationPolicy> cancellationPolicies;
+    @XmlElement(name = "taxes")
     private Taxes taxes;
+    @XmlElement
     private RateBreakDown rateBreakDown;
+    @XmlAttribute
     private Integer rooms;
+    @XmlAttribute
     private Integer adults;
+    @XmlAttribute
     private Integer children;
+    @XmlAttribute
     private String childrenAges;
+    @XmlElementWrapper(name = "promotions")
+    @XmlElement(name = "promotion")
     private List<Promotion> promotions;
+    @XmlElementWrapper(name = "offers")
+    @XmlElement(name = "offer")
     private List<Offer> offers;
+    @XmlElementWrapper(name = "shifts")
+    @XmlElement(name = "shiftRate")
     @Valid
     private List<ShiftRate> shiftRates;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal rateup;
+    @XmlElementWrapper(name = "dailyRates")
+    @XmlElement(name = "dailyRate")
     private List<DailyRate> dailyRates;
 
 

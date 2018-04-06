@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -37,12 +37,16 @@ import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
 import java.math.BigDecimal;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
@@ -50,27 +54,39 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Filter {
 
+    @XmlAttribute
     @Min(value = 1)
     private Integer maxHotels;
+    @XmlAttribute
     @Min(value = 1)
     private Integer maxRooms;
+    @XmlAttribute
     @Min(value = 0)
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal minRate;
+    @XmlAttribute
     @Min(value = 0)
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal maxRate;
+    @XmlAttribute
     @Min(value = 1)
     private Integer maxRatesPerRoom;
+    @XmlAttribute
     private Boolean packaging;
+    @XmlAttribute
     @Valid
     private ShowDirectPayment paymentType;
+    @XmlAttribute
     @Valid
     private HotelPackage hotelPackage;
+    @XmlAttribute
     @Min(value = 1)
     private Integer minCategory;
+    @XmlAttribute
     @Min(value = 1)
     private Integer maxCategory;
+    @XmlAttribute
+    private String contract;
 
 
 }

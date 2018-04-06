@@ -5,19 +5,11 @@
  */
 package com.hotelbeds.hotelapimodel.auto.messages;
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
-
 /*
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -37,11 +29,25 @@ import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.hotelbeds.hotelapimodel.auto.model.BookingRoom;
+import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import lombok.ToString;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "checkRateRQ", namespace = "http://www.hotelbeds.com/schemas/messages")
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
@@ -49,12 +55,15 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class CheckRateRQ extends AbstractGenericRequest {
 
+    @XmlAttribute
     private Boolean upselling;
+    @XmlElementWrapper(name = "rooms")
+    @XmlElement(name = "room")
     @NotNull
     @Size(min = 1, max = 2147483647, message = "{javax.validation.constraints.Size.message}")
     @Valid
     private List<BookingRoom> rooms;
-    private String platform;
+    private Integer platform;
 
 
 }

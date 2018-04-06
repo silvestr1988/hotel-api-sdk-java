@@ -4,7 +4,7 @@ package com.hotelbeds.demo;
  * #%L
  * HotelAPI SDK Demo
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,32 +23,26 @@ package com.hotelbeds.demo;
  */
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import com.hotelbeds.distribution.hotel_api_sdk.helpers.*;
+import com.hotelbeds.distribution.hotel_api_sdk.types.RequestType;
+import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes;
+import com.hotelbeds.hotelapimodel.auto.messages.*;
+import com.hotelbeds.hotelapimodel.auto.model.Holder;
+import com.hotelbeds.hotelapimodel.auto.model.Room;
 import org.jooq.lambda.Unchecked;
 
 import com.hotelbeds.distribution.hotel_api_sdk.HotelApiClient;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.AvailRoom.AvailRoomBuilder;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.Availability;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.Booking.BookingBuilder;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.BookingCheck;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.ConfirmRoom;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.ConfirmRoom.ConfirmRoomBuilder;
-import com.hotelbeds.distribution.hotel_api_sdk.helpers.LoggingRequestInterceptor;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.RoomDetail.GuestType;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterStatus;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterType;
-import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingListRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingRS;
-import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
-import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
 import com.hotelbeds.hotelapimodel.auto.model.Hotel;
 
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HotelAPIClientDemo {
     public static void main(String[] args) throws HotelApiSDKException {
-        try (HotelApiClient apiClient = new HotelApiClient();) {
+        try (HotelApiClient apiClient = new HotelApiClient("", "")) {
             apiClient.setReadTimeout(40000);
             apiClient.init();
             boolean doCheckStatus = true;
@@ -112,7 +106,7 @@ public class HotelAPIClientDemo {
                     //.numberOfTrypReviewsHigherThan(2)
                     //.trypScoreHigherThan(new BigDecimal(2))
                     //.destination("PMI")//.zone(10)
-                    //.payed(Pay.AT_HOTEL)
+                    //.payed(Availability.Pay.AT_HOTEL)
                     //.payed(Pay.THROUGH_WEB)
                     //.payed(Pay.INDIFFERENT);
                     //.matchingKeyword(34)
@@ -176,7 +170,7 @@ public class HotelAPIClientDemo {
                 ConfirmRoomBuilder confirmRoom = ConfirmRoom.builder();
                 for (int count = 0; count < numAdults; count++) {
                     int adultAge = 20 + random.nextInt(20);
-                    confirmRoom.detailed(GuestType.ADULT, adultAge, "Perico-" + count, "Palotes", 1);
+                    confirmRoom.detailed(GuestType.ADULT, adultAge, "PaxTestName-" + count, "PaxTestSurname", 1);
                 }
                 if (numChildren > 0) {
                     availRoom.children(numChildren);
@@ -240,6 +234,33 @@ public class HotelAPIClientDemo {
                             if (bookingRS != null) {
                                 log.debug("BookingRS: {}", LoggingRequestInterceptor.writeJSON(bookingRS));
                             }
+
+                            if (bookingRS.getBooking() != null) {
+                                Holder holder = new Holder();
+                                holder.setName("NewHolderName");
+                                holder.setSurname("NewHolderSurname");
+                                List<Room> rooms = bookingRS.getBooking().getHotel().getRooms();
+                                rooms.get(0).getPaxes().get(0).setSurname("NewPaxSurname");
+                                rooms.get(0).getPaxes().get(0).setName("NewPaxName");
+                                BookingChange bookingChangeBuilder =
+                                        BookingChange.builder().fromBookingRS()
+                                                .booking(bookingRS.getBooking())
+                                                .mode(SimpleTypes.ChangeMode.UPDATE)
+                                                .bookingId(bookingRS.getBooking().getReference())
+                                                .clientReference("NewClientReference")
+                                                .holder(holder)
+                                                .remark("NewRemark")
+                                                //.checkin(LocalDate.now().plusDays(60))
+                                                //.checkout(LocalDate.now().plusDays(62))
+                                                .rooms(rooms)
+                                                .build();
+                                //log.debug("bookingChangeBuilder: {}", LoggingRequestInterceptor.write(bookingChangeBuilder, RequestType.JSON));
+                                BookingChangeRS bookingChangeRS = apiClient.change(bookingRS.getBooking().getReference(),  bookingChangeBuilder.toBookingRQ(), RequestType.JSON);
+                                log.debug("BookingChangeRS: {}", LoggingRequestInterceptor.write(bookingChangeRS, RequestType.JSON));
+                            } else {
+                                log.info("BookingChange failed");
+                            }
+
                             if (bookingRS.getBooking() != null) {
                                 log.info("Confirmation succedded. Canceling reservation with id {}", bookingRS.getBooking().getReference());
                                 BookingCancellationRS bookingCancellationRS = apiClient.cancel(bookingRS.getBooking().getReference());

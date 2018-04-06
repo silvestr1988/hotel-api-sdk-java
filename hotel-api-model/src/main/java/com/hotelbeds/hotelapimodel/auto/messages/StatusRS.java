@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -30,19 +30,26 @@ package com.hotelbeds.hotelapimodel.auto.messages;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
+@XmlRootElement(name = "statusRS", namespace = "http://www.hotelbeds.com/schemas/messages")
 @ToString
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class StatusRS extends GenericResponse {
 
+    @XmlAttribute
     private String status;
 
 

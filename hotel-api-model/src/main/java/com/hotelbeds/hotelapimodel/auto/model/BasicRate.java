@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -37,11 +37,16 @@ import com.hotelbeds.hotelapimodel.auto.convert.json.RateSerializer;
 import com.hotelbeds.hotelapimodel.auto.model.Cost;
 import java.math.BigDecimal;
 import javax.validation.Valid;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
@@ -49,31 +54,47 @@ import lombok.Data;
 public class BasicRate {
 
     @JsonProperty
+    @XmlAttribute
     private String rateKey;
+    @XmlAttribute
     private String rateClass;
+    @XmlAttribute
     @Valid
     private RateType rateType;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal net;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal discount;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal discountPCT;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal sellingRate;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal hotelSellingRate;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal amount;
+    @XmlAttribute
     private String hotelCurrency;
+    @XmlAttribute
     private Boolean hotelMandatory;
+    @XmlAttribute
     private Integer allotment;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal commission;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal commissionVAT;
+    @XmlAttribute
     @JsonSerialize(using = RateSerializer.class)
     private BigDecimal commissionPCT;
+    @XmlElement
     private Cost cost;
 
 

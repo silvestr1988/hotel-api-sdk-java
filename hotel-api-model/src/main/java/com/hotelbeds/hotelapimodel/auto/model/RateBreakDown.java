@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -33,18 +33,27 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hotelbeds.hotelapimodel.auto.model.RateDiscount;
 import com.hotelbeds.hotelapimodel.auto.model.RateSupplement;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
 @Data
 public class RateBreakDown {
 
+    @XmlElementWrapper(name = "rateDiscounts")
+    @XmlElement(name = "rateDiscount")
     private List<RateDiscount> rateDiscounts;
+    @XmlElementWrapper(name = "rateSupplements")
+    @XmlElement(name = "rateSupplement")
     private List<RateSupplement> rateSupplements;
 
 

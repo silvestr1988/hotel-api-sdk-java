@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -30,21 +30,23 @@ package com.hotelbeds.hotelapimodel.auto.messages;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.hotelbeds.hotelapimodel.auto.annotation.validators.ValidStay;
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.ChangeMode;
-import com.hotelbeds.hotelapimodel.auto.model.BookingChangeRoom;
-import com.hotelbeds.hotelapimodel.auto.model.Holder;
-import com.hotelbeds.hotelapimodel.auto.model.Stay;
-import java.util.List;
+import com.hotelbeds.hotelapimodel.auto.model.Booking;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "bookingChangeRQ", namespace = "http://www.hotelbeds.com/schemas/messages")
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
@@ -52,22 +54,17 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class BookingChangeRQ extends AbstractGenericRequest {
 
+    @XmlAttribute
     @NotNull
     private String bookingId;
+    @XmlElement
     @Valid
     @NotNull
     private ChangeMode mode;
+    @XmlElement(name = "booking")
     @Valid
-    private Holder holder;
-    @Valid
-    @ValidStay(maxDaysRange = 30)
-    private Stay stay;
-    @Valid
-    @Size(min = 1, max = 20, message = "{javax.validation.constraints.Size.message}")
-    private String clientReference;
-    @Valid
-    private List<BookingChangeRoom> rooms;
-    private Integer cancelRoomId;
+    @NotNull
+    private Booking booking;
 
 
 }

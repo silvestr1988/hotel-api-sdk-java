@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.messages;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -35,11 +35,20 @@ import com.hotelbeds.hotelapimodel.auto.model.AuditData;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.hotelbeds.hotelapimodel.auto.messages.HotelbedsError;
+import com.hotelbeds.hotelapimodel.auto.model.AuditData;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
+import lombok.ToString;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
@@ -48,9 +57,12 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class GenericResponse {
 
+    @XmlAttribute
     private String echoToken;
+    @XmlElement
     @NotNull
     private AuditData auditData;
+    @XmlElement
     private HotelbedsError error;
     private String lsection;
 

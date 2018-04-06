@@ -24,10 +24,29 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
 
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelApiSDKException;
+import com.hotelbeds.distribution.hotel_api_sdk.types.HotelbedsError;
+import com.hotelbeds.distribution.hotel_api_sdk.types.RequestType;
+import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
+
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 import org.jooq.lambda.Unchecked;
 
@@ -47,9 +66,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.internal.http.HttpEngine;
+import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
 import okio.BufferedSource;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 @Data
 @Slf4j
@@ -131,7 +153,7 @@ public final class LoggingRequestInterceptor implements Interceptor {
                         logHeader(header, value);
                     }
                 }
-                if (log.isTraceEnabled() && HttpEngine.hasBody(response)) {
+                if (log.isTraceEnabled() && HttpHeaders.hasBody(response)) {
                     MediaType contentType = responseBody.contentType();
                     Supplier<Buffer> responseBufferSupplier = Unchecked.supplier(() -> {
                         BufferedSource source = responseBody.source();
@@ -162,6 +184,17 @@ public final class LoggingRequestInterceptor implements Interceptor {
             String bodyContentType = headers.get(HotelApiClient.CONTENT_TYPE_HEADER);
             if (bodyContentType != null && bodyContentType.toLowerCase().startsWith(HotelApiClient.APPLICATION_JSON_HEADER)) {
                 log.trace("  JSON Body: {}", writeJSON(body));
+
+            } else if (body != "" && bodyContentType != null && bodyContentType.toLowerCase().startsWith(HotelApiClient.APPLICATION_XML_HEADER)) {
+                try {
+                    log.trace("  XML Body: {}", prettyPrint(body, true, 2));
+                } catch (IOException e) {
+                    log.error("  Body: Could not be prettyfied {}", e.getMessage());
+                } catch (SAXException e) {
+                    log.error("  Body: Could not be prettyfied {}", e.getMessage());
+                } catch (ParserConfigurationException e) {
+                    log.error("  Body: Could not be prettyfied {}", e.getMessage());
+                }
             } else {
                 log.trace("  Body: {}", body);
             }
@@ -175,6 +208,24 @@ public final class LoggingRequestInterceptor implements Interceptor {
     private boolean bodyEncoded(Headers headers) {
         String contentEncoding = headers.get(HotelApiClient.CONTENT_ENCODING_HEADER);
         return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
+    }
+
+    private static String prettyPrint(String xml, Boolean ommitXmlDeclaration, Integer indent) throws IOException, SAXException,
+        ParserConfigurationException {
+
+        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = db.parse(new InputSource(new StringReader(xml)));
+
+        OutputFormat format = new OutputFormat(doc);
+        format.setIndenting(true);
+        format.setIndent(indent);
+        format.setOmitXMLDeclaration(ommitXmlDeclaration);
+        format.setLineWidth(Integer.MAX_VALUE);
+        Writer outxml = new StringWriter();
+        XMLSerializer serializer = new XMLSerializer(outxml, format);
+        serializer.serialize(doc);
+
+        return outxml.toString();
     }
 
     public static String writeJSON(final Object object) {
@@ -191,6 +242,47 @@ public final class LoggingRequestInterceptor implements Interceptor {
         } catch (final IOException e) {
             log.warn("Body is not a json object {}", e.getMessage());
         }
+        return result;
+    }
+
+    public static String writeXML(final Object object) {
+        String result = null;
+        try {
+
+            JAXBContext context = JAXBContext.newInstance(object.getClass());
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            if (object instanceof String) {
+                StringReader reader = new StringReader((String) object);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                Object xml = unmarshaller.unmarshal(reader);
+
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(xml, stringWriter);
+                result = stringWriter.toString();
+            } else {
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(object, stringWriter);
+                result = stringWriter.toString();
+            }
+        } catch (final JAXBException e) {
+            log.warn("Body is not a xml object", e);
+        }
+        return result;
+    }
+
+    public static String write(final Object object, RequestType reqType) {
+        String result = null;
+
+        if (reqType.equals(RequestType.JSON)) {
+            result = writeJSON(object);
+        }
+
+        if (reqType.equals(RequestType.XML)) {
+            result = writeXML(object);
+        }
+
         return result;
     }
 

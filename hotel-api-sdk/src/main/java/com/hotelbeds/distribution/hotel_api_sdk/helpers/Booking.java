@@ -4,7 +4,7 @@ package com.hotelbeds.distribution.hotel_api_sdk.helpers;
  * #%L
  * hotel-api-sdk
  * %%
- * Copyright (C) 2015 HOTELBEDS, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as

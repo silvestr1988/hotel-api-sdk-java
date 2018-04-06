@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -36,12 +36,18 @@ import com.hotelbeds.hotelapimodel.auto.convert.json.DateSerializer;
 import java.time.LocalDate;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.hotelbeds.hotelapimodel.auto.convert.xml.LocalDateAdapter;
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
@@ -49,16 +55,22 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Stay {
 
+    @XmlAttribute
     @JsonProperty
     @JsonSerialize(using = DateSerializer.class)
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     @NotNull
     private LocalDate checkIn;
+    @XmlAttribute
     @JsonProperty
     @JsonSerialize(using = DateSerializer.class)
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     @NotNull
     private LocalDate checkOut;
+    @XmlAttribute
     @Min(value = 1)
     private Integer shiftDays;
+    @XmlAttribute
     private Boolean allowOnlyShift;
 
 

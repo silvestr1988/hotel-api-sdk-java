@@ -9,7 +9,7 @@ package com.hotelbeds.hotelapimodel.auto.model;
  * #%L
  * HotelAPI Model
  * %%
- * Copyright (C) 2015 - 2016 HOTELBEDS TECHNOLOGY, S.L.U.
+ * Copyright (C) 2015 - 2018 HOTELBEDS GROUP, S.L.U.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -35,26 +35,37 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @JsonInclude(Include.NON_NULL)
 @ToString
 @NoArgsConstructor
 @Data
 public class Occupancy {
 
+    @XmlAttribute
     @NotNull
     @Min(value = 1)
     private Integer rooms;
+    @XmlAttribute
     @NotNull
     @Min(value = 1)
     private Integer adults;
+    @XmlAttribute
     @NotNull
     @Min(value = 0)
     private Integer children;
+    @XmlElementWrapper(name = "paxes")
+    @XmlElement(name = "pax")
     @Valid
     private List<Pax> paxes;
 

@@ -29,17 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hotelbeds.hotelapimodel.auto.messages.*;
 import org.apache.commons.lang3.text.StrSubstitutor;
-
-import com.hotelbeds.hotelapimodel.auto.messages.AvailabilityRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingCancellationRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingDetailRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingListRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingRS;
-import com.hotelbeds.hotelapimodel.auto.messages.BookingVoucherRS;
-import com.hotelbeds.hotelapimodel.auto.messages.CheckRateRS;
-import com.hotelbeds.hotelapimodel.auto.messages.GenericResponse;
-import com.hotelbeds.hotelapimodel.auto.messages.StatusRS;
 
 /**
  * Copyright (c) Hotelbeds Technology S.L.U. All rights reserved.
@@ -54,7 +45,9 @@ public enum HotelApiPaths {
     BOOKING_CANCEL("${path}/${version}/bookings/${bookingId}", AllowedMethod.DELETE, BookingCancellationRS.class, Arrays.asList("cancellationFlag")),
     CHECK_AVAIL("${path}/${version}/checkrates", AllowedMethod.POST, CheckRateRS.class),
     STATUS("${path}/${version}/status", AllowedMethod.GET, StatusRS.class),
-    BOOKING_VOUCHER("${path}/${version}/vouchers/${bookingId}", AllowedMethod.POST, BookingVoucherRS.class);
+    BOOKING_VOUCHER("${path}/${version}/vouchers/${bookingId}", AllowedMethod.POST, BookingVoucherRS.class),
+    BOOKING_CHANGE("${path}/${version}/bookings/${bookingId}", AllowedMethod.PUT, BookingChangeRS.class);
+
 
     private final String urlTemplate;
     private final AllowedMethod allowedMethod;

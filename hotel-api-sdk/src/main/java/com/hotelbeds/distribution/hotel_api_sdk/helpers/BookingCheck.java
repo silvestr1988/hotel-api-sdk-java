@@ -48,6 +48,7 @@ public class BookingCheck {
 
     @Singular
     private List<ConfirmRoom> rooms;
+    private Integer platform;
 
     Properties properties;
 
@@ -60,6 +61,7 @@ public class BookingCheck {
         validate();
         CheckRateRQ checkRateRQ = new CheckRateRQ();
         //
+        checkRateRQ.setPlatform(platform);
         checkRateRQ.setRooms(new ArrayList<>());
         for (ConfirmRoom room : rooms) {
             BookingRoom bookingRoom = new BookingRoom();
