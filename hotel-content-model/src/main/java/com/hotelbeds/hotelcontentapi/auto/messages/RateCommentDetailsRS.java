@@ -32,8 +32,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.hotelbeds.hotelcontentapi.auto.convert.json.DateSerializer;
-import com.hotelbeds.hotelcontentapi.auto.messages.RateComment;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -50,7 +49,6 @@ import lombok.EqualsAndHashCode;
 public class RateCommentDetailsRS extends AbstractGenericContentResponse {
 
     @JsonProperty
-    @JsonSerialize(using = DateSerializer.class)
     private LocalDate date;
     private Integer incoming;
     @JsonProperty("code")

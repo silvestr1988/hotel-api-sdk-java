@@ -51,10 +51,16 @@ import javax.xml.bind.Unmarshaller;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.*;
 import com.hotelbeds.distribution.hotel_api_sdk.types.*;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelbedsError;
+import com.hotelbeds.hotelapimodel.auto.convert.json.LocalDateDeserializer;
 import com.hotelbeds.hotelapimodel.auto.messages.*;
+import com.hotelbeds.hotelcontentapi.auto.convert.json.DateSerializer;
+import com.hotelbeds.hotelapimodel.auto.convert.json.LocalDateSerializer;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -62,7 +68,6 @@ import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterStat
 import com.hotelbeds.hotelapimodel.auto.common.SimpleTypes.BookingListFilterType;
 import com.hotelbeds.hotelapimodel.auto.util.AssignUtils;
 import com.hotelbeds.hotelapimodel.auto.util.ObjectJoiner;
-import com.hotelbeds.hotelcontentapi.auto.convert.json.DateSerializer;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentRequest;
 import com.hotelbeds.hotelcontentapi.auto.messages.AbstractGenericContentResponse;
 import com.hotelbeds.hotelcontentapi.auto.messages.Accommodation;
@@ -206,6 +211,11 @@ public class HotelApiClient implements AutoCloseable {
         initialised = true;
         executorService = Executors.newFixedThreadPool(8);
         mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        //        SimpleModule module = new SimpleModule();
+        //        module.addSerializer(LocalDate.class, new LocalDateSerializer());
+        //        module.addDeserializer(LocalDate.class, new LocalDateDeserializer());
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         mapper.findAndRegisterModules();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
@@ -366,7 +376,7 @@ public class HotelApiClient implements AutoCloseable {
         final Map<String, String> params = new HashMap<>();
         params.put("bookingId", bookingId);
         addPropertiesAsParams(properties, params);
-        return (BookingChangeRS) callRemoteAPI(request,params, HotelApiPaths.BOOKING_CHANGE, reqType);
+        return (BookingChangeRS) callRemoteAPI(request, params, HotelApiPaths.BOOKING_CHANGE, reqType);
     }
 
     // TODO Fix so it does return an object of the proper type, else throw an error if failed
@@ -920,7 +930,7 @@ public class HotelApiClient implements AutoCloseable {
     }
 
     private GenericResponse callRemoteAPI(final AbstractGenericRequest request, HotelApiPaths path, RequestType requestType)
-            throws HotelApiSDKException {
+        throws HotelApiSDKException {
         return callRemoteAPI(request, null, path, requestType);
     }
 
