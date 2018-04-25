@@ -52,15 +52,12 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hotelbeds.distribution.hotel_api_sdk.helpers.*;
 import com.hotelbeds.distribution.hotel_api_sdk.types.*;
 import com.hotelbeds.distribution.hotel_api_sdk.types.HotelbedsError;
-import com.hotelbeds.hotelapimodel.auto.convert.json.LocalDateDeserializer;
 import com.hotelbeds.hotelapimodel.auto.messages.*;
 import com.hotelbeds.hotelcontentapi.auto.convert.json.DateSerializer;
-import com.hotelbeds.hotelapimodel.auto.convert.json.LocalDateSerializer;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -212,9 +209,6 @@ public class HotelApiClient implements AutoCloseable {
         executorService = Executors.newFixedThreadPool(8);
         mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        //        SimpleModule module = new SimpleModule();
-        //        module.addSerializer(LocalDate.class, new LocalDateSerializer());
-        //        module.addDeserializer(LocalDate.class, new LocalDateDeserializer());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         mapper.findAndRegisterModules();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

@@ -28,6 +28,7 @@ package com.hotelbeds.hotelcontentapi.auto.messages;
  */
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -61,8 +62,10 @@ public class HotelFacility {
     private Integer ageFrom;
     private Integer ageTo;
     @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateFrom;
     @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateTo;
     @JsonProperty
     @JsonSerialize(using = TimeSerializer.class)
