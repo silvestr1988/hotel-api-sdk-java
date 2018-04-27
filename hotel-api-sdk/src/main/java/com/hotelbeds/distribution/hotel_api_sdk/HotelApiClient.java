@@ -708,6 +708,10 @@ public class HotelApiClient implements AutoCloseable {
         return getStreamOf(language, useSecondaryLanguage, ContentType.HOTEL);
     }
 
+    public Stream<Hotel> hotelsStream(final String language, final boolean useSecondaryLanguage, String... fields) throws HotelApiSDKException {
+        return getStreamOf(language, useSecondaryLanguage, ContentType.HOTEL, fields);
+    }
+
     ////////////////
     // Gemeric Types
     ////////////////
@@ -885,6 +889,16 @@ public class HotelApiClient implements AutoCloseable {
         }
     }
 
+    private <T> Stream<T> getStreamOf(final String language, final boolean useSecondaryLanguage, ContentType type, String... fields)
+        throws HotelApiSDKException {
+        try {
+            return StreamSupport.stream(
+                new ContentElementSpliterator<T>(this, type, generateDefaultFullRequest(language, useSecondaryLanguage, type, fields)), false);
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new HotelApiSDKException(new HotelbedsError("SDK Configuration error", e.getCause().getMessage()));
+        }
+    }
+
     private AbstractGenericContentRequest generateDefaultFullRequest(final String language, final boolean useSecondaryLanguage, ContentType type)
         throws InstantiationException, IllegalAccessException {
         final AbstractGenericContentRequest abstractGenericContentRequest;
@@ -894,6 +908,13 @@ public class HotelApiClient implements AutoCloseable {
         abstractGenericContentRequest.setUseSecondaryLanguage(useSecondaryLanguage);
         abstractGenericContentRequest.setFields(new String[] {"all"});
         type.addCommonParameters(abstractGenericContentRequest, params);
+        return abstractGenericContentRequest;
+    }
+
+    private AbstractGenericContentRequest generateDefaultFullRequest(final String language, final boolean useSecondaryLanguage, ContentType type,
+        String... fields) throws InstantiationException, IllegalAccessException {
+        AbstractGenericContentRequest abstractGenericContentRequest = generateDefaultFullRequest(language, useSecondaryLanguage, type);
+        abstractGenericContentRequest.setFields(fields);
         return abstractGenericContentRequest;
     }
 
